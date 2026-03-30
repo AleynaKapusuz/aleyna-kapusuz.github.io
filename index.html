@@ -1,337 +1,393 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Aleyna Kapusuz — AI & Computer Vision Engineer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,800;1,800&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet"><style>
+*{margin:0;padding:0;box-sizing:border-box;cursor:none}
 :root{
-  --gold:#c9a84c;--gold2:#e8c97a;--gold-dim:rgba(201,168,76,0.15);
-  --bg:#04070d;--bg2:#070c14;--surface:rgba(255,255,255,0.03);
-  --border:rgba(201,168,76,0.12);--text:#e8e4da;--muted:#7a7670;--white:#ffffff;
+  --bg:#060504;
+  --bg2:#0b0908;
+  --bg3:#131008;
+  --card:rgba(22,18,10,0.92);
+  --gold:#c9a84c;
+  --gold2:#e8c97a;
+  --gold3:#a07830;
+  --gborder:rgba(201,168,76,0.22);
+  --gborder2:rgba(201,168,76,0.1);
+  /* ── READABILITY: much brighter text ── */
+  --text:#f0ece0;
+  --text2:#cfc8b4;
+  --muted:#8a7d64;
+  --muted2:#5a5040;
+  --white:#ffffff;
 }
-html{scroll-behavior:smooth;cursor:none}
-body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;overflow-x:hidden;line-height:1.6}
-#cursor{position:fixed;width:10px;height:10px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s;mix-blend-mode:difference}
-#cursor-follower{position:fixed;width:40px;height:40px;border:1px solid rgba(201,168,76,0.4);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all .12s ease}
-#particles-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:.6}
-#loader{position:fixed;inset:0;background:var(--bg);z-index:9990;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:24px;transition:opacity .8s ease,visibility .8s ease}
-#loader.hidden{opacity:0;visibility:hidden}
-.loader-name{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,6vw,72px);font-weight:300;letter-spacing:8px;text-transform:uppercase;color:var(--white);overflow:hidden;display:flex;gap:2px}
-.loader-name span{display:inline-block;transform:translateY(100%);animation:slideUp .8s cubic-bezier(.16,1,.3,1) forwards}
-.loader-name span:nth-child(2){animation-delay:.08s}.loader-name span:nth-child(3){animation-delay:.14s}.loader-name span:nth-child(4){animation-delay:.20s}.loader-name span:nth-child(5){animation-delay:.26s}.loader-name span:nth-child(6){animation-delay:.32s}
-@keyframes slideUp{to{transform:translateY(0)}}
-.loader-bar-wrap{width:200px;height:1px;background:rgba(255,255,255,.1);overflow:hidden}
-.loader-bar{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));width:0%;animation:loadBar 1.8s ease forwards}
-@keyframes loadBar{to{width:100%}}
-.loader-sub{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);animation:fadeIn .8s .5s both}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-nav{position:fixed;top:0;width:100%;z-index:100;padding:28px 0;transition:all .4s ease}
-nav.scrolled{background:rgba(4,7,13,.9);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);padding:18px 0}
-.nav-inner{max-width:1300px;margin:0 auto;padding:0 60px;display:flex;justify-content:space-between;align-items:center}
-.nav-logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--white);text-decoration:none}
-.nav-logo em{color:var(--gold);font-style:normal}
-.nav-links{display:flex;gap:40px;list-style:none}
-.nav-links a{font-size:12px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s}
-.nav-links a:hover{color:var(--gold)}
-.nav-contact{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gold);text-decoration:none;border:1px solid var(--gold);padding:10px 24px;border-radius:2px;transition:all .25s}
-.nav-contact:hover{background:var(--gold);color:var(--bg)}
-.hamburger{display:none;flex-direction:column;gap:6px;cursor:none;padding:4px}
-.hamburger span{display:block;width:26px;height:1px;background:var(--text);transition:all .3s}
-.mobile-menu{display:none;position:fixed;inset:0;background:var(--bg);z-index:98;flex-direction:column;align-items:center;justify-content:center;gap:36px}
-.mobile-menu.open{display:flex}
-.mobile-menu a{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--text);text-decoration:none;letter-spacing:2px;transition:color .2s}
-.mobile-menu a:hover{color:var(--gold)}
-.close-btn{position:absolute;top:28px;right:40px;font-size:28px;background:none;border:none;color:var(--muted);cursor:none}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden;line-height:1.65;font-size:15px}
+
+/* ═══ CURSOR ═══ */
+#cur-dot{position:fixed;width:7px;height:7px;background:var(--gold2);border-radius:50%;pointer-events:none;z-index:10000;transform:translate(-50%,-50%);transition:transform .08s,width .18s,height .18s;mix-blend-mode:screen}
+#cur-ring{position:fixed;width:36px;height:36px;border:1.5px solid var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .22s cubic-bezier(.16,1,.3,1),height .22s,border-radius .22s,border-color .2s,opacity .3s}
+#cur-cross{position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);width:18px;height:18px;opacity:0;transition:opacity .2s}
+#cur-cross::before,#cur-cross::after{content:'';position:absolute;background:var(--gold);top:50%;left:50%;transform:translate(-50%,-50%)}
+#cur-cross::before{width:1px;height:100%}#cur-cross::after{width:100%;height:1px}
+body.ch #cur-ring{width:52px;height:52px;border-color:var(--gold2)}
+body.ch #cur-dot{transform:translate(-50%,-50%) scale(2.2)}
+body.cl #cur-ring{width:60px;height:60px;border-radius:6px;border-color:var(--gold2);opacity:.65}
+body.cl #cur-cross{opacity:.85}
+
+/* ═══ CANVAS ═══ */
+#bgCanvas{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5}
+#codeCanvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;opacity:.4}
+
+/* ═══ LOADER ═══ */
+#loader{position:fixed;inset:0;background:var(--bg);z-index:9990;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;transition:opacity .9s,visibility .9s}
+#loader.out{opacity:0;visibility:hidden}
+.ld-name{font-family:'Syne',sans-serif;font-size:clamp(28px,6vw,58px);font-weight:800;letter-spacing:-2px;color:var(--white);overflow:hidden;display:flex}
+.ld-name span{display:inline-block;transform:translateY(110%);animation:sUp .65s cubic-bezier(.16,1,.3,1) forwards}
+.ld-name span:nth-child(1){animation-delay:.03s}.ld-name span:nth-child(2){animation-delay:.07s}.ld-name span:nth-child(3){animation-delay:.11s}.ld-name span:nth-child(4){animation-delay:.15s}.ld-name span:nth-child(5){animation-delay:.19s}.ld-name span:nth-child(6){animation-delay:.23s}.ld-name span:nth-child(7){animation-delay:.27s}.ld-name span:nth-child(8){animation-delay:.31s}.ld-name span:nth-child(9){animation-delay:.35s}.ld-name span:nth-child(10){animation-delay:.39s}.ld-name span:nth-child(11){animation-delay:.43s}.ld-name span:nth-child(12){animation-delay:.47s}.ld-name span:nth-child(13){animation-delay:.51s}.ld-name span:nth-child(14){animation-delay:.55s}
+@keyframes sUp{to{transform:translateY(0)}}
+.ld-bar-wrap{width:180px;height:1px;background:rgba(201,168,76,.12)}
+.ld-bar{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));width:0;animation:lFill 2s ease forwards .3s}
+@keyframes lFill{to{width:100%}}
+.ld-sub{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);animation:fIn .8s .5s both}
+@keyframes fIn{from{opacity:0}to{opacity:1}}
+
+/* ═══ NAV ═══ */
+nav{position:fixed;top:0;width:100%;z-index:200;padding:22px 0;transition:all .35s}
+nav.sc{background:rgba(6,5,4,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--gborder2);padding:13px 0}
+.nw{max-width:1340px;margin:0 auto;padding:0 60px;display:flex;justify-content:space-between;align-items:center}
+.n-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:18px;letter-spacing:-1px;color:var(--white);text-decoration:none}
+.n-logo span{color:var(--gold)}
+.n-links{display:flex;gap:36px;list-style:none}
+.n-links a{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;position:relative}
+.n-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold);transition:width .3s cubic-bezier(.16,1,.3,1)}
+.n-links a:hover{color:var(--gold)}.n-links a:hover::after{width:100%}
+.n-cta{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--gold);border:1px solid rgba(201,168,76,.3);padding:9px 22px;border-radius:2px;text-decoration:none;transition:all .3s}
+.n-cta:hover{background:var(--gold);color:var(--bg)}
+.mob-hb{display:none;flex-direction:column;gap:5px;cursor:none;padding:3px}
+.mob-hb span{display:block;width:22px;height:1px;background:var(--white);border-radius:1px;transition:all .3s}
+.mob-m{display:none;position:fixed;inset:0;background:var(--bg);z-index:190;flex-direction:column;align-items:center;justify-content:center;gap:32px}
+.mob-m.op{display:flex}
+.mob-m a{font-family:'Inter',sans-serif;font-size:32px;font-weight:700;color:var(--text);text-decoration:none;letter-spacing:-1px;transition:color .2s}
+.mob-m a:hover{color:var(--gold)}
+.mob-close{position:absolute;top:24px;right:40px;font-size:24px;background:none;border:none;color:var(--muted);cursor:none}
+
+/* ═══ HERO ═══ */
 #hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;padding:0 60px}
-.hero-bg-text{position:absolute;font-family:'Cormorant Garamond',serif;font-size:clamp(100px,20vw,280px);font-weight:700;color:rgba(201,168,76,0.03);top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;letter-spacing:-10px;user-select:none;pointer-events:none;z-index:1;transition:transform .1s ease}
-.orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;animation:orbFloat 8s ease-in-out infinite}
-@keyframes orbFloat{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-30px) scale(1.05)}}
-.hero-inner{max-width:1300px;margin:0 auto;width:100%;position:relative;z-index:2;display:grid;grid-template-columns:1fr 460px;gap:80px;align-items:center;padding-top:80px}
-.hero-eyebrow{display:inline-flex;align-items:center;gap:12px;margin-bottom:32px}
-.hero-eyebrow-line{width:48px;height:1px;background:var(--gold)}
-.hero-eyebrow-text{font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--gold)}
-.hero-name{font-family:'Cormorant Garamond',serif;font-size:clamp(60px,8vw,110px);font-weight:300;line-height:.95;letter-spacing:-2px;color:var(--white);margin-bottom:16px;overflow:hidden}
-.hero-name .rl{display:block;transform:translateY(110%);animation:slideUp .9s cubic-bezier(.16,1,.3,1) .4s forwards}
-.hero-name .rl2{animation-delay:.55s;font-style:italic;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.25)}
-.hero-title{font-size:clamp(12px,1.1vw,14px);font-weight:400;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:32px;animation:fadeIn 1s .9s both}
-.hero-desc{font-size:16px;color:rgba(232,228,218,.6);line-height:1.8;max-width:520px;margin-bottom:48px;font-weight:300;animation:fadeIn 1s 1s both}
-.hero-ctas{display:flex;gap:20px;flex-wrap:wrap;animation:fadeIn 1s 1.1s both}
-.cta-primary{font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--bg);background:var(--gold);padding:16px 36px;border-radius:2px;text-decoration:none;transition:all .3s;display:inline-flex;align-items:center;gap:10px}
-.cta-primary:hover{background:var(--gold2);transform:translateY(-2px);box-shadow:0 20px 50px rgba(201,168,76,.25)}
-.cta-secondary{font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);border:1px solid rgba(201,168,76,.3);padding:16px 36px;border-radius:2px;text-decoration:none;transition:all .3s}
-.cta-secondary:hover{border-color:var(--gold);background:rgba(201,168,76,.05)}
-.hero-card{background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:4px;padding:44px;position:relative;overflow:hidden;animation:fadeIn 1s 1.2s both}
-.hero-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
-.hero-card-label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:32px}
-.metric-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:36px}
-.metric{padding:20px;background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.08);border-radius:3px;transition:all .3s}
-.metric:hover{border-color:rgba(201,168,76,.2);background:rgba(201,168,76,.07)}
-.metric-num{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:600;color:var(--gold);line-height:1;margin-bottom:6px}
-.metric-label{font-size:11px;color:var(--muted);font-weight:400;letter-spacing:.5px}
-.tech-label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
-.tech-pills{display:flex;flex-wrap:wrap;gap:8px}
-.pill{font-size:11px;font-weight:500;letter-spacing:.5px;color:var(--muted);border:1px solid rgba(255,255,255,.07);padding:5px 13px;border-radius:100px;transition:all .2s}
-.pill:hover{border-color:var(--gold);color:var(--gold);background:var(--gold-dim)}
-.gold-divider{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.2}
+.hg{position:absolute;border-radius:50%;filter:blur(100px);pointer-events:none}
+.hg1{width:600px;height:600px;top:-200px;left:-100px;background:radial-gradient(circle,rgba(201,168,76,.06),transparent 70%);animation:gOrb 12s ease-in-out infinite}
+.hg2{width:500px;height:500px;bottom:-150px;right:100px;background:radial-gradient(circle,rgba(201,168,76,.04),transparent 70%);animation:gOrb 15s ease-in-out infinite;animation-delay:-6s}
+@keyframes gOrb{0%,100%{transform:scale(1) translateY(0)}50%{transform:scale(1.07) translateY(-24px)}}
+.hero-in{max-width:1340px;margin:0 auto;width:100%;position:relative;z-index:2;padding-top:100px}
+.h-ey{display:inline-flex;align-items:center;gap:14px;margin-bottom:28px;animation:fadeUp 1s .5s both}
+.h-ey-line{width:36px;height:1px;background:var(--gold)}
+.h-ey-txt{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold)}
+.h-name{margin-bottom:20px}
+.h-first{font-family:'Inter',sans-serif;font-size:clamp(70px,12vw,168px);font-weight:800;letter-spacing:-5px;line-height:.9;color:var(--white);display:block;overflow:hidden}
+.h-first .inn{display:block;transform:translateY(110%);animation:sUp .9s cubic-bezier(.16,1,.3,1) .4s forwards}
+.h-last-wrap{position:relative;display:inline-block}
+.h-last{font-family:'Syne',sans-serif;font-size:clamp(70px,12vw,168px);font-weight:800;letter-spacing:-5px;line-height:.9;color:transparent;-webkit-text-stroke:2px var(--gold);display:block;overflow:hidden}
+.h-last .inn{display:block;transform:translateY(110%);animation:sUp .9s cubic-bezier(.16,1,.3,1) .58s forwards}
+.h-last-underline{position:absolute;bottom:-8px;left:0;height:2px;width:0;background:linear-gradient(90deg,var(--gold),var(--gold2),transparent);animation:uGrow 1.2s cubic-bezier(.16,1,.3,1) 1.2s forwards}
+@keyframes uGrow{to{width:100%}}
+.h-title{font-family:'DM Mono',monospace;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--text2);margin-top:24px;margin-bottom:24px;animation:fadeUp 1s .92s both}
+.h-desc{font-size:17px;color:var(--text2);line-height:1.9;max-width:700px;margin-bottom:44px;font-weight:300;animation:fadeUp 1s 1.02s both}
+.h-desc strong{color:var(--white);font-weight:500}
+.h-ctas{display:flex;gap:16px;flex-wrap:wrap;animation:fadeUp 1s 1.12s both}
+.btn-g{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--bg);background:var(--gold);padding:14px 34px;border-radius:2px;text-decoration:none;transition:all .3s;display:inline-flex;align-items:center;gap:10px;position:relative;overflow:hidden}
+.btn-g::before{content:'';position:absolute;inset:0;background:var(--gold2);transform:translateX(-101%);transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.btn-g:hover::before{transform:translateX(0)}.btn-g:hover{transform:translateY(-2px);box-shadow:0 16px 48px rgba(201,168,76,.28)}
+.btn-g span{position:relative;z-index:1}
+.btn-o{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--text2);border:1px solid var(--gborder2);padding:14px 34px;border-radius:2px;text-decoration:none;transition:all .3s}
+.btn-o:hover{border-color:rgba(201,168,76,.4);color:var(--gold)}
+.h-stats{display:flex;gap:0;margin-top:64px;border-top:1px solid var(--gborder2);animation:fadeUp 1s 1.2s both}
+.h-stat{flex:1;padding:24px 0;border-right:1px solid var(--gborder2)}
+.h-stat:last-child{border-right:none}
+.h-stat-n{font-family:'Inter',sans-serif;font-size:36px;font-weight:800;color:var(--gold);letter-spacing:-2px;line-height:1;margin-bottom:5px;padding-left:24px}
+.h-stat-l{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding-left:24px}
+.h-scroll{position:absolute;bottom:36px;left:60px;display:flex;align-items:center;gap:12px;animation:fadeUp 1s 1.5s both;z-index:2}
+.scroll-bar{width:36px;height:1px;background:var(--muted);position:relative;overflow:hidden}
+.scroll-bar::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:var(--gold);animation:scan 2.2s ease-in-out infinite}
+@keyframes scan{0%{left:-100%}100%{left:100%}}
+.scroll-lbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+
+/* ═══ DIVIDER ═══ */
+.gdiv{width:100%;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.16),transparent);position:relative;z-index:2}
+
+/* ═══ SECTIONS ═══ */
 section{padding:120px 60px;position:relative;z-index:2}
-.section-inner{max-width:1300px;margin:0 auto}
-.s-eyebrow{display:inline-flex;align-items:center;gap:12px;margin-bottom:16px}
-.s-eyebrow-line{width:32px;height:1px;background:var(--gold)}
-.s-eyebrow-text{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold)}
-.s-title{font-family:'Cormorant Garamond',serif;font-size:clamp(40px,5vw,72px);font-weight:300;letter-spacing:-1px;line-height:1.05;color:var(--white);margin-bottom:20px}
-.s-title em{font-style:italic;color:var(--gold)}
-.s-desc{font-size:15px;color:var(--muted);font-weight:300;line-height:1.8;max-width:520px}
+.si{max-width:1340px;margin:0 auto}
+.s-ey{display:inline-flex;align-items:center;gap:10px;margin-bottom:14px}
+.s-ln{width:22px;height:1px;background:var(--gold)}
+.s-lb{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold)}
+.s-tt{font-family:'Inter',sans-serif;font-size:clamp(40px,5vw,68px);font-weight:800;letter-spacing:-2.5px;line-height:.97;color:var(--white);margin-bottom:18px}
+.s-tt em{font-style:normal;color:transparent;-webkit-text-stroke:1.5px rgba(201,168,76,.4)}
+.s-dc{font-size:16px;color:var(--text2);font-weight:300;line-height:1.85;max-width:520px}
+
+/* ═══ ABOUT ═══ */
 #about{background:var(--bg2)}
-.about-layout{display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:start;margin-top:72px}
-.summary-block{font-family:'Cormorant Garamond',serif;font-size:clamp(18px,1.8vw,24px);font-weight:300;line-height:1.6;color:rgba(232,228,218,.8);margin-bottom:48px;border-left:1px solid var(--gold);padding-left:32px}
-.info-table{display:flex;flex-direction:column}
-.info-row{display:flex;align-items:center;padding:15px 0;border-bottom:1px solid rgba(255,255,255,.05)}
-.info-key{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);width:100px;flex-shrink:0}
-.info-val{font-size:14px;color:var(--text);font-weight:400}
-.info-val a{color:var(--gold);text-decoration:none}
-.info-val a:hover{text-decoration:underline}
-.expertise-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:40px}
-.exp-tile{border:1px solid rgba(255,255,255,.05);padding:24px;border-radius:3px;transition:all .3s;background:rgba(255,255,255,.01)}
-.exp-tile:hover{border-color:rgba(201,168,76,.2);background:rgba(201,168,76,.03);transform:translateY(-3px)}
-.exp-tile-icon{font-size:22px;margin-bottom:12px}
-.exp-tile-title{font-size:13px;font-weight:600;margin-bottom:4px}
-.exp-tile-sub{font-size:11px;color:var(--muted)}
-.skills-wrap{display:flex;flex-direction:column;gap:40px}
-.skill-category-title{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:20px;display:flex;align-items:center;gap:12px}
-.skill-category-title::after{content:'';flex:1;height:1px;background:rgba(201,168,76,.2)}
-.skill-item{margin-bottom:16px}
-.skill-top{display:flex;justify-content:space-between;margin-bottom:8px}
-.skill-name{font-size:13px;font-weight:500;letter-spacing:.3px}
-.skill-pct{font-size:12px;color:var(--gold);font-weight:600}
-.skill-track{height:2px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden}
-.skill-bar-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--gold),var(--gold2));width:0%;transition:width 1.4s cubic-bezier(.16,1,.3,1)}
-#projects{background:var(--bg)}
-.projects-intro{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:end;margin-bottom:72px}
-.projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.08)}
-.proj-card{background:var(--bg);padding:40px 36px;transition:all .4s cubic-bezier(.16,1,.3,1);position:relative;overflow:hidden;cursor:default}
-.proj-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,168,76,.04),transparent);opacity:0;transition:opacity .4s}
-.proj-card:hover{background:rgba(201,168,76,.03)}
-.proj-card:hover::after{opacity:1}
-.proj-card:hover .proj-num{color:var(--gold)}
-.proj-num{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;color:rgba(255,255,255,.05);line-height:1;margin-bottom:20px;transition:color .4s}
-.proj-icon{font-size:28px;margin-bottom:20px}
-.proj-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;line-height:1.2;margin-bottom:14px;color:var(--white)}
-.proj-desc{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:24px;font-weight:300}
-.proj-tags{display:flex;flex-wrap:wrap;gap:6px}
-.proj-tag{font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--gold);border:1px solid rgba(201,168,76,.2);padding:3px 10px;border-radius:2px}
-#experience{background:var(--bg2)}
-.exp-layout{display:grid;grid-template-columns:260px 1fr;gap:80px;margin-top:72px}
-.exp-tabs{display:flex;flex-direction:column;border-right:1px solid rgba(255,255,255,.06)}
-.exp-tab{padding:24px 32px 24px 0;cursor:none;border-right:2px solid transparent;margin-right:-1px;transition:all .3s}
-.exp-tab.active{border-right-color:var(--gold)}
-.exp-tab:hover .tab-company{color:var(--gold)}
-.tab-period{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
-.tab-company{font-size:15px;font-weight:600;color:var(--text);transition:color .3s}
-.tab-role{font-size:12px;color:var(--muted);margin-top:4px}
-.exp-content{display:none}
-.exp-content.active{display:block}
-.exp-role-title{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,3vw,42px);font-weight:300;color:var(--white);margin-bottom:6px;letter-spacing:-1px}
-.exp-company-name{font-size:13px;color:var(--gold);font-weight:500;letter-spacing:1px;margin-bottom:4px}
-.exp-location{font-size:12px;color:var(--muted);margin-bottom:32px}
-.exp-points{list-style:none;display:flex;flex-direction:column;gap:16px}
-.exp-points li{font-size:14px;color:rgba(232,228,218,.7);padding-left:20px;position:relative;line-height:1.7;font-weight:300}
-.exp-points li::before{content:'—';position:absolute;left:0;color:var(--gold);font-size:12px}
-.exp-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
+.about-g{display:grid;grid-template-columns:1fr 1fr;gap:100px;margin-top:72px;align-items:start}
+.a-q{font-size:clamp(17px,1.8vw,21px);font-weight:300;line-height:1.8;color:var(--text2);margin-bottom:44px;padding-left:22px;border-left:2px solid var(--gold)}
+.i-list{display:flex;flex-direction:column}
+.i-row{display:flex;align-items:baseline;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+.i-key{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);width:96px;flex-shrink:0}
+.i-val{font-size:15px;color:var(--text);font-weight:400}
+.i-val a{color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(201,168,76,.25);padding-bottom:1px;transition:border-color .2s}
+.i-val a:hover{border-color:var(--gold)}
+.domain-g{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:32px}
+.domain-c{border:1px solid rgba(255,255,255,.07);padding:20px;border-radius:6px;transition:all .35s;background:rgba(255,255,255,.02);position:relative;overflow:hidden}
+.domain-c::before{content:'';position:absolute;top:0;left:0;width:2px;height:0;background:var(--gold);transition:height .35s}
+.domain-c:hover{border-color:rgba(201,168,76,.25);background:rgba(201,168,76,.05);transform:translateY(-2px)}.domain-c:hover::before{height:100%}
+.domain-t{font-family:'Inter',sans-serif;font-size:14px;font-weight:700;margin-bottom:5px;color:var(--white)}
+.domain-s{font-size:12px;color:var(--text2);line-height:1.55}
+
+/* skills */
+.sk-grps{display:flex;flex-direction:column;gap:40px}
+.sk-cat{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:18px;display:flex;align-items:center;gap:10px}
+.sk-cat::after{content:'';flex:1;height:1px;background:rgba(201,168,76,.15)}
+.sk-row{margin-bottom:15px}
+.sk-meta{display:flex;justify-content:space-between;margin-bottom:8px}
+.sk-name{font-size:14px;color:var(--text);font-weight:400}
+.sk-pct{font-family:'DM Mono',monospace;font-size:12px;color:var(--gold);opacity:.8}
+.sk-bar{height:2px;background:rgba(255,255,255,.07);overflow:hidden;border-radius:2px}
+.sk-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));width:0;transition:width 1.5s cubic-bezier(.16,1,.3,1);border-radius:2px}
+
+/* ═══ TILT CARD ═══ */
+.tilt-card{background:var(--card);border:1px solid var(--gborder);border-radius:12px;padding:36px;backdrop-filter:blur(8px);transform-style:preserve-3d;transition:box-shadow .4s,border-color .4s;position:relative;overflow:hidden;will-change:transform}
+.tilt-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),var(--gold2),transparent);opacity:0;transition:opacity .4s}
+.tilt-card:hover{border-color:rgba(201,168,76,.45);box-shadow:0 24px 60px rgba(0,0,0,.6),0 0 40px rgba(201,168,76,.1)}
+.tilt-card:hover::before{opacity:1}
+.card-inner{position:relative;z-index:2;transform:translateZ(16px)}
+
+/* card text readability */
+.card-period{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.card-role{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:var(--white);line-height:1.15;margin-bottom:6px}
+.card-company{font-size:14px;color:var(--text2);font-weight:500;margin-bottom:3px}
+.card-loc{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted)}
+.card-sep{height:1px;background:rgba(255,255,255,.08);margin:20px 0}
+.card-pts{list-style:none;display:flex;flex-direction:column;gap:11px}
+.card-pts li{font-size:14px;color:var(--text2);padding-left:18px;position:relative;line-height:1.7;font-weight:300}
+.card-pts li::before{content:'';position:absolute;left:0;top:10px;width:6px;height:1.5px;background:var(--gold);opacity:.6}
+.card-pts li strong{color:var(--white);font-weight:500}
+.card-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:20px}
+.ctag{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.5px;color:rgba(201,168,76,.8);background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.18);padding:4px 11px;border-radius:3px;transition:all .2s}
+.ctag:hover{color:var(--gold);border-color:rgba(201,168,76,.4)}
+
+/* project card extras */
+.card-num{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,.45);margin-bottom:10px}
+.card-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--white);line-height:1.25;margin-bottom:10px}
+.card-desc{font-size:14px;color:var(--text2);line-height:1.75;margin-bottom:16px;font-weight:300}
+
+/* project visual */
+.proj-visual{height:180px;overflow:hidden;border-radius:8px;margin-bottom:20px;transition:transform .5s cubic-bezier(.16,1,.3,1);transform:translateZ(20px)}
+.tilt-card:hover .proj-visual{transform:translateZ(28px) scale(1.02)}
+.proj-visual svg{width:100%;height:100%;display:block}
+
+/* ═══ EXP / PROJ GRIDS ═══ */
+#experience{background:var(--bg)}
+.exp-g{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:72px}
+#projects{background:var(--bg2)}
+.proj-header{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:end;margin-bottom:64px}
+.proj-g{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+
+/* ═══ EDUCATION ═══ */
 #education{background:var(--bg)}
-.edu-lang-grid{display:grid;grid-template-columns:2fr 1fr;gap:60px;margin-top:72px}
-.edu-card{border:1px solid var(--border);border-radius:3px;padding:48px;position:relative;overflow:hidden;background:rgba(201,168,76,.02)}
-.edu-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
-.edu-degree{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,3vw,36px);font-weight:300;color:var(--white);margin-bottom:8px;letter-spacing:-1px}
-.edu-uni{font-size:14px;color:var(--gold);margin-bottom:4px;font-weight:500}
-.edu-meta{font-size:12px;color:var(--muted);margin-bottom:28px}
-.gpa-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
-.gpa-track{height:3px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden}
-.gpa-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));width:0%;transition:width 1.4s cubic-bezier(.16,1,.3,1)}
-.lang-cards{display:flex;flex-direction:column;gap:16px}
-.lang-card{border:1px solid rgba(255,255,255,.05);padding:28px;border-radius:3px;transition:all .3s}
-.lang-card:hover{border-color:var(--border)}
-.lang-name{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--white);margin-bottom:4px}
-.lang-level{font-size:11px;color:var(--gold);font-weight:600;letter-spacing:1px;text-transform:uppercase}
+.edu-g{display:grid;grid-template-columns:2fr 1fr;gap:32px;margin-top:72px}
+.edu-card{background:var(--card);border:1px solid var(--gborder);border-radius:12px;padding:48px;position:relative;overflow:hidden;backdrop-filter:blur(8px)}
+.edu-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1.5px;background:linear-gradient(90deg,var(--gold),var(--gold2),transparent)}
+.edu-deg{font-family:'Syne',sans-serif;font-size:clamp(24px,2.8vw,36px);font-weight:800;letter-spacing:-1.5px;color:var(--white);margin-bottom:6px}
+.edu-uni{font-size:15px;color:var(--gold);font-weight:500;margin-bottom:5px}
+.edu-meta{font-family:'DM Mono',monospace;font-size:11px;color:var(--text2);margin-bottom:28px}
+.gpa-lbl{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text2);margin-bottom:10px}
+.gpa-tr{height:2px;background:rgba(255,255,255,.07);overflow:hidden;border-radius:2px}
+.gpa-f{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));width:0;transition:width 1.5s cubic-bezier(.16,1,.3,1);border-radius:2px}
+.lang-col{display:flex;flex-direction:column;gap:12px}
+.lang-c{background:var(--card);border:1px solid var(--gborder);border-radius:10px;padding:26px 30px;backdrop-filter:blur(6px);transition:border-color .3s}
+.lang-c:hover{border-color:rgba(201,168,76,.32)}
+.lang-n{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;letter-spacing:-1px;color:var(--white);margin-bottom:4px}
+.lang-l{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold)}
+
+/* ═══ CERTIFICATES ═══ */
 #certificates{background:var(--bg2)}
-.cert-scroll{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:72px}
-.cert-item{border:1px solid rgba(255,255,255,.05);border-radius:3px;padding:32px;transition:all .35s;position:relative;overflow:hidden;background:rgba(255,255,255,.01)}
-.cert-item::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--gold2));transform:scaleX(0);transform-origin:left;transition:transform .4s ease}
-.cert-item:hover{border-color:rgba(201,168,76,.15);transform:translateY(-4px)}
-.cert-item:hover::before{transform:scaleX(1)}
-.cert-icon{font-size:26px;margin-bottom:20px}
-.cert-issuer{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
-.cert-name{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--white);line-height:1.2;margin-bottom:12px}
-.cert-desc{font-size:12px;color:var(--muted);line-height:1.6;font-weight:300;margin-bottom:20px}
-.cert-footer{display:flex;justify-content:space-between;align-items:center;padding-top:16px;border-top:1px solid rgba(255,255,255,.05)}
-.cert-date{font-size:11px;color:var(--muted)}
-.cert-badge{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold)}
+.cert-g{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:72px}
+.cert-c{background:var(--card);border:1px solid rgba(201,168,76,.12);border-radius:10px;padding:30px;backdrop-filter:blur(6px);transition:all .35s;position:relative;overflow:hidden}
+.cert-c::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--gold2));transform:scaleX(0);transform-origin:left;transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.cert-c:hover{border-color:rgba(201,168,76,.28);transform:translateY(-3px)}.cert-c:hover::after{transform:scaleX(1)}
+.cert-is{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.cert-nm{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;color:var(--white);line-height:1.25;margin-bottom:12px}
+.cert-ds{font-size:13.5px;color:var(--text2);line-height:1.7;font-weight:300;margin-bottom:18px}
+.cert-ft{display:flex;justify-content:space-between;align-items:center;padding-top:14px;border-top:1px solid rgba(255,255,255,.07)}
+.cert-dt{font-family:'DM Mono',monospace;font-size:11px;color:var(--text2)}
+.cert-bd{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--gold)}
+
+/* ═══ CONTACT ═══ */
 #contact{background:var(--bg);overflow:hidden}
-.contact-bg-num{position:absolute;right:60px;bottom:-60px;font-family:'Cormorant Garamond',serif;font-size:400px;font-weight:700;color:rgba(201,168,76,.02);line-height:1;user-select:none;pointer-events:none;z-index:1}
-.contact-layout{display:grid;grid-template-columns:1fr 1fr;gap:100px;position:relative;z-index:2}
-.contact-items{display:flex;flex-direction:column;gap:16px;margin-top:48px}
-.contact-row{display:flex;align-items:center;gap:24px;padding:24px 28px;border:1px solid rgba(255,255,255,.05);border-radius:3px;text-decoration:none;color:var(--text);transition:all .3s;position:relative;overflow:hidden}
-.contact-row::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--gold);transform:scaleY(0);transition:transform .3s}
-.contact-row:hover{border-color:rgba(201,168,76,.15);transform:translateX(6px)}
-.contact-row:hover::before{transform:scaleY(1)}
-.contact-icon-wrap{width:44px;height:44px;border-radius:2px;background:rgba(201,168,76,.06);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-.contact-row-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
-.contact-row-val{font-size:14px;font-weight:500}
-.contact-arrow{margin-left:auto;color:var(--muted);font-size:16px;transition:all .3s}
-.contact-row:hover .contact-arrow{color:var(--gold);transform:translateX(4px)}
-.availability-wrap{padding-top:8px}
-.avail-large{font-family:'Cormorant Garamond',serif;font-size:clamp(40px,5vw,64px);font-weight:300;color:var(--white);line-height:1.1;letter-spacing:-2px;margin-bottom:24px}
-.avail-large em{color:var(--gold);font-style:italic}
-.avail-desc{font-size:14px;color:var(--muted);line-height:1.8;font-weight:300;margin-bottom:40px}
-.avail-status{display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(201,168,76,.2);padding:12px 24px;border-radius:2px;background:rgba(201,168,76,.04)}
-.avail-dot{width:8px;height:8px;border-radius:50%;background:#4ade80;animation:glow 2s infinite}
-@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,.4)}50%{box-shadow:0 0 0 6px rgba(74,222,128,0)}}
-.avail-status-text{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold)}
-footer{background:var(--bg2);border-top:1px solid rgba(255,255,255,.05);padding:40px 60px;position:relative;z-index:2}
-.footer-inner{max-width:1300px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
-.footer-logo{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--white);text-decoration:none}
-.footer-logo em{color:var(--gold);font-style:normal}
-.footer-links{display:flex;gap:32px;list-style:none}
-.footer-links a{font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s}
-.footer-links a:hover{color:var(--gold)}
-.footer-copy{font-size:11px;color:var(--muted);letter-spacing:1px}
-.reveal{opacity:0;transform:translateY(36px);transition:all .8s cubic-bezier(.16,1,.3,1)}
-.reveal.visible{opacity:1;transform:translateY(0)}
-.reveal-left{opacity:0;transform:translateX(-36px);transition:all .8s cubic-bezier(.16,1,.3,1)}
-.reveal-left.visible{opacity:1;transform:translateX(0)}
-.reveal-right{opacity:0;transform:translateX(36px);transition:all .8s cubic-bezier(.16,1,.3,1)}
-.reveal-right.visible{opacity:1;transform:translateX(0)}
+.cont-g{display:grid;grid-template-columns:1fr 1fr;gap:100px;position:relative;z-index:2}
+.c-list{display:flex;flex-direction:column;gap:12px;margin-top:48px}
+.c-row{display:flex;align-items:center;gap:18px;padding:18px 22px;border:1px solid rgba(255,255,255,.07);border-radius:8px;text-decoration:none;color:var(--text);transition:all .35s cubic-bezier(.16,1,.3,1);position:relative;overflow:hidden}
+.c-row::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--gold);transform:scaleY(0);transform-origin:bottom;transition:transform .35s cubic-bezier(.16,1,.3,1)}
+.c-row:hover{border-color:rgba(201,168,76,.22);transform:translateX(6px)}.c-row:hover::before{transform:scaleY(1)}
+.c-ico{width:40px;height:40px;border-radius:6px;background:rgba(201,168,76,.08);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.c-ico svg{width:17px;height:17px;stroke:rgba(201,168,76,.7);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.c-lbl{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.c-val{font-size:15px;color:var(--white);font-weight:400}
+.c-arr{margin-left:auto;color:var(--muted);font-size:14px;transition:all .3s}
+.c-row:hover .c-arr{color:var(--gold);transform:translateX(4px)}
+.av-block{padding-top:8px}
+.av-big{font-family:'Syne',sans-serif;font-size:clamp(38px,5vw,60px);font-weight:800;letter-spacing:-2.5px;color:var(--white);line-height:1.0;margin-bottom:20px}
+.av-big em{font-style:italic;color:var(--gold)}
+.av-dc{font-size:16px;color:var(--text2);line-height:1.85;font-weight:300;margin-bottom:36px}
+.av-pill{display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(201,168,76,.2);padding:11px 22px;border-radius:2px;background:rgba(201,168,76,.05)}
+.av-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;animation:gp 2s infinite}
+@keyframes gp{0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,.5)}50%{box-shadow:0 0 0 6px rgba(74,222,128,0)}}
+.av-tx{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold)}
+
+/* ═══ FOOTER ═══ */
+footer{background:var(--bg2);border-top:1px solid rgba(201,168,76,.08);padding:36px 60px;position:relative;z-index:2}
+.ft{max-width:1340px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+.f-logo{font-family:'Syne',sans-serif;font-size:15px;font-weight:800;letter-spacing:-1px;color:var(--white);text-decoration:none}
+.f-logo span{color:var(--gold)}
+.f-links{display:flex;gap:28px;list-style:none}
+.f-links a{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s}
+.f-links a:hover{color:var(--gold)}
+.f-copy{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted2)}
+
+/* ═══ REVEAL ═══ */
+.rv{opacity:0;transform:translateY(30px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.rv.vs{opacity:1;transform:translateY(0)}
+.rvl{opacity:0;transform:translateX(-30px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.rvl.vs{opacity:1;transform:translateX(0)}
+.rvr{opacity:0;transform:translateX(30px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.rvr.vs{opacity:1;transform:translateX(0)}
+
+/* ═══ RESPONSIVE ═══ */
 @media(max-width:1100px){
-  .hero-inner{grid-template-columns:1fr;gap:48px}.hero-card{display:none}
-  .about-layout{grid-template-columns:1fr;gap:60px}
-  .projects-grid{grid-template-columns:1fr 1fr}
-  .exp-layout{grid-template-columns:1fr;gap:40px}
-  .exp-tabs{flex-direction:row;flex-wrap:wrap;border-right:none;border-bottom:1px solid rgba(255,255,255,.06);padding-bottom:20px;margin-bottom:40px;gap:8px}
-  .exp-tab{padding:16px 24px;border-right:none;border-bottom:2px solid transparent;margin-right:0}
-  .exp-tab.active{border-right-color:transparent;border-bottom-color:var(--gold)}
-  .edu-lang-grid{grid-template-columns:1fr}.cert-scroll{grid-template-columns:1fr 1fr}
-  .contact-layout{grid-template-columns:1fr;gap:60px}.projects-intro{grid-template-columns:1fr}
+  .about-g,.cont-g{grid-template-columns:1fr;gap:56px}
+  .exp-g{grid-template-columns:1fr}
+  .proj-g{grid-template-columns:1fr 1fr}
+  .edu-g{grid-template-columns:1fr}
+  .cert-g{grid-template-columns:1fr 1fr}
+  .proj-header{grid-template-columns:1fr}
+  .h-stats{flex-wrap:wrap}
 }
 @media(max-width:768px){
   section{padding:80px 24px}
-  nav .nav-inner{padding:0 24px}
-  .nav-links,.nav-contact{display:none}
-  .hamburger{display:flex}
-  #hero{padding:0 24px}
-  .projects-grid{grid-template-columns:1fr}
-  .cert-scroll{grid-template-columns:1fr}
-  .expertise-grid{grid-template-columns:1fr 1fr}
-  footer{padding:32px 24px}
-  .footer-inner{flex-direction:column;gap:20px;text-align:center}
-  .footer-links{flex-wrap:wrap;justify-content:center}
+  nav .nw{padding:0 24px}.n-links,.n-cta{display:none}.mob-hb{display:flex}
+  #hero{padding:0 24px}.proj-g{grid-template-columns:1fr}.cert-g{grid-template-columns:1fr}
+  .domain-g{grid-template-columns:1fr 1fr}
+  footer{padding:28px 24px}.ft{flex-direction:column;gap:18px;text-align:center}
+  .f-links{flex-wrap:wrap;justify-content:center}.h-scroll{left:24px}
 }
 </style>
 </head>
 <body>
-<canvas id="particles-canvas"></canvas>
-<div id="cursor"></div>
-<div id="cursor-follower"></div>
+<canvas id="bgCanvas"></canvas>
+<div id="cur-dot"></div><div id="cur-ring"></div><div id="cur-cross"></div>
 
+<!-- LOADER -->
 <div id="loader">
-  <div class="loader-name"><span>A</span><span>L</span><span>E</span><span>Y</span><span>N</span><span>A</span></div>
-  <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
-  <div class="loader-sub">AI & Computer Vision Engineer</div>
+  <div class="ld-name"><span>A</span><span>L</span><span>E</span><span>Y</span><span>N</span><span>A</span><span>&nbsp;</span><span>K</span><span>A</span><span>P</span><span>U</span><span>S</span><span>U</span><span>Z</span></div>
+  <div class="ld-bar-wrap"><div class="ld-bar"></div></div>
+  <div class="ld-sub">Initializing portfolio...</div>
 </div>
 
-<nav id="navbar">
-  <div class="nav-inner">
-    <a href="#hero" class="nav-logo">AK<em>.</em></a>
-    <ul class="nav-links">
-      <li><a href="#about">Hakkımda</a></li>
-      <li><a href="#projects">Projeler</a></li>
-      <li><a href="#experience">Deneyim</a></li>
-      <li><a href="#education">Eğitim</a></li>
-      <li><a href="#certificates">Sertifikalar</a></li>
+<!-- NAV -->
+<nav id="nav">
+  <div class="nw">
+    <a href="#hero" class="n-logo">AK<span>.</span></a>
+    <ul class="n-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#certificates">Certificates</a></li>
     </ul>
-    <a href="#contact" class="nav-contact">İletişim</a>
-    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    <a href="#contact" class="n-cta">Contact</a>
+    <div class="mob-hb" id="mobHb"><span></span><span></span><span></span></div>
   </div>
 </nav>
-
-<div class="mobile-menu" id="mobileMenu">
-  <button class="close-btn" id="closeBtn">✕</button>
-  <a href="#about">Hakkımda</a><a href="#projects">Projeler</a>
-  <a href="#experience">Deneyim</a><a href="#education">Eğitim</a>
-  <a href="#certificates">Sertifikalar</a><a href="#contact">İletişim</a>
+<div class="mob-m" id="mobM">
+  <button class="mob-close" id="mobClose">&#x2715;</button>
+  <a href="#about">About</a><a href="#experience">Experience</a>
+  <a href="#projects">Projects</a><a href="#education">Education</a>
+  <a href="#certificates">Certificates</a><a href="#contact">Contact</a>
 </div>
 
+<!-- ════ HERO ════ -->
 <section id="hero">
-  <div class="orb" style="width:500px;height:500px;top:-150px;right:-100px;background:radial-gradient(circle,rgba(201,168,76,.07),transparent 70%);animation-duration:10s"></div>
-  <div class="orb" style="width:400px;height:400px;bottom:-100px;left:-100px;background:radial-gradient(circle,rgba(201,168,76,.05),transparent 70%);animation-duration:12s;animation-delay:-4s"></div>
-  <div class="hero-bg-text" id="heroBg">ALEYNA</div>
-  <div class="hero-inner">
-    <div>
-      <div class="hero-eyebrow"><div class="hero-eyebrow-line"></div><span class="hero-eyebrow-text">Yazılım & Yapay Zeka Mühendisi · İzmir, TR</span></div>
-      <h1 class="hero-name"><span class="rl">Aleyna</span><span class="rl rl2">Kapusuz</span></h1>
-      <p class="hero-title">AI · Computer Vision · Edge AI · Generative AI · LLM</p>
-      <p class="hero-desc">Real-Time Computer Vision ve Edge AI alanında uzmanlaşmış yazılım mühendisi. Yüksek hızlı YOLO pipeline'larından LangGraph state machine'lerine kadar uçtan uca çözümler geliştiriyorum. GPA: 3.12/4.0</p>
-      <div class="hero-ctas"><a href="#projects" class="cta-primary">Projeleri Keşfet →</a><a href="#contact" class="cta-secondary">İletişim</a></div>
+  <canvas id="codeCanvas"></canvas>
+  <div class="hg hg1"></div><div class="hg hg2"></div>
+  <div class="hero-in">
+    <div class="h-ey"><div class="h-ey-line"></div><span class="h-ey-txt">Software Engineer &nbsp;·&nbsp; AI &amp; Computer Vision &nbsp;·&nbsp; Izmir, TR</span></div>
+    <div class="h-name">
+      <span class="h-first"><span class="inn">Aleyna</span></span>
+      <div class="h-last-wrap"><span class="h-last"><span class="inn">Kapusuz</span></span><div class="h-last-underline"></div></div>
     </div>
-    <div class="hero-card">
-      <div class="hero-card-label">Hızlı Bakış</div>
-      <div class="metric-row">
-        <div class="metric"><div class="metric-num" data-target="6" data-suffix="+">6+</div><div class="metric-label">Proje</div></div>
-        <div class="metric"><div class="metric-num" data-target="93" data-suffix="%">93%</div><div class="metric-label">Edge AI Doğruluk</div></div>
-        <div class="metric"><div class="metric-num" data-target="3" data-suffix="">3</div><div class="metric-label">Şirket</div></div>
-        <div class="metric"><div class="metric-num" data-target="3.12" data-suffix="" data-decimal="true">3.12</div><div class="metric-label">GPA / 4.0</div></div>
-      </div>
-      <div class="tech-label">Core Stack</div>
-      <div class="tech-pills">
-        <span class="pill">YOLO</span><span class="pill">OpenCV</span><span class="pill">PyTorch</span>
-        <span class="pill">LangChain</span><span class="pill">RAG</span><span class="pill">DeepSORT</span>
-        <span class="pill">Raspberry Pi</span><span class="pill">CUDA</span>
-      </div>
+    <p class="h-title">AI &nbsp;·&nbsp; Computer Vision &nbsp;·&nbsp; Edge AI &nbsp;·&nbsp; Generative AI &nbsp;·&nbsp; LLM</p>
+    <p class="h-desc">Innovative Software Engineer <strong>(GPA: 3.12/4.0)</strong> specializing in <strong>Real-Time Computer Vision and Edge AI.</strong> Extensive experience in developing high-speed YOLO pipelines and deploying end-to-end vision solutions on IP Camera (RTSP) streams. Proven track record in industrial automation featuring Raspberry Pi hardware-signal integration and robust model performance under challenging field conditions.</p>
+    <div class="h-ctas">
+      <a href="#projects" class="btn-g"><span>View Projects &rarr;</span></a>
+      <a href="#contact" class="btn-o">Contact</a>
+    </div>
+    <div class="h-stats">
+      <div class="h-stat"><div class="h-stat-n" data-c="6" data-s="+">6+</div><div class="h-stat-l">Projects</div></div>
+      <div class="h-stat"><div class="h-stat-n" data-c="93" data-s="%">93%</div><div class="h-stat-l">Edge AI Accuracy</div></div>
+      <div class="h-stat"><div class="h-stat-n" data-c="3" data-s="">3</div><div class="h-stat-l">Companies</div></div>
+      <div class="h-stat"><div class="h-stat-n" data-c="3.12" data-s="" data-d="1">3.12</div><div class="h-stat-l">GPA / 4.0</div></div>
     </div>
   </div>
+  <div class="h-scroll"><div class="scroll-bar"></div><span class="scroll-lbl">Scroll</span></div>
 </section>
 
-<div class="gold-divider"></div>
+<div class="gdiv"></div>
 
+<!-- ════ ABOUT ════ -->
 <section id="about">
-  <div class="section-inner">
-    <div class="s-eyebrow reveal"><div class="s-eyebrow-line"></div><span class="s-eyebrow-text">Hakkımda</span></div>
-    <h2 class="s-title reveal">Akıllı sistemler<br><em>inşa ediyorum</em></h2>
-    <div class="about-layout">
-      <div class="reveal-left">
-        <p class="summary-block">Real-Time Computer Vision ve Edge AI alanında uzmanlaşmış, endüstriyel otomasyon ve yapay zeka çözümleri geliştiren bir mühendisim. YOLO pipeline'larından LangGraph state machine'lerine, SICK kameralardan Raspberry Pi entegrasyonuna geniş bir yelpazede çalışıyorum.</p>
-        <div class="info-table">
-          <div class="info-row"><span class="info-key">Konum</span><span class="info-val">İzmir, Türkiye</span></div>
-          <div class="info-row"><span class="info-key">Üniversite</span><span class="info-val">Burdur Mehmet Akif Ersoy Üni.</span></div>
-          <div class="info-row"><span class="info-key">GPA</span><span class="info-val">3.12 / 4.0</span></div>
-          <div class="info-row"><span class="info-key">E-posta</span><span class="info-val"><a href="mailto:lnkapusuz@gmail.com">lnkapusuz@gmail.com</a></span></div>
-          <div class="info-row"><span class="info-key">LinkedIn</span><span class="info-val"><a href="https://linkedin.com/in/aleyna-kapusuz-6ba953226" target="_blank">aleyna-kapusuz</a></span></div>
-          <div class="info-row"><span class="info-key">GitHub</span><span class="info-val"><a href="https://github.com/AleynaKapusuzz" target="_blank">AleynaKapusuzz</a></span></div>
+  <div class="si">
+    <div class="s-ey rv"><div class="s-ln"></div><span class="s-lb">About</span></div>
+    <h2 class="s-tt rv">Building intelligent<br><em>systems</em></h2>
+    <div class="about-g">
+      <div class="rvl">
+        <p class="a-q">Innovative Software Engineer specializing in Real-Time Computer Vision and Edge AI. Proficient in both Linux (Ubuntu) and Windows environments, with a strong focus on Multi-Object Tracking (SORT/DeepSORT), inference optimization, and cross-platform system development.</p>
+        <div class="i-list">
+          <div class="i-row"><span class="i-key">Location</span><span class="i-val">Izmir, Turkey</span></div>
+          <div class="i-row"><span class="i-key">University</span><span class="i-val">Burdur Mehmet Akif Ersoy University</span></div>
+          <div class="i-row"><span class="i-key">GPA</span><span class="i-val">3.12 / 4.0</span></div>
+          <div class="i-row"><span class="i-key">Email</span><span class="i-val"><a href="mailto:lnkapusuz@gmail.com">lnkapusuz@gmail.com</a></span></div>
+          <div class="i-row"><span class="i-key">Phone</span><span class="i-val">+90 501 517 0223</span></div>
+          <div class="i-row"><span class="i-key">LinkedIn</span><span class="i-val"><a href="https://linkedin.com/in/aleyna-kapusuz-6ba953226" target="_blank">aleyna-kapusuz</a></span></div>
+          <div class="i-row"><span class="i-key">GitHub</span><span class="i-val"><a href="https://github.com/AleynaKapusuz?tab=repositories" target="_blank">AleynaKapusuz</a></span></div>
         </div>
-        <div class="expertise-grid">
-          <div class="exp-tile"><div class="exp-tile-icon">👁️</div><div class="exp-tile-title">Computer Vision</div><div class="exp-tile-sub">YOLO, OpenCV, DeepSORT</div></div>
-          <div class="exp-tile"><div class="exp-tile-icon">⚡</div><div class="exp-tile-title">Edge AI</div><div class="exp-tile-sub">Raspberry Pi, CUDA, RTSP</div></div>
-          <div class="exp-tile"><div class="exp-tile-icon">🤖</div><div class="exp-tile-title">Generative AI</div><div class="exp-tile-sub">LangChain, RAG, Ollama</div></div>
-          <div class="exp-tile"><div class="exp-tile-icon">🔬</div><div class="exp-tile-title">Deep Learning</div><div class="exp-tile-sub">PyTorch, MTCNN, BiLSTM</div></div>
+        <div class="domain-g">
+          <div class="domain-c"><div class="domain-t">Computer Vision &amp; AI</div><div class="domain-s">YOLO, OpenCV, Object Detection, Semantic Segmentation, Multi-Object Tracking (SORT/DeepSORT), NMS, Face Recognition (MTCNN, ResNet50), MediaPipe</div></div>
+          <div class="domain-c"><div class="domain-t">Deep Learning &amp; Training</div><div class="domain-s">GPU-Accelerated Training (CUDA), Inference Optimization, Data Augmentation, Anomaly Detection, PyTorch, Scikit-learn, NumPy, Pandas, CVAT, Roboflow, Ollama</div></div>
+          <div class="domain-c"><div class="domain-t">Edge &amp; Deployment</div><div class="domain-s">RTSP / FFmpeg Stream Processing, IP Camera Integration, Raspberry Pi (Hardware-Signal Integration), Streamlit UI, SMTP Reporting</div></div>
+          <div class="domain-c"><div class="domain-t">Generative AI &amp; LLMs</div><div class="domain-s">LangChain, LangGraph (State Machines), RAG (Retrieval-Augmented Generation), Ollama, ChromaDB (Vector Memory)</div></div>
+          <div class="domain-c"><div class="domain-t">Robotics &amp; Systems</div><div class="domain-s">ROS 1/2, Edge AI Deployment, Docker (Basic), Git, Version Control</div></div>
+          <div class="domain-c"><div class="domain-t">Software &amp; Tools</div><div class="domain-s">Advanced Python, SQL (SSMS), Linux (Ubuntu), Windows</div></div>
         </div>
       </div>
-      <div class="reveal-right">
-        <div class="skills-wrap">
+      <div class="rvr">
+        <div class="sk-grps">
           <div>
-            <div class="skill-category-title">Computer Vision & AI</div>
-            <div class="skill-item"><div class="skill-top"><span class="skill-name">YOLO / Object Detection</span><span class="skill-pct">95%</span></div><div class="skill-track"><div class="skill-bar-fill" data-w="95"></div></div></div>
-            <div class="skill-item"><div class="skill-top"><span class="skill-name">OpenCV / Image Processing</span><span class="skill-pct">93%</span></div><div class="skill-track"><div class="skill-bar-fill" data-w="93"></div></div></div>
-            <div class="skill-item"><div class="skill-top"><span class="skill-name">Multi-Object Tracking (DeepSORT)</span><span class="skill-pct">88%</span></div><div class="skill-track"><div class="skill-bar-fill" data-w="88"></div></div></div>
-            <div class="skill-item"><div class="skill-top"><span class="skill-name">Face Recognition (MTCNN/ResNet50)</span><span class="skill-pct">85%</span></div><div class="skill-track"><div class="skill-bar-fill" data-w="85"></div></div></div>
+            <div class="sk-cat">Computer Vision &amp; AI</div>
+            <div class="sk-row"><div class="sk-meta"><span class="sk-name">YOLO / Object Detection / Segmentation</span><span class="sk-pct">95%</span></div><div class="sk-bar"><div class="sk-fill" data-w="95"></div></div></div>
+            <div class="sk-row"><div class="sk-meta"><span class="sk-name">OpenCV / Image Processing</span><span class="sk-pct">93%</span></div><div class="sk-bar"><div class="sk-fill" data-w="93"></div></div></div>
+            <div class="sk-row"><div class="sk-meta"><span class="sk-name">Multi-Object Tracking (SORT / DeepSORT)</span><span class="sk-pct">88%</span></div><div class="sk-bar"><div class="sk-fill" data-w="88"></div></div></div>
+            <div class="sk-row"><div class="sk-meta"><span class="sk-name">Face Recognition (MTCNN / ResNet50)</span><span class="sk-pct">85%</span></div><div class="sk-bar"><div class="sk-fill" data-w="85"></div></div></div>
+            <div class="sk-row"><div class="sk-meta"><span class="sk-name">MediaPipe / Anomaly Detection</span><span class="sk-pct">80%</span></div><div class="sk-bar"><div class="sk-fill" data-w="80"></div></div></div>
           </div>
           <div>
-            <div class="skill-category-title">Deep Learning & GenAI</div>
-            <div class="skill-item"><div class="skill-top"><span class="skill-name">Python (Advanced)</span><span class="skill-pct">96%</span></div><div class="skill-track"><div class="skill-bar-fill" data-w="96"></div></div></div>
-            <div class="skill-item"><div class="skill-top"><span class="skill-name">PyTorch / CUDA / Training</span><span class="skill-pct">80%</span></div><div class="skill-track"><div class="skill-bar-fill" data-w="80"></div></div></div>
-            <div class="skill-item"><div class="skill-top"><span class="skill-name">LangChain / LangGraph / RAG</span><span class="skill-pct">78%</span></div><div class="skill-track"><div class="skill-bar-fill" data-w="78"></div></div></div>
-            <div class="skill-item"><div class="skill-top"><span class="skill-name">Edge Deployment · ROS · Docker</span><span class="skill-pct">68%</span></div><div class="skill-track"><div class="skill-bar-fill" data-w="68"></div></div></div>
+            <div class="sk-cat">Deep Learning &amp; Generative AI</div>
+            <div class="sk-row"><div class="sk-meta"><span class="sk-name">Python (Advanced) / SQL (SSMS)</span><span class="sk-pct">96%</span></div><div class="sk-bar"><div class="sk-fill" data-w="96"></div></div></div>
+            <div class="sk-row"><div class="sk-meta"><span class="sk-name">PyTorch / CUDA / GPU-Accelerated Training</span><span class="sk-pct">80%</span></div><div class="sk-bar"><div class="sk-fill" data-w="80"></div></div></div>
+            <div class="sk-row"><div class="sk-meta"><span class="sk-name">LangChain / LangGraph / RAG</span><span class="sk-pct">78%</span></div><div class="sk-bar"><div class="sk-fill" data-w="78"></div></div></div>
+            <div class="sk-row"><div class="sk-meta"><span class="sk-name">ChromaDB / Ollama / Streamlit UI</span><span class="sk-pct">75%</span></div><div class="sk-bar"><div class="sk-fill" data-w="75"></div></div></div>
+            <div class="sk-row"><div class="sk-meta"><span class="sk-name">ROS 1/2 / Docker / Git / Linux (Ubuntu)</span><span class="sk-pct">68%</span></div><div class="sk-bar"><div class="sk-fill" data-w="68"></div></div></div>
           </div>
         </div>
       </div>
@@ -339,284 +395,432 @@ footer{background:var(--bg2);border-top:1px solid rgba(255,255,255,.05);padding:
   </div>
 </section>
 
-<div class="gold-divider"></div>
+<div class="gdiv"></div>
 
-<section id="projects">
-  <div class="section-inner">
-    <div class="projects-intro">
-      <div>
-        <div class="s-eyebrow reveal"><div class="s-eyebrow-line"></div><span class="s-eyebrow-text">Projeler</span></div>
-        <h2 class="s-title reveal">Geliştirdiğim<br><em>çözümler</em></h2>
-      </div>
-      <p class="s-desc reveal" style="align-self:end">Endüstriyel Edge AI'dan Agentic LLM sistemlerine, TÜBİTAK projelerinden gerçek zamanlı takip sistemlerine uzanan portföy.</p>
-    </div>
-    <div class="projects-grid reveal">
-      <div class="proj-card">
-        <div class="proj-num">01</div><div class="proj-icon">🏭</div>
-        <div class="proj-title">Personnel Monitoring & Tracking</div>
-        <p class="proj-desc">YOLO + DeepSORT ile IP kamera (RTSP) stream'leri üzerinden gerçek zamanlı çok nesne takibi. Raspberry Pi GPIO sinyalleri ve otomatik SMTP raporlama. %93+ doğruluk, zorlu saha koşullarında (düşük ışık, hareket bulanıklığı) optimize edildi.</p>
-        <div class="proj-tags"><span class="proj-tag">YOLO</span><span class="proj-tag">DeepSORT</span><span class="proj-tag">RTSP</span><span class="proj-tag">Raspberry Pi</span><span class="proj-tag">SMTP</span></div>
-      </div>
-      <div class="proj-card">
-        <div class="proj-num">02</div><div class="proj-icon">🔍</div>
-        <div class="proj-title">Print Inspection — SICK Camera</div>
-        <p class="proj-desc">SICK endüstriyel kameralar ile yüksek hızlı kalite kontrol pipeline. Çevresel gürültüyü gidermek için özel ön işleme filtreleri tasarlandı. Son tüketim tarihi tespiti için hassas algoritma geliştirildi. Streamlit UI ile gerçek zamanlı görsel izleme paneli.</p>
-        <div class="proj-tags"><span class="proj-tag">SICK Camera</span><span class="proj-tag">OpenCV</span><span class="proj-tag">Streamlit</span><span class="proj-tag">FFmpeg</span></div>
-      </div>
-      <div class="proj-card">
-        <div class="proj-num">03</div><div class="proj-icon">🤖</div>
-        <div class="proj-title">Agentic SQL Assistant</div>
-        <p class="proj-desc">LangChain + RAG mimarisi ile doğal dili SQL'e dönüştüren yerel AI asistan. LangGraph state machine ile öz-düzeltme döngüsü, otonom schema doğrulama ve hata kurtarma. ChromaDB vektör hafızası ile yapılandırılmış ve yapılandırılmamış veri köprüsü.</p>
-        <div class="proj-tags"><span class="proj-tag">LangChain</span><span class="proj-tag">LangGraph</span><span class="proj-tag">RAG</span><span class="proj-tag">ChromaDB</span><span class="proj-tag">Ollama</span></div>
-      </div>
-      <div class="proj-card">
-        <div class="proj-num">04</div><div class="proj-icon">👤</div>
-        <div class="proj-title">Yüz Tanıma — TÜBİTAK</div>
-        <p class="proj-desc">TÜBİTAK projesi kapsamında geliştirilen biyometrik çözüm. MTCNN ile yüz tespiti, ResNet50 ile kimlik sınıflandırması. Eğitim ortamlarında otomatik katılım takibi için kullanıldı.</p>
-        <div class="proj-tags"><span class="proj-tag">MTCNN</span><span class="proj-tag">ResNet50</span><span class="proj-tag">PyTorch</span><span class="proj-tag">TÜBİTAK</span></div>
-      </div>
-      <div class="proj-card">
-        <div class="proj-num">05</div><div class="proj-icon">🎮</div>
-        <div class="proj-title">Game Sales Prediction & NER</div>
-        <p class="proj-desc">Oyun satış trendlerini tahmin etmek için Bidirectional LSTM modeli. Metin tabanlı veri setlerinden otomatik ürün bilgisi çıkaran Named Entity Recognition (NER) modülü ile entegre edildi.</p>
-        <div class="proj-tags"><span class="proj-tag">Bi-LSTM</span><span class="proj-tag">NLP</span><span class="proj-tag">NER</span><span class="proj-tag">Python</span></div>
-      </div>
-      <div class="proj-card">
-        <div class="proj-num">06</div><div class="proj-icon">🛡️</div>
-        <div class="proj-title">XR & IMU Spatial Tracking</div>
-        <p class="proj-desc">ASELSAN/BİTES bünyesinde XR ortamları için IMU ve GPS sensör entegrasyonu araştırması. CVAT ile büyük ölçekli veri annotasyonu ve Perspektif Dönüşümü ile görüntü düzeltme uygulaması.</p>
-        <div class="proj-tags"><span class="proj-tag">XR</span><span class="proj-tag">IMU/GPS</span><span class="proj-tag">CVAT</span><span class="proj-tag">ASELSAN</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="gold-divider"></div>
-
+<!-- ════ EXPERIENCE ════ -->
 <section id="experience">
-  <div class="section-inner">
-    <div class="s-eyebrow reveal"><div class="s-eyebrow-line"></div><span class="s-eyebrow-text">Deneyim</span></div>
-    <h2 class="s-title reveal">Kariyer<br><em>yolculuğum</em></h2>
-    <div class="exp-layout">
-      <div class="exp-tabs">
-        <div class="exp-tab active" data-tab="0"><div class="tab-period">Feb 2025 – Günümüz</div><div class="tab-company">Gedik Piliç A.Ş.</div><div class="tab-role">CV & AI Engineer</div></div>
-        <div class="exp-tab" data-tab="1"><div class="tab-period">Feb 2024 – Apr 2024</div><div class="tab-company">Robolaunch Robotics</div><div class="tab-role">Software Intern</div></div>
-        <div class="exp-tab" data-tab="2"><div class="tab-period">Jul 2023 – Aug 2023</div><div class="tab-company">ASELSAN / BİTES</div><div class="tab-role">AI & XR Intern</div></div>
-      </div>
-      <div>
-        <div class="exp-content active" id="exp-0">
-          <div class="exp-role-title">Computer Vision & AI Engineer</div>
-          <div class="exp-company-name">Gedik Piliç A.Ş.</div>
-          <div class="exp-location">📍 Uşak, Türkiye · Şubat 2025 – Günümüz</div>
-          <ul class="exp-points">
-            <li><strong>Edge AI & IoT:</strong> Raspberry Pi/PLC üzerinde YOLO kullanan uçtan uca izleme sistemi mimarisi kuruldu. Roboflow optimize dataset ile %93+ doğruluk elde edildi.</li>
-            <li><strong>Automation & Vision:</strong> Renk tabanlı analiz ve gerçek zamanlı SMTP uyarılarıyla "hands-free" pipeline geliştirildi. Üretim hattı izleme OpenCV ile optimize edildi.</li>
-            <li><strong>Stream Optimization:</strong> GPU destekli edge cihazlarda optimum RTSP stream decode için FFmpeg kullanıldı.</li>
-            <li><strong>Industrial Camera:</strong> SICK kameralar ile hassas kalite kontrol pipeline'ı kuruldu; Streamlit UI ile görsel izleme sistemi geliştirildi.</li>
+  <div class="si">
+    <div class="s-ey rv"><div class="s-ln"></div><span class="s-lb">Experience</span></div>
+    <h2 class="s-tt rv">Career<br><em>journey</em></h2>
+    <div class="exp-g">
+
+      <div class="tilt-card rv" data-tilt data-tilt-max="6" data-tilt-speed="600" data-tilt-glare="true" data-tilt-max-glare="0.12">
+        <div class="card-inner">
+          <div class="card-period">Feb 2025 — Present &nbsp;·&nbsp; Full-time</div>
+          <div class="card-role">Computer Vision &amp; AI Engineer</div>
+          <div class="card-company">Gedik Piliç A.Ş.</div>
+          <div class="card-loc">Usak, Turkey</div>
+          <div class="card-sep"></div>
+          <ul class="card-pts">
+            <li><strong>Edge AI &amp; IoT:</strong> Architected an end-to-end monitoring system using YOLO on Raspberry Pi/PLC, achieving 93%+ accuracy via Roboflow-optimized datasets.</li>
+            <li><strong>Automation &amp; Vision:</strong> Developed a "hands-free" pipeline with color-based analysis and real-time SMTP alerts. Optimized high-speed production line monitoring using OpenCV.</li>
+            <li><strong>Stream Optimization:</strong> Utilized FFmpeg for optimized RTSP stream decoding on GPU-enabled edge devices. IP camera integration.</li>
+            <li><strong>Industrial Camera:</strong> Architected a high-speed QC pipeline utilizing SICK industrial cameras. Developed a Streamlit UI for real-time monitoring and visual inspection feedback.</li>
+            <li><strong>Anomaly Detection:</strong> Robust model performance under challenging field conditions — low light, motion blur, variable camera angles.</li>
           </ul>
-          <div class="exp-tags"><span class="pill">YOLO</span><span class="pill">OpenCV</span><span class="pill">Raspberry Pi</span><span class="pill">DeepSORT</span><span class="pill">FFmpeg/RTSP</span><span class="pill">SICK Camera</span><span class="pill">Streamlit</span><span class="pill">Roboflow</span></div>
-        </div>
-        <div class="exp-content" id="exp-1">
-          <div class="exp-role-title">Software Engineering Intern</div>
-          <div class="exp-company-name">Robolaunch Yazılım ve Robotik Teknolojileri</div>
-          <div class="exp-location">📍 Ankara, Türkiye · Şubat 2024 – Nisan 2024</div>
-          <ul class="exp-points">
-            <li><strong>Robotics & ROS:</strong> Linux (Ubuntu) ortamında ROS 1/2 node communication kullanan otonom sistemler için Python scriptleri geliştirildi.</li>
-            <li><strong>Build Systems:</strong> Catkin ve Colcon build sistemleriyle ROS paketleri oluşturuldu ve test edildi.</li>
-            <li><strong>Simulation:</strong> Python tabanlı hata ayıklama ve robotik simülasyon süreçlerine katkı sağlandı.</li>
-          </ul>
-          <div class="exp-tags"><span class="pill">ROS 1/2</span><span class="pill">Python</span><span class="pill">Linux/Ubuntu</span><span class="pill">Catkin</span><span class="pill">Colcon</span></div>
-        </div>
-        <div class="exp-content" id="exp-2">
-          <div class="exp-role-title">AI & XR Intern</div>
-          <div class="exp-company-name">ASELSAN / BİTES Savunma Teknolojileri</div>
-          <div class="exp-location">📍 Ankara, Türkiye · Temmuz 2023 – Ağustos 2023</div>
-          <ul class="exp-points">
-            <li><strong>AI & Linux:</strong> CVAT ile büyük ölçekli veri annotasyonu yönetildi. Linux tabanlı workflow içinde görüntü düzeltme için Perspektif Dönüşümü uygulandı.</li>
-            <li><strong>Sensors & XR:</strong> Genişletilmiş Gerçeklik ortamlarında uzamsal takip için IMU ve GPS sensör entegrasyonu araştırıldı.</li>
-          </ul>
-          <div class="exp-tags"><span class="pill">CVAT</span><span class="pill">XR</span><span class="pill">IMU/GPS</span><span class="pill">Linux</span><span class="pill">Computer Vision</span></div>
+          <div class="card-tags"><span class="ctag">YOLO</span><span class="ctag">OpenCV</span><span class="ctag">DeepSORT</span><span class="ctag">Raspberry Pi</span><span class="ctag">FFmpeg/RTSP</span><span class="ctag">SICK Camera</span><span class="ctag">Streamlit</span><span class="ctag">Roboflow</span><span class="ctag">SMTP</span><span class="ctag">CUDA</span></div>
         </div>
       </div>
+
+      <div class="tilt-card rv" data-tilt data-tilt-max="6" data-tilt-speed="600" data-tilt-glare="true" data-tilt-max-glare="0.12" style="transition-delay:.08s">
+        <div class="card-inner">
+          <div class="card-period">Apr 2024 — Jun 2024 &nbsp;·&nbsp; Internship</div>
+          <div class="card-role">AI Intern</div>
+          <div class="card-company">Gedik Piliç A.Ş.</div>
+          <div class="card-loc">Usak, Turkey</div>
+          <div class="card-sep"></div>
+          <ul class="card-pts">
+            <li>Contributed to AI-based image processing workflows on the production line.</li>
+            <li>Assisted in YOLOv8 model training, data labeling, and model optimization processes.</li>
+            <li>Performed dataset preparation and augmentation using the Roboflow pipeline.</li>
+          </ul>
+          <div class="card-tags"><span class="ctag">YOLOv8</span><span class="ctag">Roboflow</span><span class="ctag">CVAT</span><span class="ctag">Data Labeling</span></div>
+        </div>
+      </div>
+
+      <div class="tilt-card rv" data-tilt data-tilt-max="6" data-tilt-speed="600" data-tilt-glare="true" data-tilt-max-glare="0.12" style="transition-delay:.16s">
+        <div class="card-inner">
+          <div class="card-period">Feb 2024 — Apr 2024 &nbsp;·&nbsp; Internship</div>
+          <div class="card-role">Software Engineering Intern</div>
+          <div class="card-company">Robolaunch Robotics</div>
+          <div class="card-loc">Ankara, Turkey</div>
+          <div class="card-sep"></div>
+          <ul class="card-pts">
+            <li><strong>Robotics &amp; ROS:</strong> Built and tested Python scripts for autonomous systems using ROS 1/2 node communication in Linux (Ubuntu) environments.</li>
+            <li>Developed and tested ROS packages using Catkin and Colcon build systems.</li>
+            <li>Supported Python-based debugging and robotic simulation processes.</li>
+          </ul>
+          <div class="card-tags"><span class="ctag">ROS 1/2</span><span class="ctag">Python</span><span class="ctag">Linux/Ubuntu</span><span class="ctag">Catkin</span><span class="ctag">Colcon</span></div>
+        </div>
+      </div>
+
+      <div class="tilt-card rv" data-tilt data-tilt-max="6" data-tilt-speed="600" data-tilt-glare="true" data-tilt-max-glare="0.12" style="transition-delay:.24s">
+        <div class="card-inner">
+          <div class="card-period">Jul 2023 — Aug 2023 &nbsp;·&nbsp; Internship</div>
+          <div class="card-role">AI &amp; XR Intern</div>
+          <div class="card-company">ASELSAN / BİTES Defense Technologies</div>
+          <div class="card-loc">Ankara, Turkey</div>
+          <div class="card-sep"></div>
+          <ul class="card-pts">
+            <li><strong>AI &amp; Linux:</strong> Managed large-scale data annotation (CVAT) and implemented Perspective Transformation for image correction within Linux-based workflows.</li>
+            <li><strong>Sensors &amp; XR:</strong> Conducted research on IMU and GPS integration for spatial tracking in Extended Reality (XR) environments.</li>
+          </ul>
+          <div class="card-tags"><span class="ctag">CVAT</span><span class="ctag">XR</span><span class="ctag">IMU/GPS</span><span class="ctag">Linux</span><span class="ctag">Perspective Transform</span></div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
 
-<div class="gold-divider"></div>
+<div class="gdiv"></div>
 
+<!-- ════ PROJECTS ════ -->
+<section id="projects">
+  <div class="si">
+    <div class="proj-header">
+      <div>
+        <div class="s-ey rv"><div class="s-ln"></div><span class="s-lb">Projects</span></div>
+        <h2 class="s-tt rv">Selected<br><em>work</em></h2>
+      </div>
+      <p class="s-dc rv" style="align-self:end">From industrial Edge AI to Agentic LLM systems, TÜBİTAK-backed research to real-time tracking solutions.</p>
+    </div>
+    <div class="proj-g">
+
+      <!-- P1 -->
+      <div class="tilt-card rv" data-tilt data-tilt-max="8" data-tilt-speed="600" data-tilt-glare="true" data-tilt-max-glare="0.15">
+        <div class="card-inner">
+          <div class="proj-visual"><svg viewBox="0 0 340 160" xmlns="http://www.w3.org/2000/svg" style="background:#050302">
+            <defs><pattern id="gr" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse"><line x1="24" y1="0" x2="24" y2="24" stroke="#c9a84c" stroke-opacity=".04" stroke-width="1"/><line x1="0" y1="24" x2="24" y2="24" stroke="#c9a84c" stroke-opacity=".04" stroke-width="1"/></pattern></defs>
+            <rect width="340" height="160" fill="url(#gr)"/>
+            <rect x="0" y="0" width="340" height="16" fill="#030201"/>
+            <text x="8" y="11" fill="#c9a84c" font-size="7" font-family="monospace" fill-opacity=".7">RTSP  ·  30 FPS  ·  DeepSORT TRACKING</text>
+            <circle cx="330" cy="8" r="3" fill="#4ade80" fill-opacity=".9"/>
+            <rect x="30" y="28" width="52" height="96" rx="2" fill="none" stroke="#c9a84c" stroke-width="1.2" stroke-opacity=".8"/>
+            <rect x="30" y="28" width="52" height="13" rx="2" fill="#c9a84c" fill-opacity=".1"/>
+            <text x="36" y="38" fill="#c9a84c" font-size="7" font-family="monospace">ID 01</text>
+            <ellipse cx="56" cy="56" rx="8" ry="8" fill="#c9a84c" fill-opacity=".1"/>
+            <rect x="48" y="65" width="16" height="25" rx="2" fill="#c9a84c" fill-opacity=".07"/>
+            <polyline points="56,160 55,144 58,124" fill="none" stroke="#c9a84c" stroke-width=".8" stroke-opacity=".3" stroke-dasharray="3,3"/>
+            <rect x="138" y="42" width="52" height="96" rx="2" fill="none" stroke="#e8c97a" stroke-width="1.2" stroke-opacity=".65"/>
+            <rect x="138" y="42" width="52" height="13" rx="2" fill="#e8c97a" fill-opacity=".08"/>
+            <text x="144" y="52" fill="#e8c97a" font-size="7" font-family="monospace">ID 02</text>
+            <ellipse cx="164" cy="70" rx="8" ry="8" fill="#c9a84c" fill-opacity=".09"/>
+            <rect x="156" y="79" width="16" height="25" rx="2" fill="#c9a84c" fill-opacity=".06"/>
+            <rect x="246" y="24" width="52" height="96" rx="2" fill="none" stroke="#a07830" stroke-width="1.2" stroke-opacity=".55"/>
+            <rect x="246" y="24" width="52" height="13" rx="2" fill="#a07830" fill-opacity=".08"/>
+            <text x="252" y="34" fill="#a07830" font-size="7" font-family="monospace">ID 03</text>
+            <ellipse cx="272" cy="52" rx="8" ry="8" fill="#c9a84c" fill-opacity=".07"/>
+            <rect x="264" y="61" width="16" height="25" rx="2" fill="#c9a84c" fill-opacity=".05"/>
+            <rect x="0" y="144" width="340" height="16" fill="#030201"/>
+            <text x="8" y="155" fill="#c9a84c" font-size="7" font-family="monospace" fill-opacity=".45">YOLO + DeepSORT  ·  RPi GPIO  ·  SMTP Alert</text>
+          </svg></div>
+          <div class="card-num">01 / Industrial Computer Vision</div>
+          <div class="card-title">Personnel Monitoring &amp; Tracking</div>
+          <p class="card-desc">Developed an end-to-end monitoring system utilizing YOLO and DeepSORT for real-time multi-object tracking via IP camera (RTSP) streams. Robust ID consistency under low light, motion blur, and variable camera angles. Integrated Raspberry Pi GPIO signals for physical alerts and automated SMTP reporting.</p>
+          <div class="card-tags"><span class="ctag">YOLO</span><span class="ctag">DeepSORT</span><span class="ctag">RTSP/FFmpeg</span><span class="ctag">Raspberry Pi</span><span class="ctag">GPIO</span><span class="ctag">SMTP</span></div>
+        </div>
+      </div>
+
+      <!-- P2 -->
+      <div class="tilt-card rv" data-tilt data-tilt-max="8" data-tilt-speed="600" data-tilt-glare="true" data-tilt-max-glare="0.15" style="transition-delay:.07s">
+        <div class="card-inner">
+          <div class="proj-visual"><svg viewBox="0 0 340 160" xmlns="http://www.w3.org/2000/svg" style="background:#050302">
+            <rect width="340" height="160" fill="url(#gr)"/>
+            <rect x="0" y="0" width="340" height="16" fill="#030201"/>
+            <text x="8" y="11" fill="#c9a84c" font-size="7" font-family="monospace" fill-opacity=".7">SICK CAM  ·  QC PIPELINE  ·  STREAMLIT UI</text>
+            <circle cx="330" cy="8" r="3" fill="#4ade80" fill-opacity=".9"/>
+            <rect x="0" y="100" width="340" height="34" fill="#0a0804"/>
+            <rect x="14" y="66" width="64" height="34" rx="3" fill="#0d0b05" stroke="#c9a84c" stroke-width="1" stroke-opacity=".35"/>
+            <text x="24" y="87" fill="#c9a84c" font-size="7.5" font-family="monospace" fill-opacity=".6">04.2026</text>
+            <rect x="126" y="66" width="64" height="34" rx="3" fill="#0d0b05" stroke="#4ade80" stroke-width="1.2" stroke-opacity=".75"/>
+            <text x="136" y="87" fill="#4ade80" font-size="7.5" font-family="monospace" fill-opacity=".95">05.2026</text>
+            <rect x="238" y="66" width="64" height="34" rx="3" fill="#0d0b05" stroke="#ef4444" stroke-width="1.2" stroke-opacity=".7"/>
+            <text x="248" y="87" fill="#ef4444" font-size="7.5" font-family="monospace" fill-opacity=".9">??.????</text>
+            <text x="153" y="58" fill="#4ade80" font-size="12" fill-opacity=".9">&#10003;</text>
+            <text x="265" y="58" fill="#ef4444" font-size="12" fill-opacity=".9">&#10007;</text>
+            <line x1="158" y1="16" x2="158" y2="148" stroke="#c9a84c" stroke-width="1" stroke-opacity=".1" stroke-dasharray="5,4"/>
+            <rect x="130" y="22" width="56" height="28" rx="4" fill="#0c0a04" stroke="#c9a84c" stroke-width=".8" stroke-opacity=".3"/>
+            <circle cx="158" cy="36" r="7" fill="none" stroke="#c9a84c" stroke-width=".8" stroke-opacity=".4"/>
+            <rect x="0" y="144" width="340" height="16" fill="#030201"/>
+            <text x="8" y="155" fill="#c9a84c" font-size="7" font-family="monospace" fill-opacity=".45">Custom pre-processing filters  ·  Expiry date detection  ·  FFmpeg</text>
+          </svg></div>
+          <div class="card-num">02 / Industrial Computer Vision</div>
+          <div class="card-title">Print Inspection — SICK Industrial Camera</div>
+          <p class="card-desc">Architected a high-speed quality control pipeline utilizing SICK industrial cameras for production lines. Designed custom pre-processing filters to handle environmental noise and ensure high-precision expiry date detection. Developed a Streamlit UI for real-time monitoring and visual inspection feedback.</p>
+          <div class="card-tags"><span class="ctag">SICK Camera</span><span class="ctag">YOLOv8</span><span class="ctag">OpenCV</span><span class="ctag">Streamlit</span><span class="ctag">FFmpeg</span></div>
+        </div>
+      </div>
+
+      <!-- P3 -->
+      <div class="tilt-card rv" data-tilt data-tilt-max="8" data-tilt-speed="600" data-tilt-glare="true" data-tilt-max-glare="0.15" style="transition-delay:.14s">
+        <div class="card-inner">
+          <div class="proj-visual"><svg viewBox="0 0 340 160" xmlns="http://www.w3.org/2000/svg" style="background:#050302">
+            <rect width="340" height="160" fill="url(#gr)"/>
+            <rect x="0" y="0" width="340" height="16" fill="#030201"/>
+            <text x="8" y="11" fill="#c9a84c" font-size="7" font-family="monospace" fill-opacity=".7">LangChain + RAG + Ollama + SSMS (Local)</text>
+            <circle cx="330" cy="8" r="3" fill="#4ade80" fill-opacity=".9"/>
+            <rect x="8" y="62" width="74" height="36" rx="4" fill="#0c0a04" stroke="#c9a84c" stroke-width=".8" stroke-opacity=".35"/>
+            <text x="45" y="78" fill="#c9a84c" font-size="7" font-family="monospace" text-anchor="middle" fill-opacity=".7">Natural Lang.</text>
+            <text x="45" y="90" fill="#c9a84c" font-size="6.5" font-family="monospace" text-anchor="middle" fill-opacity=".45">"list users"</text>
+            <line x1="82" y1="80" x2="100" y2="80" stroke="#c9a84c" stroke-opacity=".3" stroke-width="1"/>
+            <polygon points="100,77 106,80 100,83" fill="#c9a84c" fill-opacity=".3"/>
+            <rect x="106" y="48" width="82" height="64" rx="5" fill="#0c0a04" stroke="#c9a84c" stroke-width="1" stroke-opacity=".55"/>
+            <text x="147" y="68" fill="#c9a84c" font-size="8" font-family="monospace" text-anchor="middle" fill-opacity=".9">LangGraph</text>
+            <text x="147" y="80" fill="#c9a84c" font-size="6.5" font-family="monospace" text-anchor="middle" fill-opacity=".5">State Machine</text>
+            <text x="147" y="100" fill="#4ade80" font-size="6.5" font-family="monospace" text-anchor="middle" fill-opacity=".85">Self-Correction</text>
+            <line x1="188" y1="80" x2="206" y2="80" stroke="#c9a84c" stroke-opacity=".3" stroke-width="1"/>
+            <polygon points="206,77 212,80 206,83" fill="#c9a84c" fill-opacity=".3"/>
+            <rect x="212" y="56" width="118" height="48" rx="4" fill="#0c0a04" stroke="#c9a84c" stroke-width=".8" stroke-opacity=".35"/>
+            <text x="271" y="72" fill="#c9a84c" font-size="7" font-family="monospace" text-anchor="middle" fill-opacity=".6">SQL Output</text>
+            <text x="220" y="84" fill="#4ade80" font-size="6.5" font-family="monospace" fill-opacity=".85">SELECT * FROM users</text>
+            <text x="220" y="95" fill="#4ade80" font-size="6.5" font-family="monospace" fill-opacity=".85">WHERE active = 1;</text>
+            <rect x="106" y="132" width="82" height="22" rx="4" fill="#0c0a04" stroke="#c9a84c" stroke-width=".6" stroke-opacity=".25"/>
+            <text x="147" y="147" fill="#c9a84c" font-size="7" font-family="monospace" text-anchor="middle" fill-opacity=".55">ChromaDB Vector</text>
+            <line x1="147" y1="112" x2="147" y2="132" stroke="#c9a84c" stroke-opacity=".18" stroke-width=".8" stroke-dasharray="3,2"/>
+            <rect x="0" y="144" width="340" height="16" fill="#030201"/>
+            <text x="8" y="155" fill="#c9a84c" font-size="7" font-family="monospace" fill-opacity=".45">State Machine  ·  Self-Correction Loop  ·  Secure Local Env.</text>
+          </svg></div>
+          <div class="card-num">03 / Generative AI &amp; LLM</div>
+          <div class="card-title">Agentic SQL Assistant &amp; Database Agent</div>
+          <p class="card-desc">Developed a localized AI assistant using LangChain and RAG architecture to transform complex natural language into executable SQL queries, leveraging a LangGraph state machine with a self-correction loop for autonomous schema validation and error recovery within SSMS. Integrates Streamlit UI and ChromaDB vector memory.</p>
+          <div class="card-tags"><span class="ctag">LangChain</span><span class="ctag">LangGraph</span><span class="ctag">RAG</span><span class="ctag">ChromaDB</span><span class="ctag">Ollama</span><span class="ctag">SSMS</span><span class="ctag">Streamlit</span></div>
+        </div>
+      </div>
+
+      <!-- P4 -->
+      <div class="tilt-card rv" data-tilt data-tilt-max="8" data-tilt-speed="600" data-tilt-glare="true" data-tilt-max-glare="0.15" style="transition-delay:.05s">
+        <div class="card-inner">
+          <div class="proj-visual"><svg viewBox="0 0 340 160" xmlns="http://www.w3.org/2000/svg" style="background:#050302">
+            <rect width="340" height="160" fill="url(#gr)"/>
+            <rect x="0" y="0" width="340" height="16" fill="#030201"/>
+            <text x="8" y="11" fill="#c9a84c" font-size="7" font-family="monospace" fill-opacity=".7">MTCNN + ResNet50  ·  TÜBİTAK Project  ·  PyTorch</text>
+            <ellipse cx="170" cy="86" rx="48" ry="58" fill="none" stroke="#c9a84c" stroke-width=".8" stroke-opacity=".18"/>
+            <rect x="114" y="22" width="112" height="128" rx="3" fill="none" stroke="#c9a84c" stroke-width="1.2" stroke-opacity=".6"/>
+            <line x1="114" y1="34" x2="114" y2="22" stroke="#c9a84c" stroke-width="2" stroke-opacity=".75"/><line x1="114" y1="22" x2="126" y2="22" stroke="#c9a84c" stroke-width="2" stroke-opacity=".75"/>
+            <line x1="226" y1="22" x2="214" y2="22" stroke="#c9a84c" stroke-width="2" stroke-opacity=".75"/><line x1="226" y1="22" x2="226" y2="34" stroke="#c9a84c" stroke-width="2" stroke-opacity=".75"/>
+            <line x1="114" y1="138" x2="114" y2="150" stroke="#c9a84c" stroke-width="2" stroke-opacity=".75"/><line x1="114" y1="150" x2="126" y2="150" stroke="#c9a84c" stroke-width="2" stroke-opacity=".75"/>
+            <line x1="226" y1="150" x2="214" y2="150" stroke="#c9a84c" stroke-width="2" stroke-opacity=".75"/><line x1="226" y1="150" x2="226" y2="138" stroke="#c9a84c" stroke-width="2" stroke-opacity=".75"/>
+            <circle cx="154" cy="70" r="2.5" fill="#c9a84c" fill-opacity=".75"/><circle cx="186" cy="70" r="2.5" fill="#c9a84c" fill-opacity=".75"/>
+            <circle cx="170" cy="90" r="2" fill="#c9a84c" fill-opacity=".65"/>
+            <path d="M158,106 Q170,114 182,106" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-opacity=".6"/>
+            <line x1="114" y1="86" x2="226" y2="86" stroke="#c9a84c" stroke-width=".8" stroke-opacity=".1" stroke-dasharray="4,3"/>
+            <rect x="10" y="18" width="94" height="18" rx="3" fill="#0c0a04" stroke="#4ade80" stroke-width=".8" stroke-opacity=".75"/>
+            <text x="18" y="31" fill="#4ade80" font-size="7.5" font-family="monospace" fill-opacity=".95">MTCNN &gt; OK</text>
+            <rect x="236" y="132" width="94" height="18" rx="3" fill="#0c0a04" stroke="#c9a84c" stroke-width=".6" stroke-opacity=".4"/>
+            <text x="244" y="145" fill="#c9a84c" font-size="7" font-family="monospace" fill-opacity=".85">99%  ·  ResNet50</text>
+            <rect x="0" y="144" width="340" height="16" fill="#030201"/>
+            <text x="8" y="155" fill="#c9a84c" font-size="7" font-family="monospace" fill-opacity=".45">Biometric solution  ·  Attendance automation  ·  TÜBİTAK</text>
+          </svg></div>
+          <div class="card-num">04 / Deep Learning — TÜBİTAK</div>
+          <div class="card-title">Face Recognition System</div>
+          <p class="card-desc">Developed and implemented a baseline biometric solution as a TÜBİTAK project utilizing MTCNN for face detection and ResNet50 for identity classification. Designed to automate attendance tracking in educational environments.</p>
+          <div class="card-tags"><span class="ctag">MTCNN</span><span class="ctag">ResNet50</span><span class="ctag">PyTorch</span><span class="ctag">TÜBİTAK</span></div>
+        </div>
+      </div>
+
+      <!-- P5 -->
+      <div class="tilt-card rv" data-tilt data-tilt-max="8" data-tilt-speed="600" data-tilt-glare="true" data-tilt-max-glare="0.15" style="transition-delay:.12s">
+        <div class="card-inner">
+          <div class="proj-visual"><svg viewBox="0 0 340 160" xmlns="http://www.w3.org/2000/svg" style="background:#050302">
+            <rect width="340" height="160" fill="url(#gr)"/>
+            <rect x="0" y="0" width="340" height="16" fill="#030201"/>
+            <text x="8" y="11" fill="#c9a84c" font-size="7" font-family="monospace" fill-opacity=".7">Bi-LSTM Prediction  ·  Named Entity Recognition (NER)</text>
+            <line x1="30" y1="22" x2="30" y2="134" stroke="#c9a84c" stroke-opacity=".12" stroke-width="1"/>
+            <line x1="30" y1="134" x2="330" y2="134" stroke="#c9a84c" stroke-opacity=".12" stroke-width="1"/>
+            <polygon points="30,134 60,120 96,106 132,93 168,80 204,68 240,60 276,54 312,48 312,134" fill="#c9a84c" fill-opacity=".05"/>
+            <polyline points="30,134 60,120 96,106 132,93 168,80 204,68 240,60 276,54 312,48" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-opacity=".8"/>
+            <circle cx="30" cy="134" r="3" fill="#c9a84c" fill-opacity=".7"/><circle cx="60" cy="120" r="3" fill="#c9a84c" fill-opacity=".7"/><circle cx="96" cy="106" r="3" fill="#c9a84c" fill-opacity=".7"/><circle cx="132" cy="93" r="3" fill="#c9a84c" fill-opacity=".7"/><circle cx="168" cy="80" r="3" fill="#c9a84c" fill-opacity=".7"/>
+            <rect x="34" y="142" width="38" height="13" rx="3" fill="none" stroke="#c9a84c" stroke-width=".7" stroke-opacity=".4"/>
+            <text x="41" y="152" fill="#c9a84c" font-size="7" font-family="monospace" fill-opacity=".75">GTA VI</text>
+            <rect x="78" y="142" width="50" height="13" rx="3" fill="none" stroke="#c9a84c" stroke-width=".7" stroke-opacity=".35"/>
+            <text x="85" y="152" fill="#c9a84c" font-size="7" font-family="monospace" fill-opacity=".65">Rockstar</text>
+            <rect x="0" y="144" width="340" height="16" fill="#030201"/>
+            <text x="8" y="155" fill="#c9a84c" font-size="7" font-family="monospace" fill-opacity=".45">Bidirectional LSTM  ·  NER Module  ·  PyTorch  ·  Pandas</text>
+          </svg></div>
+          <div class="card-num">05 / Deep Learning — NLP</div>
+          <div class="card-title">Game Sales Prediction &amp; NER</div>
+          <p class="card-desc">Developed a Bidirectional LSTM (Bi-LSTM) model to analyze and predict game sales trends based on historical data. Additionally implemented a Named Entity Recognition (NER) module to extract specific product information from text-based datasets.</p>
+          <div class="card-tags"><span class="ctag">Bi-LSTM</span><span class="ctag">NLP</span><span class="ctag">NER</span><span class="ctag">PyTorch</span><span class="ctag">Pandas</span></div>
+        </div>
+      </div>
+
+      <!-- P6 -->
+      <div class="tilt-card rv" data-tilt data-tilt-max="8" data-tilt-speed="600" data-tilt-glare="true" data-tilt-max-glare="0.15" style="transition-delay:.19s">
+        <div class="card-inner">
+          <div class="proj-visual"><svg viewBox="0 0 340 160" xmlns="http://www.w3.org/2000/svg" style="background:#050302">
+            <rect width="340" height="160" fill="url(#gr)"/>
+            <rect x="0" y="0" width="340" height="16" fill="#030201"/>
+            <text x="8" y="11" fill="#c9a84c" font-size="7" font-family="monospace" fill-opacity=".7">ASELSAN / BİTES  ·  XR Spatial Tracking</text>
+            <rect x="90" y="44" width="160" height="80" rx="14" fill="none" stroke="#c9a84c" stroke-width="1.2" stroke-opacity=".5"/>
+            <circle cx="136" cy="84" r="28" fill="#0a0804" stroke="#c9a84c" stroke-width="1" stroke-opacity=".4"/>
+            <circle cx="136" cy="84" r="18" fill="#0d0b05" stroke="#c9a84c" stroke-width=".7" stroke-opacity=".25"/>
+            <line x1="119" y1="78" x2="153" y2="78" stroke="#c9a84c" stroke-opacity=".15" stroke-width=".8"/><line x1="119" y1="84" x2="153" y2="84" stroke="#c9a84c" stroke-opacity=".15" stroke-width=".8"/><line x1="119" y1="90" x2="153" y2="90" stroke="#c9a84c" stroke-opacity=".15" stroke-width=".8"/>
+            <line x1="129" y1="67" x2="129" y2="101" stroke="#c9a84c" stroke-opacity=".15" stroke-width=".8"/><line x1="136" y1="67" x2="136" y2="101" stroke="#c9a84c" stroke-opacity=".15" stroke-width=".8"/><line x1="143" y1="67" x2="143" y2="101" stroke="#c9a84c" stroke-opacity=".15" stroke-width=".8"/>
+            <circle cx="204" cy="84" r="28" fill="#0a0804" stroke="#c9a84c" stroke-width="1" stroke-opacity=".4"/>
+            <circle cx="204" cy="84" r="18" fill="#0d0b05" stroke="#c9a84c" stroke-width=".7" stroke-opacity=".25"/>
+            <line x1="187" y1="78" x2="221" y2="78" stroke="#c9a84c" stroke-opacity=".15" stroke-width=".8"/><line x1="187" y1="84" x2="221" y2="84" stroke="#c9a84c" stroke-opacity=".15" stroke-width=".8"/><line x1="187" y1="90" x2="221" y2="90" stroke="#c9a84c" stroke-opacity=".15" stroke-width=".8"/>
+            <line x1="197" y1="67" x2="197" y2="101" stroke="#c9a84c" stroke-opacity=".15" stroke-width=".8"/><line x1="204" y1="67" x2="204" y2="101" stroke="#c9a84c" stroke-opacity=".15" stroke-width=".8"/><line x1="211" y1="67" x2="211" y2="101" stroke="#c9a84c" stroke-opacity=".15" stroke-width=".8"/>
+            <rect x="8" y="34" width="64" height="18" rx="3" fill="#0c0a04" stroke="#c9a84c" stroke-width=".6" stroke-opacity=".35"/>
+            <text x="40" y="47" fill="#c9a84c" font-size="7" font-family="monospace" text-anchor="middle" fill-opacity=".75">IMU Sensor</text>
+            <line x1="72" y1="43" x2="90" y2="60" stroke="#c9a84c" stroke-opacity=".18" stroke-width=".8" stroke-dasharray="3,2"/>
+            <rect x="268" y="34" width="64" height="18" rx="3" fill="#0c0a04" stroke="#c9a84c" stroke-width=".6" stroke-opacity=".3"/>
+            <text x="300" y="47" fill="#c9a84c" font-size="7" font-family="monospace" text-anchor="middle" fill-opacity=".65">GPS Track</text>
+            <line x1="268" y1="43" x2="250" y2="60" stroke="#c9a84c" stroke-opacity=".15" stroke-width=".8" stroke-dasharray="3,2"/>
+            <rect x="0" y="144" width="340" height="16" fill="#030201"/>
+            <text x="8" y="155" fill="#c9a84c" font-size="7" font-family="monospace" fill-opacity=".45">CVAT Annotation  ·  Perspective Transform  ·  Linux</text>
+          </svg></div>
+          <div class="card-num">06 / XR &amp; Robotics — ASELSAN</div>
+          <div class="card-title">XR Spatial Tracking &amp; IMU/GPS Integration</div>
+          <p class="card-desc">Conducted research on IMU and GPS integration for spatial tracking in Extended Reality (XR) environments at ASELSAN/BİTES. Managed large-scale data annotation (CVAT) and implemented Perspective Transformation for image correction within Linux-based workflows.</p>
+          <div class="card-tags"><span class="ctag">XR</span><span class="ctag">IMU/GPS</span><span class="ctag">CVAT</span><span class="ctag">Linux</span><span class="ctag">ASELSAN</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="gdiv"></div>
+
+<!-- ════ EDUCATION ════ -->
 <section id="education">
-  <div class="section-inner">
-    <div class="s-eyebrow reveal"><div class="s-eyebrow-line"></div><span class="s-eyebrow-text">Eğitim & Diller</span></div>
-    <h2 class="s-title reveal">Akademik<br><em>geçmiş</em></h2>
-    <div class="edu-lang-grid">
-      <div class="edu-card reveal-left">
-        <div class="edu-degree">Yazılım Mühendisliği</div>
-        <div class="edu-uni">Burdur Mehmet Akif Ersoy Üniversitesi</div>
-        <div class="edu-meta">Ağustos 2020 – Temmuz 2024 · Burdur, Türkiye</div>
-        <div class="gpa-label">Akademik Başarı — GPA 3.12 / 4.0</div>
-        <div class="gpa-track"><div class="gpa-fill" data-w="78"></div></div>
+  <div class="si">
+    <div class="s-ey rv"><div class="s-ln"></div><span class="s-lb">Education &amp; Languages</span></div>
+    <h2 class="s-tt rv">Academic<br><em>background</em></h2>
+    <div class="edu-g">
+      <div class="edu-card rvl">
+        <div class="edu-deg">Software Engineering</div>
+        <div class="edu-uni">Burdur Mehmet Akif Ersoy University</div>
+        <div class="edu-meta">Aug. 2020 — July 2024 &nbsp;·&nbsp; Burdur, Turkey</div>
+        <div class="gpa-lbl">Graduation GPA — 3.12 / 4.0</div>
+        <div class="gpa-tr"><div class="gpa-f" data-w="78"></div></div>
       </div>
-      <div class="lang-cards reveal-right">
-        <div class="lang-card"><div class="lang-name">Türkçe</div><div class="lang-level">Anadil</div></div>
-        <div class="lang-card"><div class="lang-name">English</div><div class="lang-level">Intermediate — B1</div></div>
+      <div class="lang-col rvr">
+        <div class="lang-c"><div class="lang-n">Turkish</div><div class="lang-l">Native</div></div>
+        <div class="lang-c"><div class="lang-n">English</div><div class="lang-l">Intermediate — B1</div></div>
       </div>
     </div>
   </div>
 </section>
 
-<div class="gold-divider"></div>
+<div class="gdiv"></div>
 
+<!-- ════ CERTIFICATES ════ -->
 <section id="certificates">
-  <div class="section-inner">
-    <div class="s-eyebrow reveal"><div class="s-eyebrow-line"></div><span class="s-eyebrow-text">Sertifikalar</span></div>
-    <h2 class="s-title reveal">Eğitim &<br><em>başarılar</em></h2>
-    <div class="cert-scroll">
-      <div class="cert-item reveal"><div class="cert-icon">🧠</div><div class="cert-issuer">Turkcell Geleceği Yazanlar</div><div class="cert-name">Derin Öğrenme CNN</div><div class="cert-desc">Evrişimsel sinir ağları ve ileri seviye derin öğrenme eğitimi</div><div class="cert-footer"><span class="cert-date">25 Şubat 2025</span><span class="cert-badge">✓ Tamamlandı</span></div></div>
-      <div class="cert-item reveal" style="transition-delay:.08s"><div class="cert-icon">📊</div><div class="cert-issuer">BTK Akademi</div><div class="cert-name">Veri Bilimine Giriş</div><div class="cert-desc">Veri analitiği, istatistiksel modelleme ve veri bilimi temelleri</div><div class="cert-footer"><span class="cert-date">22 Kasım 2024</span><span class="cert-badge">✓ Onaylı</span></div></div>
-      <div class="cert-item reveal" style="transition-delay:.16s"><div class="cert-icon">📈</div><div class="cert-issuer">Turkcell Geleceği Yazanlar</div><div class="cert-name">Veri Görselleştirme</div><div class="cert-desc">Analiz sonuçlarını etkili biçimde sunmak için görselleştirme teknikleri</div><div class="cert-footer"><span class="cert-date">22 Kasım 2024</span><span class="cert-badge">✓ Tamamlandı</span></div></div>
-      <div class="cert-item reveal" style="transition-delay:.04s"><div class="cert-icon">💾</div><div class="cert-issuer">BTK Akademi</div><div class="cert-name">Veri Modelleme</div><div class="cert-desc">Veri tabanı tasarımı ve veri modelleme prensipleri</div><div class="cert-footer"><span class="cert-date">9 Kasım 2024</span><span class="cert-badge">✓ Onaylı</span></div></div>
-      <div class="cert-item reveal" style="transition-delay:.12s"><div class="cert-icon">🔐</div><div class="cert-issuer">Cisco Networking Academy</div><div class="cert-name">Siber Güvenliğe Giriş</div><div class="cert-desc">Ağ güvenliği, siber tehditler ve koruma yöntemleri</div><div class="cert-footer"><span class="cert-date">5 Aralık 2023</span><span class="cert-badge">✓ Sertifikalı</span></div></div>
-      <div class="cert-item reveal" style="transition-delay:.20s"><div class="cert-icon">🐧</div><div class="cert-issuer">Turkcell Geleceği Yazanlar</div><div class="cert-name">Temel Linux 401</div><div class="cert-desc">Linux komut satırı, dosya sistemi ve sistem yönetimi</div><div class="cert-footer"><span class="cert-date">9 Aralık 2021</span><span class="cert-badge">✓ Tamamlandı</span></div></div>
+  <div class="si">
+    <div class="s-ey rv"><div class="s-ln"></div><span class="s-lb">Certificates</span></div>
+    <h2 class="s-tt rv">Training &amp;<br><em>achievements</em></h2>
+    <div class="cert-g">
+      <div class="cert-c rv"><div class="cert-is">Turkcell Geleceği Yazanlar</div><div class="cert-nm">Deep Learning CNN</div><div class="cert-ds">Advanced training on convolutional neural networks, CNN architectures, transfer learning, and model optimization techniques.</div><div class="cert-ft"><span class="cert-dt">Feb 25, 2025</span><span class="cert-bd">&#10003; Completed</span></div></div>
+      <div class="cert-c rv" style="transition-delay:.06s"><div class="cert-is">BTK Akademi</div><div class="cert-nm">Introduction to Data Science</div><div class="cert-ds">Data analytics, statistical modeling, data preprocessing, and foundational data science principles.</div><div class="cert-ft"><span class="cert-dt">Nov 22, 2024</span><span class="cert-bd">&#10003; Verified</span></div></div>
+      <div class="cert-c rv" style="transition-delay:.12s"><div class="cert-is">Turkcell Geleceği Yazanlar</div><div class="cert-nm">Data Visualization</div><div class="cert-ds">Visualization techniques and tools for effectively communicating data analysis results.</div><div class="cert-ft"><span class="cert-dt">Nov 22, 2024</span><span class="cert-bd">&#10003; Completed</span></div></div>
+      <div class="cert-c rv" style="transition-delay:.04s"><div class="cert-is">BTK Akademi</div><div class="cert-nm">Data Modeling</div><div class="cert-ds">Database design, relational modeling, and comprehensive data modeling principles and methodologies.</div><div class="cert-ft"><span class="cert-dt">Nov 9, 2024</span><span class="cert-bd">&#10003; Verified</span></div></div>
+      <div class="cert-c rv" style="transition-delay:.10s"><div class="cert-is">Cisco Networking Academy</div><div class="cert-nm">Introduction to Cybersecurity (SGA1)</div><div class="cert-ds">Network security, cyber threats, attack vectors, and fundamental protection methods and best practices.</div><div class="cert-ft"><span class="cert-dt">Dec 5, 2023</span><span class="cert-bd">&#10003; Certified</span></div></div>
+      <div class="cert-c rv" style="transition-delay:.16s"><div class="cert-is">Turkcell Geleceği Yazanlar</div><div class="cert-nm">Linux Fundamentals 401</div><div class="cert-ds">Linux command line, file system management, shell scripting, and system administration basics.</div><div class="cert-ft"><span class="cert-dt">Dec 9, 2021</span><span class="cert-bd">&#10003; Completed</span></div></div>
     </div>
   </div>
 </section>
 
-<div class="gold-divider"></div>
+<div class="gdiv"></div>
 
+<!-- ════ CONTACT ════ -->
 <section id="contact">
-  <div class="contact-bg-num">AK</div>
-  <div class="section-inner">
-    <div class="contact-layout">
+  <div class="si">
+    <div class="cont-g">
       <div>
-        <div class="s-eyebrow reveal"><div class="s-eyebrow-line"></div><span class="s-eyebrow-text">İletişim</span></div>
-        <h2 class="s-title reveal">Ulaşın<br><em>bana</em></h2>
-        <div class="contact-items">
-          <a href="mailto:lnkapusuz@gmail.com" class="contact-row reveal"><div class="contact-icon-wrap">📧</div><div><div class="contact-row-label">E-posta</div><div class="contact-row-val">lnkapusuz@gmail.com</div></div><span class="contact-arrow">→</span></a>
-          <a href="tel:+905015170223" class="contact-row reveal" style="transition-delay:.08s"><div class="contact-icon-wrap">📱</div><div><div class="contact-row-label">Telefon</div><div class="contact-row-val">+90 501 517 0223</div></div><span class="contact-arrow">→</span></a>
-          <a href="https://linkedin.com/in/aleyna-kapusuz-6ba953226" target="_blank" class="contact-row reveal" style="transition-delay:.16s"><div class="contact-icon-wrap">💼</div><div><div class="contact-row-label">LinkedIn</div><div class="contact-row-val">aleyna-kapusuz</div></div><span class="contact-arrow">→</span></a>
-          <a href="https://github.com/AleynaKapusuzz" target="_blank" class="contact-row reveal" style="transition-delay:.24s"><div class="contact-icon-wrap">🐙</div><div><div class="contact-row-label">GitHub</div><div class="contact-row-val">AleynaKapusuzz</div></div><span class="contact-arrow">→</span></a>
-          <div class="contact-row reveal" style="transition-delay:.32s;cursor:default"><div class="contact-icon-wrap">📍</div><div><div class="contact-row-label">Konum</div><div class="contact-row-val">İzmir, Türkiye</div></div></div>
+        <div class="s-ey rv"><div class="s-ln"></div><span class="s-lb">Contact</span></div>
+        <h2 class="s-tt rv">Let's work<br><em>together</em></h2>
+        <div class="c-list">
+          <a href="mailto:lnkapusuz@gmail.com" class="c-row rv"><div class="c-ico"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg></div><div><div class="c-lbl">Email</div><div class="c-val">lnkapusuz@gmail.com</div></div><span class="c-arr">&rarr;</span></a>
+          <a href="tel:+905015170223" class="c-row rv" style="transition-delay:.06s"><div class="c-ico"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.07 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div><div><div class="c-lbl">Phone</div><div class="c-val">+90 501 517 0223</div></div><span class="c-arr">&rarr;</span></a>
+          <a href="https://linkedin.com/in/aleyna-kapusuz-6ba953226" target="_blank" class="c-row rv" style="transition-delay:.12s"><div class="c-ico"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></div><div><div class="c-lbl">LinkedIn</div><div class="c-val">aleyna-kapusuz</div></div><span class="c-arr">&rarr;</span></a>
+          <a href="https://github.com/AleynaKapusuz?tab=repositories" target="_blank" class="c-row rv" style="transition-delay:.18s"><div class="c-ico"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></div><div><div class="c-lbl">GitHub</div><div class="c-val">AleynaKapusuzz</div></div><span class="c-arr">&rarr;</span></a>
+          <div class="c-row rv" style="transition-delay:.24s;cursor:default"><div class="c-ico"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div><div class="c-lbl">Location</div><div class="c-val">Izmir, Turkey</div></div></div>
         </div>
       </div>
-      <div class="availability-wrap reveal-right">
-        <div class="avail-large">Yeni fırsatlara<br><em>açığım</em></div>
-        <p class="avail-desc">Computer Vision, Edge AI, Generative AI ve yazılım mühendisliği alanlarında full-time, part-time veya proje bazlı işbirliklere hazırım.</p>
-        <div class="avail-status"><div class="avail-dot"></div><span class="avail-status-text">Şu an müsait</span></div>
+      <div class="av-block rvr">
+        <div class="av-big">Open to new<br><em>opportunities</em></div>
+        <p class="av-dc">Available for full-time, part-time, or project-based collaborations in Computer Vision, Edge AI, Generative AI, and software engineering. Experienced in industrial automation and LLM-based applications.</p>
+        <div class="av-pill"><div class="av-dot"></div><span class="av-tx">Currently available</span></div>
       </div>
     </div>
   </div>
 </section>
 
 <footer>
-  <div class="footer-inner">
-    <a href="#hero" class="footer-logo">AK<em>.</em></a>
-    <ul class="footer-links"><li><a href="#about">Hakkımda</a></li><li><a href="#projects">Projeler</a></li><li><a href="#experience">Deneyim</a></li><li><a href="#certificates">Sertifikalar</a></li></ul>
-    <span class="footer-copy">© 2025 Aleyna Kapusuz</span>
+  <div class="ft">
+    <a href="#hero" class="f-logo">AK<span>.</span></a>
+    <ul class="f-links"><li><a href="#about">About</a></li><li><a href="#experience">Experience</a></li><li><a href="#projects">Projects</a></li><li><a href="#certificates">Certificates</a></li></ul>
+    <span class="f-copy">&copy; 2025 Aleyna Kapusuz</span>
   </div>
 </footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
 <script>
 // LOADER
-window.addEventListener('load',()=>{setTimeout(()=>document.getElementById('loader').classList.add('hidden'),2200)});
+window.addEventListener('load',()=>setTimeout(()=>document.getElementById('loader').classList.add('out'),2300));
 
 // CURSOR
-const cur=document.getElementById('cursor'),fol=document.getElementById('cursor-follower');
-let mx=0,my=0,fx=0,fy=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
-(function anim(){fx+=(mx-fx)*.12;fy+=(my-fy)*.12;fol.style.left=fx+'px';fol.style.top=fy+'px';requestAnimationFrame(anim)})();
-document.querySelectorAll('a,button,.exp-tab,.metric,.pill,.proj-card,.cert-item,.exp-tile,.contact-row').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{cur.style.width='20px';cur.style.height='20px';fol.style.width='60px';fol.style.height='60px';fol.style.borderColor='rgba(201,168,76,.6)'});
-  el.addEventListener('mouseleave',()=>{cur.style.width='10px';cur.style.height='10px';fol.style.width='40px';fol.style.height='40px';fol.style.borderColor='rgba(201,168,76,.4)'});
-});
+const dot=document.getElementById('cur-dot'),ring=document.getElementById('cur-ring'),cross=document.getElementById('cur-cross');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';cross.style.left=mx+'px';cross.style.top=my+'px'});
+(function loop(){rx+=(mx-rx)*.22;ry+=(my-ry)*.22;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop)})();
+document.querySelectorAll('.tilt-card,.domain-c,.lang-c,.cert-c,.c-row,.edu-card').forEach(el=>{el.addEventListener('mouseenter',()=>document.body.classList.add('ch'));el.addEventListener('mouseleave',()=>document.body.classList.remove('ch'))});
+document.querySelectorAll('a').forEach(el=>{el.addEventListener('mouseenter',()=>{document.body.classList.remove('ch');document.body.classList.add('cl')});el.addEventListener('mouseleave',()=>document.body.classList.remove('cl'))});
 
-// PARTICLES
-const canvas=document.getElementById('particles-canvas'),ctx=canvas.getContext('2d');
-let W,H,parts=[];
-function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight}
-resize();window.addEventListener('resize',resize);
-class P{
-  constructor(){this.reset()}
-  reset(){this.x=Math.random()*W;this.y=Math.random()*H;this.s=Math.random()*1.5+.3;this.vx=(Math.random()-.5)*.3;this.vy=(Math.random()-.5)*.3;this.o=Math.random()*.4+.1;this.g=Math.random()>.7}
-  update(){this.x+=this.vx;this.y+=this.vy;if(this.x<0||this.x>W||this.y<0||this.y>H)this.reset()}
-  draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.s,0,Math.PI*2);ctx.fillStyle=this.g?`rgba(201,168,76,${this.o})`:`rgba(232,228,218,${this.o*.35})`;ctx.fill()}
-}
-for(let i=0;i<100;i++)parts.push(new P());
-(function animP(){
-  ctx.clearRect(0,0,W,H);
-  parts.forEach(p=>{p.update();p.draw()});
-  parts.forEach((p,i)=>{parts.slice(i+1).forEach(q=>{const d=Math.hypot(p.x-q.x,p.y-q.y);if(d<120){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.strokeStyle=`rgba(201,168,76,${.06*(1-d/120)})`;ctx.lineWidth=.5;ctx.stroke()}})});
-  requestAnimationFrame(animP);
+// BG PARTICLES
+const bgC=document.getElementById('bgCanvas'),bgCtx=bgC.getContext('2d');
+let bW,bH,bPs=[];
+const bRs=()=>{bW=bgC.width=innerWidth;bH=bgC.height=innerHeight};
+bRs();window.addEventListener('resize',bRs);
+class BP{constructor(){this.r()}r(){this.x=Math.random()*bW;this.y=Math.random()*bH;this.s=Math.random()*.8+.2;this.vx=(Math.random()-.5)*.14;this.vy=(Math.random()-.5)*.14;this.o=Math.random()*.14+.03;this.g=Math.random()>.65}u(){this.x+=this.vx;this.y+=this.vy;if(this.x<0||this.x>bW||this.y<0||this.y>bH)this.r()}d(){bgCtx.beginPath();bgCtx.arc(this.x,this.y,this.s,0,Math.PI*2);bgCtx.fillStyle=this.g?`rgba(201,168,76,${this.o})`:`rgba(220,210,180,${this.o*.35})`;bgCtx.fill()}}
+for(let i=0;i<70;i++)bPs.push(new BP());
+(function bLoop(){bgCtx.clearRect(0,0,bW,bH);bPs.forEach(p=>{p.u();p.d()});for(let i=0;i<bPs.length;i++)for(let j=i+1;j<bPs.length;j++){const d=Math.hypot(bPs[i].x-bPs[j].x,bPs[i].y-bPs[j].y);if(d<100){bgCtx.beginPath();bgCtx.moveTo(bPs[i].x,bPs[i].y);bgCtx.lineTo(bPs[j].x,bPs[j].y);bgCtx.strokeStyle=`rgba(201,168,76,${.03*(1-d/100)})`;bgCtx.lineWidth=.4;bgCtx.stroke()}}requestAnimationFrame(bLoop)})();
+
+// HERO CODE CANVAS
+(function(){
+  const cc=document.getElementById('codeCanvas'),ctx=cc.getContext('2d');
+  const resize=()=>{cc.width=cc.parentElement.offsetWidth;cc.height=cc.parentElement.offsetHeight};
+  resize();window.addEventListener('resize',resize);
+  const LINES=['import torch','model.train()','cv2.imshow()','yolo.detect()','langchain.run()','def forward(x):','return output','optimizer.step()','loss.backward()','img = cv2.read()','for epoch in range:','model.eval()','rag.query(text)','agent.run(task)','deepSORT.update()','rtsp://stream','chromadb.add()','langGraph.state()','roboflow.upload()','raspberry.gpio','torch.no_grad()','cv2.VideoCapture()','smtplib.SMTP()','pipeline.run()'];
+  const cols=[];const colW=200;const num=Math.ceil((cc.width||1600)/colW)+2;
+  for(let i=0;i<num;i++)cols.push({x:i*colW+Math.random()*60,items:Array.from({length:7},()=>({text:LINES[Math.floor(Math.random()*LINES.length)],y:Math.random()*900,speed:.22+Math.random()*.4,op:Math.random()*.38+.1,size:9+Math.random()*2}))});
+  function draw(){ctx.clearRect(0,0,cc.width,cc.height);cols.forEach(col=>{col.items.forEach(it=>{it.y-=it.speed;if(it.y<-16){it.y=cc.height+16;it.text=LINES[Math.floor(Math.random()*LINES.length)]}ctx.globalAlpha=it.op;ctx.fillStyle='#c9a84c';ctx.font=`${it.size}px "DM Mono","Courier New",monospace`;ctx.fillText(it.text,col.x,it.y)})});ctx.globalAlpha=1;requestAnimationFrame(draw)}
+  draw();
 })();
 
-// NAVBAR
-const nb=document.getElementById('navbar');
-window.addEventListener('scroll',()=>nb.classList.toggle('scrolled',scrollY>60));
+// NAV
+const navEl=document.getElementById('nav');
+window.addEventListener('scroll',()=>navEl.classList.toggle('sc',scrollY>50));
 
 // MOBILE
-document.getElementById('hamburger').addEventListener('click',()=>document.getElementById('mobileMenu').classList.add('open'));
-document.getElementById('closeBtn').addEventListener('click',()=>document.getElementById('mobileMenu').classList.remove('open'));
-document.querySelectorAll('.mobile-menu a').forEach(a=>a.addEventListener('click',()=>document.getElementById('mobileMenu').classList.remove('open')));
+document.getElementById('mobHb').addEventListener('click',()=>document.getElementById('mobM').classList.add('op'));
+document.getElementById('mobClose').addEventListener('click',()=>document.getElementById('mobM').classList.remove('op'));
+document.querySelectorAll('.mob-m a').forEach(a=>a.addEventListener('click',()=>document.getElementById('mobM').classList.remove('op')));
 
 // SMOOTH SCROLL
-document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'})}})});
+document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'})}}));
 
-// EXP TABS
-document.querySelectorAll('.exp-tab').forEach(tab=>{
-  tab.addEventListener('click',()=>{
-    const i=tab.dataset.tab;
-    document.querySelectorAll('.exp-tab').forEach(t=>t.classList.remove('active'));
-    document.querySelectorAll('.exp-content').forEach(c=>c.classList.remove('active'));
-    tab.classList.add('active');
-    document.getElementById('exp-'+i).classList.add('active');
-  });
-});
+// SCROLL REVEAL
+const ro=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vs')}),{threshold:.07,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.rv,.rvl,.rvr').forEach(el=>ro.observe(el));
 
-// REVEAL
-const ro=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:.1,rootMargin:'0px 0px -60px 0px'});
-document.querySelectorAll('.reveal,.reveal-left,.reveal-right').forEach(el=>ro.observe(el));
-
-// SKILL BARS
-const so=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      e.target.querySelectorAll('.skill-bar-fill').forEach((b,i)=>setTimeout(()=>{b.style.width=b.dataset.w+'%'},i*100));
-      e.target.querySelectorAll('.gpa-fill').forEach(b=>setTimeout(()=>{b.style.width=b.dataset.w+'%'},200));
-      so.unobserve(e.target);
-    }
-  });
-},{threshold:.2});
+// SKILL BARS + GPA
+const so=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.querySelectorAll('.sk-fill').forEach((b,i)=>setTimeout(()=>b.style.width=b.dataset.w+'%',i*80));e.target.querySelectorAll('.gpa-f').forEach(b=>setTimeout(()=>b.style.width=b.dataset.w+'%',100));so.unobserve(e.target)}})},{threshold:.15});
 document.querySelectorAll('#about,#education').forEach(s=>so.observe(s));
 
 // COUNT UP
-function countUp(el,target,suffix,decimal){
-  const dur=1500,step=target/(dur/16);let v=0;
-  const t=setInterval(()=>{v+=step;if(v>=target){v=target;clearInterval(t)}el.textContent=(decimal?v.toFixed(2):Math.floor(v))+suffix},16);
-}
-const mo=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      e.target.querySelectorAll('.metric-num').forEach(m=>{
-        const tgt=parseFloat(m.dataset.target),suf=m.dataset.suffix||'',dec=m.dataset.decimal==='true';
-        countUp(m,tgt,suf,dec);
-      });
-      mo.unobserve(e.target);
-    }
-  });
-},{threshold:.4});
-document.querySelectorAll('.hero-card').forEach(el=>mo.observe(el));
-
-// PARALLAX HERO TEXT
-document.addEventListener('mousemove',e=>{
-  const x=(e.clientX/window.innerWidth-.5)*20,y=(e.clientY/window.innerHeight-.5)*10;
-  const bg=document.getElementById('heroBg');
-  if(bg)bg.style.transform=`translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
-});
+let counted=false;
+const co=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting&&!counted){counted=true;document.querySelectorAll('.h-stat-n[data-c]').forEach(el=>{const t=parseFloat(el.dataset.c),s=el.dataset.s||'',d=el.dataset.d==='1';let v=0;const step=t/65,tm=setInterval(()=>{v+=step;if(v>=t){v=t;clearInterval(tm)}el.textContent=(d?v.toFixed(2):Math.floor(v))+s},18)});co.unobserve(e.target)}})},{threshold:.5});
+const hs=document.querySelector('.h-stats');if(hs)co.observe(hs);
 
 // MAGNETIC BUTTONS
-document.querySelectorAll('.cta-primary,.cta-secondary,.nav-contact').forEach(btn=>{
-  btn.addEventListener('mousemove',e=>{const r=btn.getBoundingClientRect();btn.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.15}px,${(e.clientY-r.top-r.height/2)*.15}px)`});
-  btn.addEventListener('mouseleave',()=>btn.style.transform='');
-});
+document.querySelectorAll('.btn-g,.btn-o,.n-cta').forEach(btn=>{btn.addEventListener('mousemove',e=>{const r=btn.getBoundingClientRect();btn.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.1}px,${(e.clientY-r.top-r.height/2)*.1}px)`});btn.addEventListener('mouseleave',()=>btn.style.transform='')});
+
+// VANILLA TILT init (via data attributes — also watch for reveal)
+const tiltObs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting&&window.VanillaTilt&&!e.target.vanillaTilt){VanillaTilt.init(e.target,{max:parseFloat(e.target.dataset.tiltMax)||7,speed:600,glare:true,'max-glare':parseFloat(e.target.dataset.tiltMaxGlare)||.12})}})},{threshold:.1});
+document.querySelectorAll('.tilt-card').forEach(el=>tiltObs.observe(el));
 </script>
 </body>
 </html>
