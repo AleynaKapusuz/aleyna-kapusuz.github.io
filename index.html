@@ -1,1328 +1,1142 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aleyna Kapusuz — AI & Computer Vision Engineer</title>
+<title>Aleyna Kapusuz — AI &amp; Görsel Zeka Mühendisi</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;1,9..40,800&family=DM+Mono:wght@400;500&family=Bebas+Neue&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-@media(pointer:fine){*{cursor:none}}
-:root{
-  --bg:#060504;--bg2:#0b0908;--card:rgba(18,14,8,0.95);
-  --gold:#c9a84c;--gold2:#e8c97a;--gold3:#a07830;--golddim:rgba(201,168,76,0.18);
-  --gborder:rgba(201,168,76,0.2);--gborder2:rgba(201,168,76,0.08);
-  --text:#f0ece0;--text2:#cfc8b4;--muted:#8a7d64;--muted2:#5a5040;--white:#fff;
-}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden;line-height:1.65;font-size:15px}
+  :root{
+    --bg:#0b0d10;
+    --bg2:#12151a;
+    --bg3:#171b21;
+    --amber:#e8a25c;
+    --amber-dim:#8a6438;
+    --cyan:#5ecbe8;
+    --ink:#f4efe6;
+    --ink-dim:#a8a49c;
+    --ink-faint:#6f6c66;
+    --line: rgba(232,162,92,0.20);
+    --line-soft: rgba(244,239,230,0.08);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Manrope', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    position:relative;
+  }
+  ::selection{ background:rgba(232,162,92,0.3); }
+  a{ color:inherit; }
+  .container{ max-width:1100px; margin:0 auto; padding:0 24px; position:relative; }
 
-/* CURSOR */
-#cur-dot{position:fixed;width:7px;height:7px;background:var(--gold2);border-radius:50%;pointer-events:none;z-index:10000;transform:translate(-50%,-50%);transition:transform .08s,width .18s,height .18s;mix-blend-mode:screen}
-#cur-ring{position:fixed;width:36px;height:36px;border:1.5px solid var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .22s cubic-bezier(.16,1,.3,1),height .22s,border-radius .22s,border-color .2s}
-body.ch #cur-ring{width:52px;height:52px;border-color:var(--gold2)}
-body.ch #cur-dot{transform:translate(-50%,-50%) scale(2.2)}
-body.cl #cur-ring{width:44px;height:44px;border-radius:4px;border-color:var(--gold2)}
+  /* ---------- AURORA: sabit, çok hafif iki tonlu ışık lekeleri ---------- */
+  .aurora{
+    position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden;
+  }
+  .aurora span{
+    position:absolute; border-radius:50%; filter:blur(90px); opacity:0.14;
+    animation:auroraDrift 26s ease-in-out infinite;
+  }
+  .aurora span:nth-child(1){ width:420px; height:420px; left:-8%; top:-6%; background:var(--amber); animation-duration:30s; }
+  .aurora span:nth-child(2){ width:380px; height:380px; right:-10%; top:20%; background:var(--cyan); animation-duration:24s; animation-delay:-4s; }
+  .aurora span:nth-child(3){ width:340px; height:340px; left:20%; top:60%; background:var(--amber); animation-duration:28s; animation-delay:-9s; opacity:0.09; }
+  .aurora span:nth-child(4){ width:400px; height:400px; right:8%; bottom:-8%; background:var(--cyan); animation-duration:32s; animation-delay:-14s; opacity:0.09; }
+  @keyframes auroraDrift{
+    0%,100%{ transform:translate(0,0) scale(1); }
+    33%{ transform:translate(50px,-30px) scale(1.1); }
+    66%{ transform:translate(-30px,20px) scale(0.94); }
+  }
+  section, .scene, .nav, footer{ position:relative; z-index:1; }
 
-/* BG CANVAS */
-#bgCanvas{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.55}
+  /* ---------- arkaplan parçacıkları (her bölümde hafif hareket) ---------- */
+  .bg-particles{
+    position:absolute; inset:0;
+    overflow:hidden;
+    pointer-events:none;
+    z-index:0;
+  }
+  .bg-particles span{
+    position:absolute;
+    width:3px; height:3px;
+    border-radius:50%;
+    background:var(--amber);
+    opacity:0.3;
+    filter:blur(0.5px);
+    animation:drift 14s ease-in-out infinite;
+  }
+  .bg-particles span:nth-child(2){ background:var(--cyan); animation-duration:18s; }
+  .bg-particles span:nth-child(3){ background:var(--amber); animation-duration:22s; }
+  .bg-particles span:nth-child(4){ background:var(--cyan); animation-duration:16s; }
+  @keyframes drift{
+    0%,100%{ transform:translate(0,0); opacity:0.2; }
+    50%{ transform:translate(40px,-60px); opacity:0.65; }
+  }
 
-/* ══════════════════════════════════
-   INTRO SCREEN
-══════════════════════════════════ */
-#intro-screen{
-  position:fixed;inset:0;background:var(--bg);z-index:9990;
-  display:flex;align-items:center;justify-content:center;
-  transition:opacity 1.2s cubic-bezier(.16,1,.3,1),visibility 1.2s;
-  overflow:hidden;
-}
-#intro-screen.out{opacity:0;visibility:hidden;pointer-events:none}
-.ibg{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none}
-.ibg1{width:500px;height:500px;top:-150px;left:-150px;background:radial-gradient(circle,rgba(201,168,76,.09),transparent 70%)}
-.ibg2{width:400px;height:400px;bottom:-100px;right:-100px;background:radial-gradient(circle,rgba(160,120,48,.07),transparent 70%)}
-.intro-stars{position:absolute;inset:0;pointer-events:none}
+  /* ===================================================
+     HERO
+     =================================================== */
+  .scene{
+    position:relative; width:100%; max-width:1800px; margin:0 auto; aspect-ratio:1600/900; overflow:hidden;
+    background:#000; container-type:inline-size; container-name:scene;
+  }
+  .scene > img{
+    position:absolute; inset:-2%; width:104%; height:104%; object-fit:cover; display:block;
+    animation:heroKenBurns 26s ease-in-out infinite alternate;
+    transition:transform 0.6s ease-out;
+  }
+  @keyframes heroKenBurns{
+    0%{ transform:scale(1) translate(0,0); }
+    100%{ transform:scale(1.09) translate(-1.2%, -0.8%); }
+  }
+  .scene::before{
+    content:""; position:absolute; inset:0; z-index:1; pointer-events:none; mix-blend-mode:screen;
+    background-image:
+      radial-gradient(2px 2px at 22% 34%, rgba(255,255,255,0.9), transparent 60%),
+      radial-gradient(2px 2px at 68% 22%, rgba(255,255,255,0.85), transparent 60%),
+      radial-gradient(1.5px 1.5px at 78% 40%, rgba(255,255,255,0.8), transparent 60%),
+      radial-gradient(1.5px 1.5px at 40% 46%, rgba(255,255,255,0.75), transparent 60%),
+      radial-gradient(2px 2px at 85% 55%, rgba(255,255,255,0.85), transparent 60%),
+      radial-gradient(1.5px 1.5px at 12% 52%, rgba(255,255,255,0.7), transparent 60%);
+    animation:cityTwinkle 3.6s ease-in-out infinite;
+  }
+  @keyframes cityTwinkle{
+    0%,100%{ opacity:0.25; }
+    50%{ opacity:0.75; }
+  }
+  .scene::after{
+    content:""; position:absolute; left:0; right:0; bottom:0; height:30%;
+    background:linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%);
+    pointer-events:none; z-index:1;
+  }
 
-.intro-scene{display:flex;flex-direction:column;align-items:center;animation:sceneIn 1s cubic-bezier(.16,1,.3,1) .3s both;position:relative;z-index:5}
-@keyframes sceneIn{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+  /* ---------- hero parçacıkları: odada süzülen ışık taneleri ---------- */
+  .hero-particles{ position:absolute; inset:0; z-index:2; pointer-events:none; overflow:hidden; }
+  .hero-particles span{
+    position:absolute; bottom:-4%; border-radius:50%;
+    background:radial-gradient(circle, rgba(255,255,255,0.9), rgba(94,203,232,0.4) 60%, transparent 75%);
+    opacity:0; animation:heroParticleRise linear infinite;
+  }
+  @keyframes heroParticleRise{
+    0%{ bottom:-4%; transform:translateX(0) scale(0.6); opacity:0; }
+    10%{ opacity:var(--pmax, 0.65); }
+    85%{ opacity:var(--pmax, 0.65); }
+    100%{ bottom:108%; transform:translateX(var(--drift,10px)) scale(1); opacity:0; }
+  }
+  .hero-particles span:nth-child(1){ left:6%;  width:3px; height:3px; --pmax:0.5; --drift:14px; animation-duration:16s; animation-delay:0s; }
+  .hero-particles span:nth-child(2){ left:14%; width:2px; height:2px; --pmax:0.4; --drift:-10px; animation-duration:13s; animation-delay:2s; }
+  .hero-particles span:nth-child(3){ left:23%; width:4px; height:4px; --pmax:0.6; --drift:18px; animation-duration:19s; animation-delay:4.5s; }
+  .hero-particles span:nth-child(4){ left:33%; width:2px; height:2px; --pmax:0.35; --drift:-8px; animation-duration:14s; animation-delay:1s; }
+  .hero-particles span:nth-child(5){ left:44%; width:3px; height:3px; --pmax:0.55; --drift:12px; animation-duration:17s; animation-delay:6s; }
+  .hero-particles span:nth-child(6){ left:57%; width:2px; height:2px; --pmax:0.4; --drift:-16px; animation-duration:15s; animation-delay:3s; }
+  .hero-particles span:nth-child(7){ left:66%; width:4px; height:4px; --pmax:0.6; --drift:10px; animation-duration:20s; animation-delay:8s; }
+  .hero-particles span:nth-child(8){ left:76%; width:2px; height:2px; --pmax:0.35; --drift:-12px; animation-duration:12s; animation-delay:5s; }
+  .hero-particles span:nth-child(9){ left:85%; width:3px; height:3px; --pmax:0.55; --drift:16px; animation-duration:18s; animation-delay:1.5s; }
+  .hero-particles span:nth-child(10){ left:93%; width:2px; height:2px; --pmax:0.4; --drift:-9px; animation-duration:14.5s; animation-delay:7s; }
 
-.intro-monitor-wrap{position:relative;animation:introFloat 4s ease-in-out infinite}
-@keyframes introFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
-.intro-monitor{width:380px;height:240px;background:linear-gradient(145deg,#1c1609,#0d0b06);border:1.5px solid rgba(201,168,76,.5);border-radius:12px;position:relative;overflow:hidden;box-shadow:0 0 60px rgba(201,168,76,.15),0 24px 80px rgba(0,0,0,.7)}
-.intro-mbar{height:24px;background:rgba(201,168,76,.07);border-bottom:1px solid rgba(201,168,76,.18);display:flex;align-items:center;gap:6px;padding:0 12px}
-.id-r{width:8px;height:8px;border-radius:50%;background:#ef4444;opacity:.8}
-.id-y{width:8px;height:8px;border-radius:50%;background:#eab308;opacity:.8}
-.id-g{width:8px;height:8px;border-radius:50%;background:#22c55e;opacity:.8}
-.imtitle{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:rgba(201,168,76,.6);margin-left:auto;text-transform:uppercase}
-.intro-code{position:absolute;inset:0;top:24px;padding:12px 16px;overflow:hidden;font-family:'DM Mono','Courier New',monospace}
-.intro-scan{position:absolute;inset:0;top:24px;pointer-events:none;z-index:20;background:linear-gradient(180deg,transparent 0%,rgba(201,168,76,.05) 50%,transparent 100%);height:44px;animation:iscan 3s linear infinite}
-@keyframes iscan{0%{transform:translateY(-44px)}100%{transform:translateY(260px)}}
-.intro-prog{position:absolute;bottom:0;left:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--gold2));width:0%;animation:iprog 3.8s cubic-bezier(.16,1,.3,1) .6s forwards}
-@keyframes iprog{to{width:100%}}
-.istand{width:90px;height:20px;background:linear-gradient(90deg,#0d0b06,#1c1609,#0d0b06);border:1px solid rgba(201,168,76,.25);margin:0 auto;clip-path:polygon(14% 0,86% 0,100% 100%,0 100%)}
-.ibase{width:150px;height:9px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.3),transparent);border-radius:5px;margin:0 auto}
+  .steam{ position:absolute; left:30.6%; top:70%; width:4vw; height:14vw; z-index:2; pointer-events:none; }
+  .wisp{
+    position:absolute; bottom:0; left:50%; width:1.3vw; height:1.3vw; border-radius:50%;
+    background:radial-gradient(circle, rgba(255,255,255,0.55), rgba(255,255,255,0) 70%);
+    filter:blur(0.35vw); opacity:0; animation:steamRise 4.5s ease-in infinite;
+  }
+  .wisp:nth-child(1){ animation-delay:0s;   left:46%; }
+  .wisp:nth-child(2){ animation-delay:1.5s; left:54%; }
+  .wisp:nth-child(3){ animation-delay:3s;   left:50%; }
+  @keyframes steamRise{
+    0%{ transform:translate(-50%,0) scale(0.5); opacity:0; }
+    12%{ opacity:0.4; }
+    50%{ transform:translate(calc(-50% + 0.5vw), -6vw) scale(1.1); opacity:0.28; }
+    100%{ transform:translate(calc(-50% - 0.6vw), -12.5vw) scale(1.8); opacity:0; }
+  }
+  .cards-layer{ position:absolute; z-index:3; top:23.5%; left:0; width:100%; height:39%; perspective:95vw; perspective-origin:50% 15%; }
+  .card{
+    position:absolute; top:0; height:100%; width:13%; border-radius:1vw; overflow:hidden; cursor:pointer;
+    transform-style:preserve-3d; will-change:transform;
+    box-shadow:0 1vw 2.4vw rgba(0,0,0,0.6), 0 0 1.2vw rgba(94,203,232,0.10);
+    transition:transform 0.15s ease-out, box-shadow 0.4s ease;
+  }
+  /* Her kartın kendi taban duruşu + kendi yüzme animasyonu (tarayıcı uyumluluğu için
+     @property yerine düz transform anahtar kareleri kullanılıyor) */
+  .card:nth-child(1){ left:4%;    animation:cardFloat1 6s ease-in-out infinite; }
+  .card:nth-child(2){ left:19.8%; animation:cardFloat2 6s ease-in-out infinite; animation-delay:0.9s; }
+  .card:nth-child(3){ left:35.6%; animation:cardFloat3 6s ease-in-out infinite; animation-delay:1.8s; }
+  .card:nth-child(4){ left:51.4%; animation:cardFloat4 6s ease-in-out infinite; animation-delay:2.7s; }
+  .card:nth-child(5){ left:67.2%; animation:cardFloat5 6s ease-in-out infinite; animation-delay:3.6s; }
+  .card:nth-child(6){ left:83%;   animation:cardFloat6 6s ease-in-out infinite; animation-delay:4.5s; }
 
-.ibadge{position:absolute;background:rgba(6,5,3,.95);border:1px solid rgba(201,168,76,.32);border-radius:7px;padding:8px 13px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase;backdrop-filter:blur(10px);white-space:nowrap;animation:ibapp .6s cubic-bezier(.16,1,.3,1) both,ibfl var(--f,3.5s) var(--fd,0s) ease-in-out infinite}
-@keyframes ibapp{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
-@keyframes ibfl{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
-.ibdot{width:5px;height:5px;border-radius:50%;background:#22c55e;display:inline-block;margin-right:7px;animation:ibp 2s infinite}
-@keyframes ibp{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.5)}50%{box-shadow:0 0 0 5px rgba(34,197,94,0)}}
-.ib1{top:-22px;left:-55px;animation-delay:.8s;--f:3.5s;--fd:.4s}
-.ib2{top:12px;right:-85px;animation-delay:1s;--f:4s;--fd:.9s;border-color:rgba(232,201,122,.35);color:var(--gold2)}
-.ib3{bottom:36px;left:-95px;animation-delay:1.2s;--f:3.8s;--fd:0s;border-color:rgba(34,197,94,.28);color:#4ade80}
-.ib4{bottom:-12px;right:-75px;animation-delay:1.4s;--f:4.2s;--fd:1.4s}
+  @keyframes cardFloat1{ 0%,100%{ transform:translateY(0.5vw) translateZ(3vw) rotateY(17deg) scale(1.04); } 50%{ transform:translateY(-0.3vw) translateZ(3vw) rotateY(18.6deg) scale(1.04); } }
+  @keyframes cardFloat2{ 0%,100%{ transform:translateY(-0.2vw) translateZ(-2vw) rotateY(10deg) scale(1.01); } 50%{ transform:translateY(-1vw) translateZ(-2vw) rotateY(11.6deg) scale(1.01); } }
+  @keyframes cardFloat3{ 0%,100%{ transform:translateY(-0.6vw) translateZ(-6vw) rotateY(4deg) scale(0.98); } 50%{ transform:translateY(-1.4vw) translateZ(-6vw) rotateY(5.6deg) scale(0.98); } }
+  @keyframes cardFloat4{ 0%,100%{ transform:translateY(-0.6vw) translateZ(-6vw) rotateY(-4deg) scale(0.98); } 50%{ transform:translateY(-1.4vw) translateZ(-6vw) rotateY(-5.6deg) scale(0.98); } }
+  @keyframes cardFloat5{ 0%,100%{ transform:translateY(-0.2vw) translateZ(-2vw) rotateY(-10deg) scale(1.01); } 50%{ transform:translateY(-1vw) translateZ(-2vw) rotateY(-11.6deg) scale(1.01); } }
+  @keyframes cardFloat6{ 0%,100%{ transform:translateY(0.5vw) translateZ(3vw) rotateY(-17deg) scale(1.04); } 50%{ transform:translateY(-0.3vw) translateZ(3vw) rotateY(-18.6deg) scale(1.04); } }
 
-.intro-info{margin-top:32px;text-align:center;animation:iinfoin 1s cubic-bezier(.16,1,.3,1) .9s both}
-@keyframes iinfoin{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-.ieyebrow{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:12px}
-.ieyebrow::before,.ieyebrow::after{content:'';width:32px;height:1px;background:var(--gold);opacity:.4}
-.iname{font-family:'DM Sans',sans-serif;font-size:clamp(28px,5vw,44px);font-weight:800;letter-spacing:-1.5px;color:#fff;margin-bottom:7px}
-.iname span{color:transparent;-webkit-text-stroke:1.5px var(--gold)}
-.isub{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-bottom:22px}
-.iskip{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);background:transparent;border:1px solid rgba(201,168,76,.25);padding:10px 26px;border-radius:2px;cursor:pointer;transition:all .3s;animation:iinfoin 1s cubic-bezier(.16,1,.3,1) 1.4s both}
-@media(pointer:fine){.iskip{cursor:none}}
-.iskip:hover{border-color:rgba(201,168,76,.6);background:rgba(201,168,76,.07)}
+  .card:nth-child(1):hover{ transform:translateY(0.5vw) translateZ(3vw) rotateY(17deg) scale(1.09); }
+  .card:nth-child(2):hover{ transform:translateY(-0.2vw) translateZ(-2vw) rotateY(10deg) scale(1.06); }
+  .card:nth-child(3):hover{ transform:translateY(-0.6vw) translateZ(-6vw) rotateY(4deg) scale(1.03); }
+  .card:nth-child(4):hover{ transform:translateY(-0.6vw) translateZ(-6vw) rotateY(-4deg) scale(1.03); }
+  .card:nth-child(5):hover{ transform:translateY(-0.2vw) translateZ(-2vw) rotateY(-10deg) scale(1.06); }
+  .card:nth-child(6):hover{ transform:translateY(0.5vw) translateZ(3vw) rotateY(-17deg) scale(1.09); }
+  .card::before{
+    content:""; position:absolute; top:0; left:-160%; width:55%; height:100%;
+    background:linear-gradient(75deg, transparent, rgba(255,255,255,0.16), transparent);
+    transform:skewX(-20deg); pointer-events:none; z-index:5; animation:cardShine 8s ease-in-out infinite;
+  }
+  .card:nth-child(1)::before{ animation-delay:0.4s; }
+  .card:nth-child(2)::before{ animation-delay:1.7s; }
+  .card:nth-child(3)::before{ animation-delay:3.0s; }
+  .card:nth-child(4)::before{ animation-delay:4.3s; }
+  .card:nth-child(5)::before{ animation-delay:5.6s; }
+  .card:nth-child(6)::before{ animation-delay:6.9s; }
+  @keyframes cardShine{ 0%,88%,100%{ left:-160%; } 94%{ left:140%; } }
+  .card:hover{ box-shadow:0 1.8vw 3.4vw rgba(0,0,0,0.68), 0 0 2.4vw rgba(255,157,77,0.28), 0 0 3.6vw rgba(160,107,255,0.18); }
+  .card img{
+    width:100%; height:100%; object-fit:cover; display:block;
+    transition:transform 0.5s ease-out, filter 0.5s ease-out;
+    filter:saturate(0.9) brightness(0.9) contrast(1.03);
+  }
+  .card:hover img{ filter:saturate(1) brightness(0.98) contrast(1.03); }
+  .card-glow{
+    position:absolute; inset:0;
+    background:radial-gradient(30vw circle at var(--mx,50%) var(--my,50%), rgba(255,255,255,0.14), transparent 45%);
+    opacity:0; transition:opacity 0.3s ease; pointer-events:none;
+  }
+  .card:hover .card-glow{opacity:1;}
+  .scroll-cue{
+    position:absolute; bottom:3%; left:50%; transform:translateX(-50%); z-index:3;
+    display:flex; flex-direction:column; align-items:center; gap:0.5vw;
+    color:rgba(244,239,230,0.55); font-size:1.1vw; letter-spacing:0.08em;
+  }
+  .scroll-cue svg{ width:1.6vw; height:1.6vw; animation:cueBounce 1.8s ease-in-out infinite; }
+  @keyframes cueBounce{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(0.5vw);} }
 
-/* ══════════════════════════════════
-   NAV
-══════════════════════════════════ */
-nav{position:fixed;top:0;width:100%;z-index:200;padding:22px 0;transition:all .35s}
-nav.sc{background:rgba(6,5,4,.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--gborder2);padding:13px 0}
-.nw{max-width:1340px;margin:0 auto;padding:0 60px;display:flex;justify-content:space-between;align-items:center}
-.n-logo{font-family:'DM Sans',sans-serif;font-weight:800;font-size:18px;letter-spacing:-1px;color:var(--white);text-decoration:none}
-.n-logo span{color:var(--gold)}
-.n-links{display:flex;gap:36px;list-style:none}
-.n-links a{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;position:relative}
-.n-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold);transition:width .3s cubic-bezier(.16,1,.3,1)}
-.n-links a:hover{color:var(--gold)}.n-links a:hover::after{width:100%}
-.n-cta{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);border:1px solid rgba(201,168,76,.3);padding:9px 22px;border-radius:2px;text-decoration:none;transition:all .3s}
-.n-cta:hover{background:var(--gold);color:var(--bg)}
-.mob-hb{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:3px}
-.mob-hb span{display:block;width:22px;height:1px;background:var(--white);border-radius:1px}
-.mob-m{display:none;position:fixed;inset:0;background:var(--bg);z-index:190;flex-direction:column;align-items:center;justify-content:center;gap:32px}
-.mob-m.op{display:flex}
-.mob-m a{font-family:'DM Sans',sans-serif;font-size:32px;font-weight:700;color:var(--text);text-decoration:none;transition:color .2s}
-.mob-m a:hover{color:var(--gold)}
-.mob-close{position:absolute;top:24px;right:40px;font-size:24px;background:none;border:none;color:var(--muted);cursor:pointer}
+  /* ===================================================
+     NAV
+     =================================================== */
+  .nav{
+    position:sticky; top:0; z-index:40;
+    background:rgba(11,13,16,0.86);
+    backdrop-filter:blur(10px) saturate(140%); -webkit-backdrop-filter:blur(10px) saturate(140%);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .nav-inner{ max-width:1100px; margin:0 auto; padding:16px 24px; display:flex; align-items:center; gap:16px; }
+  .nav-mark{ font-family:'Cormorant Garamond', serif; font-size:20px; font-weight:600; white-space:nowrap; flex-shrink:0; }
+  .nav-mark .dot{ color:var(--amber); }
+  .nav-links{
+    display:flex; gap:22px; overflow-x:auto; scrollbar-width:none; font-size:14px; color:var(--ink-dim);
+    padding-right:28px; margin-right:-28px; flex:1; min-width:0;
+    -webkit-mask-image:linear-gradient(to right, black 0%, black 88%, transparent 100%);
+    mask-image:linear-gradient(to right, black 0%, black 88%, transparent 100%);
+  }
+  .nav-links::-webkit-scrollbar{ display:none; }
+  .nav-links a{ text-decoration:none; white-space:nowrap; transition:color 0.2s ease; position:relative; flex-shrink:0; }
+  .nav-links a::after{
+    content:""; position:absolute; left:0; bottom:-4px; width:0; height:1px; background:var(--amber);
+    transition:width 0.25s ease;
+  }
+  .nav-links a:hover{ color:var(--amber); }
+  .nav-links a:hover::after{ width:100%; }
 
-/* ══════════════════════════════════
-   HERO  — split layout like the image
-══════════════════════════════════ */
-#hero{
-  min-height:100vh;display:flex;align-items:center;
-  position:relative;overflow:hidden;padding:0;
-}
-.hero-bg-overlay{
-  position:absolute;inset:0;z-index:1;
-  background:radial-gradient(ellipse 70% 80% at 30% 50%,rgba(201,168,76,.06) 0%,transparent 70%),
-             radial-gradient(ellipse 50% 60% at 80% 50%,rgba(6,5,4,.85) 0%,transparent 80%);
-}
-.hg{position:absolute;border-radius:50%;filter:blur(120px);pointer-events:none;z-index:1}
-.hg1{width:600px;height:600px;top:-200px;left:-150px;background:radial-gradient(circle,rgba(201,168,76,.07),transparent 70%);animation:gOrb 12s ease-in-out infinite}
-.hg2{width:500px;height:500px;bottom:-150px;right:200px;background:radial-gradient(circle,rgba(160,120,48,.05),transparent 70%);animation:gOrb 16s ease-in-out infinite;animation-delay:-7s}
-@keyframes gOrb{0%,100%{transform:scale(1) translateY(0)}50%{transform:scale(1.07) translateY(-20px)}}
+  /* ===================================================
+     SECTION SCAFFOLDING + reveal-on-scroll
+     =================================================== */
+  section{ padding:64px 0; position:relative; overflow:hidden; scroll-margin-top:76px; }
+  .reveal{ opacity:0; transform:translateY(28px); transition:opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.in-view{ opacity:1; transform:translateY(0); }
+  .reveal-stagger > *{ opacity:0; transform:translateY(18px); transition:opacity 0.55s ease, transform 0.55s ease; }
+  .reveal-stagger.in-view > *{ opacity:1; transform:translateY(0); }
+  .reveal-stagger.in-view > *:nth-child(1){ transition-delay:0.02s; }
+  .reveal-stagger.in-view > *:nth-child(2){ transition-delay:0.08s; }
+  .reveal-stagger.in-view > *:nth-child(3){ transition-delay:0.14s; }
+  .reveal-stagger.in-view > *:nth-child(4){ transition-delay:0.20s; }
+  .reveal-stagger.in-view > *:nth-child(5){ transition-delay:0.26s; }
+  .reveal-stagger.in-view > *:nth-child(6){ transition-delay:0.32s; }
+  .reveal-stagger.in-view > *:nth-child(7){ transition-delay:0.38s; }
 
-.hero-in{
-  max-width:1340px;margin:0 auto;width:100%;
-  display:grid;grid-template-columns:1fr 1fr;
-  min-height:100vh;position:relative;z-index:2;
-}
+  .section-eyebrow{ font-size:13px; color:var(--amber); letter-spacing:0.02em; margin-bottom:10px; position:relative; z-index:1; font-weight:700; }
+  .section-title{
+    font-family:'Cormorant Garamond', serif; font-weight:500; font-size:clamp(30px,4vw,42px);
+    line-height:1.15; margin:0 0 20px; color:var(--ink); position:relative; z-index:1;
+  }
+  .section-title em{ font-style:italic; color:var(--amber); }
 
-/* LEFT — big typography */
-.hero-left{
-  display:flex;flex-direction:column;justify-content:center;
-  padding:120px 60px 60px 60px;
-}
-.h-eyebrow{display:inline-flex;align-items:center;gap:14px;margin-bottom:32px;animation:fadeUp 1s .5s both}
-.h-ey-line{width:36px;height:1px;background:var(--gold)}
-.h-ey-txt{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold)}
+  /* ---------- ABOUT ---------- */
+  #about{ border-top:1px solid var(--line-soft); padding-bottom:16px; }
+  .about-flex{ display:flex; gap:40px; align-items:flex-start; flex-wrap:wrap; }
+  .about-flex .about-lead{ flex:1 1 380px; margin-bottom:0; }
+  .about-flex .stat-row{ flex:0 0 260px; grid-template-columns:repeat(2,1fr); gap:12px; }
+  @media (max-width:720px){
+    .about-flex{ flex-direction:column; }
+    .about-flex .stat-row{ flex-basis:auto; width:100%; }
+  }
+  .about-lead{ font-family:'Cormorant Garamond', serif; font-style:italic; font-size:21px; line-height:1.6; color:var(--ink-dim); max-width:64ch; margin:0 0 36px; position:relative; z-index:1; }
+  .about-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px 30px; margin-bottom:50px; position:relative; z-index:1; }
+  @media (max-width:680px){ .about-grid{ grid-template-columns:repeat(2,1fr); } }
+  .about-field dt{ font-size:11px; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-faint); margin-bottom:4px; }
+  .about-field dd{ margin:0; font-size:15px; color:var(--ink); }
+  .about-field a{ text-decoration:none; border-bottom:1px solid var(--line); }
+  .about-field a:hover{ border-color:var(--amber); color:var(--amber); }
 
-.h-name-block{margin-bottom:28px}
-.h-firstname{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:clamp(80px,10vw,152px);
-  letter-spacing:2px;line-height:.88;
-  color:var(--white);display:block;overflow:hidden;
-}
-.h-firstname .inn{display:block;transform:translateY(110%);animation:sUp .9s cubic-bezier(.16,1,.3,1) .35s forwards}
-.h-lastname{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:clamp(80px,10vw,152px);
-  letter-spacing:2px;line-height:.88;
-  color:transparent;-webkit-text-stroke:2px var(--gold);
-  display:block;overflow:hidden;position:relative;
-}
-.h-lastname .inn{display:block;transform:translateY(110%);animation:sUp .9s cubic-bezier(.16,1,.3,1) .52s forwards}
-.h-lastname-underline{position:absolute;bottom:-6px;left:0;height:2px;width:0;background:linear-gradient(90deg,var(--gold),var(--gold2),transparent);animation:uGrow 1.2s cubic-bezier(.16,1,.3,1) 1.1s forwards}
+  .stat-row{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:0; position:relative; z-index:1; }
+  @media (max-width:680px){ .stat-row{ grid-template-columns:repeat(2,1fr); } }
+  .stat-card{
+    background:var(--bg2); border:1px solid var(--line-soft); border-radius:6px; padding:12px 10px; text-align:center;
+    transition:border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    transform-style:preserve-3d; will-change:transform;
+  }
+  .stat-card:nth-child(odd):hover{ border-color:var(--amber); box-shadow:0 16px 34px -14px rgba(232,162,92,0.3); }
+  .stat-card:nth-child(even):hover{ border-color:var(--cyan); box-shadow:0 16px 34px -14px rgba(94,203,232,0.3); }
+  .stat-num{ font-family:'Cormorant Garamond', serif; font-weight:600; font-size:24px; color:var(--amber); }
+  .stat-label{ font-size:11px; color:var(--ink-dim); margin-top:2px; }
 
-.h-role{font-family:'DM Mono',monospace;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--text2);margin-bottom:16px;animation:fadeUp 1s .85s both}
-.h-tagline{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold3);margin-bottom:28px;animation:fadeUp 1s .95s both}
-.h-desc{font-size:16px;color:var(--text2);line-height:1.85;max-width:500px;margin-bottom:40px;font-weight:300;animation:fadeUp 1s 1.05s both}
-.h-desc strong{color:var(--white);font-weight:500}
+  /* ---------- TEKNOLOJİLER: tam sayfa genişliğinde, uçtan uca ---------- */
+  #tech{ background:var(--bg2); border-top:1px solid var(--line-soft); padding:0; scroll-margin-top:70px; }
+  .tech-wide{ width:100%; margin:0; padding:0; }
+  .tech-shot-wrap{
+    position:relative; z-index:1; overflow:hidden;
+    box-shadow:0 30px 60px -30px rgba(0,0,0,0.7);
+  }
+  .tech-shot-wrap img{ width:100%; display:block; }
 
-.h-ctas{display:flex;gap:14px;flex-wrap:wrap;animation:fadeUp 1s 1.15s both}
-.btn-g{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--bg);background:var(--gold);padding:13px 30px;border-radius:2px;text-decoration:none;transition:all .3s;display:inline-flex;align-items:center;gap:10px;position:relative;overflow:hidden}
-.btn-g::before{content:'';position:absolute;inset:0;background:var(--gold2);transform:translateX(-101%);transition:transform .4s cubic-bezier(.16,1,.3,1)}
-.btn-g:hover::before{transform:translateX(0)}.btn-g:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(201,168,76,.3)}
-.btn-g span{position:relative;z-index:1}
-.btn-o{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text2);border:1px solid var(--gborder2);padding:13px 30px;border-radius:2px;text-decoration:none;transition:all .3s}
-.btn-o:hover{border-color:rgba(201,168,76,.4);color:var(--gold)}
+  /* ---------- EXPERIENCE ---------- */
+  #experience{ border-top:1px solid var(--line-soft); }
+  .timeline{ position:relative; padding-left:28px; z-index:1; }
+  .timeline::before{ content:""; position:absolute; left:5px; top:6px; bottom:6px; width:1px; background:var(--line-soft); }
+  .tl-item{ position:relative; padding-bottom:44px; }
+  .tl-item:last-child{ padding-bottom:0; }
+  .tl-item::before{
+    content:""; position:absolute; left:-28px; top:5px; width:11px; height:11px; border-radius:50%;
+    background:var(--bg); border:2px solid var(--amber);
+    box-shadow:0 0 0 0 rgba(232,162,92,0.4);
+    animation:dotPulse 2.4s ease-in-out infinite;
+  }
+  @keyframes dotPulse{
+    0%{ box-shadow:0 0 0 0 rgba(232,162,92,0.45); }
+    70%{ box-shadow:0 0 0 8px rgba(232,162,92,0); }
+    100%{ box-shadow:0 0 0 0 rgba(232,162,92,0); }
+  }
+  .tl-period{ font-size:12.5px; color:var(--amber-dim); margin-bottom:6px; }
+  .tl-role{ font-family:'Cormorant Garamond', serif; font-weight:600; font-size:22px; margin:0 0 2px; color:var(--ink); }
+  .tl-org{ font-size:14px; color:var(--ink-dim); margin-bottom:14px; }
+  .tl-org b{ color:var(--ink); font-weight:600; }
+  .tl-bullets{ margin:0 0 16px; padding-left:18px; color:var(--ink-dim); font-size:14.5px; line-height:1.65; }
+  .tl-bullets li{ margin-bottom:6px; }
+  .tl-bullets b{ color:var(--ink); }
+  .tl-bullets li:last-child{ margin-bottom:0; }
+  .tag-row{ display:flex; flex-wrap:wrap; gap:7px; }
+  .tag-row span{
+    font-family:'JetBrains Mono', monospace; font-size:11px; padding:4px 9px; border-radius:4px;
+    background:var(--bg3); color:var(--cyan); transition:transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .tag-row span:hover{ transform:translateY(-2px); }
+  .tag-row span:nth-child(odd){ color:var(--cyan); }
+  .tag-row span:nth-child(even){ color:var(--amber); }
 
-.h-stats{display:flex;gap:0;margin-top:52px;border-top:1px solid var(--gborder2);animation:fadeUp 1s 1.25s both}
-.h-stat{flex:1;padding:20px 0;border-right:1px solid var(--gborder2)}
-.h-stat:last-child{border-right:none}
-.h-stat-n{font-family:'Bebas Neue',sans-serif;font-size:40px;color:var(--gold);letter-spacing:1px;line-height:1;margin-bottom:4px;padding-left:18px}
-.h-stat-l{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding-left:18px}
+  /* ---------- PROJECTS ---------- */
+  #projects{ background:var(--bg2); border-top:1px solid var(--line-soft); }
+  .proj-rows{ display:flex; flex-direction:column; gap:48px; position:relative; z-index:1; }
+  .proj-row{
+    display:flex; align-items:center; gap:clamp(14px, 4vw, 48px);
+    transform-style:preserve-3d; will-change:transform;
+  }
+  .proj-row:nth-child(even){ flex-direction:row-reverse; }
+  .proj-media{
+    position:relative; flex:0 0 42%; width:42%; aspect-ratio:4/3; overflow:hidden;
+    border-radius:8px; background:#0c1116; border:1px solid var(--line-soft);
+    transition:border-color 0.3s ease, box-shadow 0.3s ease, transform 0.15s ease-out;
+    transform-style:preserve-3d; will-change:transform;
+  }
+  @media (min-width:600px){ .proj-media{ flex-basis:46%; width:46%; aspect-ratio:16/10; } }
+  .proj-row:hover .proj-media{ border-color:var(--line); box-shadow:0 30px 60px -26px rgba(0,0,0,0.7); }
+  .proj-media img{ width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.5s ease; filter:saturate(0.95) brightness(0.92); }
+  .proj-row:hover .proj-media img{ transform:scale(1.08); filter:saturate(1.1) brightness(1); }
+  .proj-media.icon-tile{ display:flex; align-items:center; justify-content:center; background:linear-gradient(145deg, #14202a, #0c1116); }
+  .proj-media.icon-tile .big-icon{ font-size:clamp(30px,7vw,52px); opacity:0.85; transition:transform 0.4s ease; }
+  .proj-row:hover .proj-media.icon-tile .big-icon{ transform:scale(1.15) rotate(-3deg); }
+  .proj-media::after{
+    content:""; position:absolute; top:0; left:-160%; width:45%; height:100%;
+    background:linear-gradient(75deg, transparent, rgba(255,255,255,0.12), transparent);
+    transform:skewX(-20deg); animation:cardShine 9s ease-in-out infinite;
+  }
+  .proj-body{ flex:1 1 0; min-width:0; }
 
-/* RIGHT — animated scene */
-.hero-right{
-  position:relative;overflow:hidden;
-  display:flex;align-items:center;justify-content:center;
-}
-/* Dark gradient on right so it fades into bg on left edge */
-.hero-right::before{
-  content:'';position:absolute;inset:0;z-index:10;
-  background:linear-gradient(90deg,var(--bg) 0%,transparent 18%);
-  pointer-events:none;
-}
-/* Bottom fade */
-.hero-right::after{
-  content:'';position:absolute;bottom:0;left:0;right:0;height:120px;z-index:10;
-  background:linear-gradient(180deg,transparent,var(--bg));pointer-events:none;
-}
+  /* ---------- "Ekrandan taşan" özel efekt: 3D modelleme kartı ---------- */
+  .proj-pop .proj-media{
+    box-shadow:0 10px 30px rgba(0,0,0,0.5), 0 0 0 1px rgba(94,203,232,0.15);
+    transition:transform 0.2s cubic-bezier(.2,.8,.3,1.3), border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .proj-pop:hover .proj-media{
+    box-shadow:0 45px 80px -20px rgba(0,0,0,0.75), 0 0 40px rgba(94,203,232,0.35), 0 0 0 1px rgba(94,203,232,0.5);
+    border-color:var(--cyan);
+    z-index:5;
+  }
+  .proj-pop .proj-media img{ transition:transform 0.4s cubic-bezier(.2,.8,.3,1.2), filter 0.4s ease; }
+  .proj-pop:hover .proj-media img{ transform:scale(1.14); filter:saturate(1.15) brightness(1.05); }  .proj-index{ font-size:11px; color:var(--amber); margin-bottom:4px; font-weight:700; }
+  .proj-title{ font-family:'Cormorant Garamond', serif; font-weight:600; font-size:clamp(15px,4vw,24px); margin:0 0 6px; color:var(--ink); line-height:1.2; }
+  .proj-desc{ font-size:clamp(11px,3vw,14px); line-height:1.55; color:var(--ink-dim); margin:0 0 12px; }
+  .proj-tags{ display:flex; flex-wrap:wrap; gap:6px; }
+  .proj-tags span{ font-family:'JetBrains Mono', monospace; font-size:10.5px; padding:4px 8px; border-radius:4px; background:var(--bg); }
+  .proj-tags span:nth-child(odd){ color:var(--cyan); }
+  .proj-tags span:nth-child(even){ color:var(--amber); }
 
-/* The scene canvas area */
-.hero-scene{position:relative;width:100%;height:100%;min-height:100vh}
-#heroCanvas{position:absolute;inset:0;width:100%;height:100%}
+  /* ---------- EDUCATION ---------- */
+  #education{ border-top:1px solid var(--line-soft); }
+  .edu-grid{ display:grid; grid-template-columns:1.4fr 1fr; gap:48px; position:relative; z-index:1; }
+  @media (max-width:760px){ .edu-grid{ grid-template-columns:1fr; gap:36px; } }
+  .edu-card h3{ font-family:'Cormorant Garamond', serif; font-weight:600; font-size:24px; margin:0 0 4px; }
+  .edu-card .edu-school{ color:var(--ink-dim); font-size:14.5px; margin-bottom:4px; }
+  .edu-card .edu-period{ color:var(--amber-dim); font-size:12.5px; margin-bottom:14px; }
+  .edu-gpa{ display:inline-block; font-size:13px; padding:6px 14px; border-radius:100px; border:1px solid var(--line); color:var(--amber); }
+  .lang-row{ display:flex; justify-content:space-between; align-items:baseline; padding:14px 0; border-bottom:1px solid var(--line-soft); }
+  .lang-row:last-child{ border-bottom:none; }
+  .lang-name{ font-size:15px; color:var(--ink); }
+  .lang-level{ font-size:12.5px; color:var(--ink-faint); text-align:right; max-width:220px; }
 
-/* Floating UI panels */
-.h-panel{
-  position:absolute;z-index:20;
-  background:rgba(12,10,6,.88);
-  border:1px solid rgba(201,168,76,.25);
-  border-radius:8px;backdrop-filter:blur(12px);
-  padding:14px 16px;
-  box-shadow:0 8px 32px rgba(0,0,0,.5);
-  animation:panelIn .8s cubic-bezier(.16,1,.3,1) both;
-}
-@keyframes panelIn{from{opacity:0;transform:translateY(16px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}
-.h-panel::before{content:'';position:absolute;top:0;left:0;right:0;height:1.5px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.6}
+  /* ---------- CERTIFICATES ---------- */
+  #certificates{ background:var(--bg2); border-top:1px solid var(--line-soft); }
+  .cert-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; position:relative; z-index:1; }
+  @media (max-width:860px){ .cert-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:560px){ .cert-grid{ grid-template-columns:1fr; } }
+  .cert-card{ background:var(--bg3); border:1px solid var(--line-soft); border-radius:6px; padding:20px; transition:transform 0.2s ease-out, border-color 0.25s ease, box-shadow 0.25s ease; transform-style:preserve-3d; will-change:transform; }
+  .cert-card:hover{ border-color:var(--cyan); box-shadow:0 20px 40px -18px rgba(94,203,232,0.3); }
+  .cert-issuer{ font-size:11.5px; text-transform:uppercase; letter-spacing:0.04em; color:var(--ink-faint); margin-bottom:8px; }
+  .cert-title{ font-family:'Cormorant Garamond', serif; font-weight:600; font-size:17px; margin:0 0 8px; color:var(--ink); }
+  .cert-desc{ font-size:13px; color:var(--ink-dim); line-height:1.55; margin:0 0 14px; }
+  .cert-meta{ display:flex; justify-content:space-between; align-items:center; font-size:12px; }
+  .cert-date{ color:var(--ink-faint); }
+  .cert-status{ color:var(--amber); }
 
-/* Detection boxes panel */
-.detect-panel{top:12%;left:18%;width:240px;animation-delay:1.4s;animation:panelIn .8s cubic-bezier(.16,1,.3,1) 1.4s both,hpFloat 5s ease-in-out 2.2s infinite}
-@keyframes hpFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-.dp-title{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;display:flex;align-items:center;justify-content:space-between}
-.dp-live{display:flex;align-items:center;gap:5px;font-size:8px;color:#4ade80}
-.dp-live-dot{width:5px;height:5px;border-radius:50%;background:#4ade80;animation:ibp 2s infinite}
-.dp-code{font-family:'DM Mono',monospace;font-size:8.5px;color:rgba(201,168,76,.8);line-height:1.7}
-.dp-code .kw{color:#e8c97a}.dp-code .fn{color:#c9a84c}.dp-code .cm{color:#5a5040}
-.dp-boxes{display:flex;flex-direction:column;gap:6px;margin-top:10px;border-top:1px solid rgba(201,168,76,.1);padding-top:10px}
-.dp-box{display:flex;align-items:center;justify-content:space-between}
-.dp-box-label{font-family:'DM Mono',monospace;font-size:8px;color:var(--text2)}
-.dp-box-conf{font-family:'DM Mono',monospace;font-size:8px;color:#4ade80;font-weight:500}
-.dp-box-bar{flex:1;height:2px;background:rgba(255,255,255,.07);margin:0 8px;border-radius:2px;overflow:hidden}
-.dp-box-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:2px}
+  /* ---------- CONTACT ---------- */
+  #contact{ border-top:1px solid var(--line-soft); text-align:center; }
+  .contact-title{ font-family:'Cormorant Garamond', serif; font-weight:500; font-size:clamp(32px,5vw,48px); margin:0 0 16px; position:relative; z-index:1; }
+  .contact-title em{ font-style:italic; color:var(--amber); }
+  .contact-blurb{ max-width:56ch; margin:0 auto 30px; color:var(--ink-dim); font-size:15px; line-height:1.65; position:relative; z-index:1; }
+  .avail{ display:inline-flex; align-items:center; gap:8px; font-size:13px; color:var(--ink-dim); margin-bottom:30px; position:relative; z-index:1; }
+  .avail .dot{ width:7px; height:7px; border-radius:50%; background:#5ecb8a; animation:pulseDot 2s infinite; }
+  @keyframes pulseDot{ 0%{ box-shadow:0 0 0 0 rgba(94,203,138,0.5); } 70%{ box-shadow:0 0 0 8px rgba(94,203,138,0); } 100%{ box-shadow:0 0 0 0 rgba(94,203,138,0); } }
+  .contact-links{ display:flex; justify-content:center; flex-wrap:wrap; gap:14px; margin-bottom:24px; position:relative; z-index:1; }
+  .contact-links a{
+    text-decoration:none; font-size:14.5px; padding:12px 24px; border-radius:100px; border:1px solid var(--line); color:var(--ink);
+    transition:border-color 0.2s ease, color 0.2s ease, background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .contact-links a:nth-child(odd):hover{ border-color:var(--amber); color:var(--amber); background:rgba(232,162,92,0.08); box-shadow:0 10px 24px -10px rgba(232,162,92,0.4); }
+  .contact-links a:nth-child(even):hover{ border-color:var(--cyan); color:var(--cyan); background:rgba(94,203,232,0.08); box-shadow:0 10px 24px -10px rgba(94,203,232,0.4); }
+  .contact-links a:hover{ transform:translateY(-3px) scale(1.04); }
+  .contact-location{ font-size:13px; color:var(--ink-faint); position:relative; z-index:1; }
 
-/* Edge AI panel */
-.edge-panel{top:10%;right:5%;width:150px;animation:panelIn .8s cubic-bezier(.16,1,.3,1) 1.8s both,hpFloat2 4.5s ease-in-out 2.6s infinite}
-@keyframes hpFloat2{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
-.ep-title{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
-.ep-big{font-family:'Bebas Neue',sans-serif;font-size:42px;color:var(--gold);letter-spacing:2px;line-height:1}
-.ep-sub{font-family:'DM Mono',monospace;font-size:8px;color:var(--muted);margin-top:2px}
+  .contact-rows{
+    display:flex; flex-direction:column; gap:14px; max-width:560px; margin:0 auto;
+    position:relative; z-index:1; text-align:left;
+  }
+  .contact-row{
+    display:flex; align-items:center; gap:16px; padding:16px 20px; border-radius:14px;
+    background:var(--bg2); border:1px solid var(--line-soft); text-decoration:none; color:inherit;
+    transition:border-color 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+  }
+  a.contact-row:hover{ border-color:var(--amber); transform:translateX(4px); box-shadow:0 14px 30px -18px rgba(232,162,92,0.4); }
+  .cr-icon{
+    flex:0 0 44px; width:44px; height:44px; border-radius:10px;
+    background:rgba(232,162,92,0.12); color:var(--amber);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .cr-icon svg{ width:20px; height:20px; }
+  .cr-text{ flex:1; min-width:0; display:flex; flex-direction:column; gap:3px; }
+  .cr-label{ font-size:10.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-faint); }
+  .cr-value{ font-size:15px; font-weight:600; color:var(--ink); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .cr-arrow{ flex:0 0 auto; color:var(--ink-faint); font-size:16px; transition:transform 0.2s ease, color 0.2s ease; }
+  a.contact-row:hover .cr-arrow{ transform:translateX(4px); color:var(--amber); }
+  .contact-row.no-link{ cursor:default; }
 
-/* Tracking panel */
-.track-panel{bottom:22%;right:6%;width:180px;animation:panelIn .8s cubic-bezier(.16,1,.3,1) 2.2s both,hpFloat3 5.5s ease-in-out 3s infinite}
-@keyframes hpFloat3{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-8px) rotate(.5deg)}}
-.tp-title{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
-.tp-rows{display:flex;flex-direction:column;gap:5px}
-.tp-row{display:flex;align-items:center;gap:8px}
-.tp-id{font-family:'DM Mono',monospace;font-size:8px;color:var(--gold2);width:32px}
-.tp-bar{flex:1;height:3px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden}
-.tp-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--gold),var(--gold2))}
-.tp-status{font-family:'DM Mono',monospace;font-size:7px;color:#4ade80}
+  footer{ max-width:1100px; margin:0 auto; padding:32px 24px 48px; display:flex; justify-content:space-between; align-items:center; color:var(--ink-faint); font-size:13px; }
 
-/* LangChain panel */
-.lang-panel{bottom:18%;left:16%;width:160px;animation:panelIn .8s cubic-bezier(.16,1,.3,1) 2.6s both,hpFloat4 6s ease-in-out 3.4s infinite}
-@keyframes hpFloat4{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
-.lp-icon{font-family:'DM Mono',monospace;font-size:8px;color:var(--gold3);margin-bottom:6px;text-transform:uppercase;letter-spacing:1.5px}
-.lp-title{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;color:var(--white);margin-bottom:4px}
-.lp-sub{font-family:'DM Mono',monospace;font-size:7.5px;color:var(--muted);line-height:1.5}
+  /* =====================================================
+     AÇILIŞ EKRANI (LOADER) — neon tabela + parçacıklar
+     ===================================================== */
+  #loader{
+    position:fixed; inset:0; z-index:9999;
+    display:flex; align-items:center; justify-content:center;
+    background:#05070a;
+    transition:opacity 0.8s ease, visibility 0.8s ease;
+    overflow:hidden;
+  }
+  #loader.done{ opacity:0; visibility:hidden; pointer-events:none; }
 
-/* Analytics mini panel */
-.analytics-panel{bottom:36%;right:5%;width:130px;animation:panelIn .8s cubic-bezier(.16,1,.3,1) 3s both,hpFloat2 5s ease-in-out 3.8s infinite}
-.ap-title{font-family:'DM Mono',monospace;font-size:7.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
-.ap-bars{display:flex;align-items:flex-end;gap:3px;height:30px}
-.ap-bar{flex:1;background:rgba(201,168,76,.15);border-radius:1px;transition:height .3s}
-.ap-bar.hi{background:var(--gold);opacity:.8}
+  .loader-grid{
+    position:absolute; inset:0; z-index:0; opacity:0.35;
+    background-image:
+      linear-gradient(rgba(94,203,232,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(94,203,232,0.06) 1px, transparent 1px);
+    background-size:42px 42px;
+    mask-image:radial-gradient(ellipse at 50% 45%, black 0%, transparent 72%);
+  }
 
-/* Person silhouettes drawn on canvas */
-.hero-location{position:absolute;bottom:5%;left:0;right:0;display:flex;justify-content:center;align-items:center;gap:20px;z-index:15;animation:fadeUp 1s 3.5s both}
-.hero-loc-txt{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted)}
-.hero-loc-sep{width:1px;height:14px;background:rgba(201,168,76,.3)}
-.hero-enter{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold)}
+  /* yükselen kıvılcım parçacıkları */
+  .loader-particles{ position:absolute; inset:0; z-index:1; pointer-events:none; overflow:hidden; }
+  .loader-particles span{
+    position:absolute; bottom:-4%; width:3px; height:3px; border-radius:50%;
+    background:var(--cyan); box-shadow:0 0 6px 2px rgba(94,203,232,0.8);
+    opacity:0; animation:loaderParticleRise linear infinite;
+  }
+  .loader-particles span:nth-child(3n){ background:var(--amber); box-shadow:0 0 6px 2px rgba(232,162,92,0.8); }
+  @keyframes loaderParticleRise{
+    0%{ transform:translateY(0) translateX(0); opacity:0; }
+    10%{ opacity:0.9; }
+    90%{ opacity:0.5; }
+    100%{ transform:translateY(-115vh) translateX(var(--drift,20px)); opacity:0; }
+  }
 
-.h-scroll{position:absolute;bottom:36px;left:60px;display:flex;align-items:center;gap:12px;animation:fadeUp 1s 1.8s both;z-index:3}
-.scroll-bar{width:36px;height:1px;background:var(--muted);position:relative;overflow:hidden}
-.scroll-bar::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:var(--gold);animation:scananim 2.2s ease-in-out infinite}
-@keyframes scananim{0%{left:-100%}100%{left:100%}}
-.scroll-lbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+  .loader-content{
+    position:relative; z-index:2; text-align:center;
+    display:flex; flex-direction:column; align-items:center;
+    width:100%; max-width:900px; padding:0 24px;
+  }
 
-@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
-@keyframes sUp{to{transform:translateY(0)}}
-@keyframes uGrow{to{width:100%}}
+  .loader-status{
+    font-family:'JetBrains Mono', monospace; font-size:11.5px; letter-spacing:0.04em;
+    color:var(--ink-faint); margin:16px 0 18px; height:16px;
+  }
+  .loader-status .blink{ display:inline-block; animation:statBlink 1s steps(2) infinite; color:var(--cyan); }
+  @keyframes statBlink{ 50%{ opacity:0; } }
 
-/* ══════════════════════════════════
-   DIVIDER
-══════════════════════════════════ */
-.gdiv{width:100%;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.16),transparent);position:relative;z-index:2}
+  .loader-shot-wrap{
+    position:relative; width:100%; border-radius:6px; overflow:hidden;
+  }
+  .loader-shot{
+    width:100%; display:block;
+    filter:drop-shadow(0 0 24px rgba(120,190,255,0.35)) drop-shadow(0 0 60px rgba(94,203,232,0.15));
+    animation:neonFlicker 2.6s linear both;
+  }
+  /* klasik neon tabela açılış titreşimi */
+  @keyframes neonFlicker{
+    0%{ opacity:0; }
+    3%{ opacity:1; }
+    6%{ opacity:0.2; }
+    8%{ opacity:1; }
+    11%{ opacity:0.3; }
+    13%{ opacity:1; }
+    35%{ opacity:1; }
+    36%{ opacity:0.4; }
+    38%{ opacity:1; }
+    60%{ opacity:1; }
+    61%{ opacity:0.5; }
+    63%{ opacity:1; }
+    100%{ opacity:1; }
+  }
+  .loader-shot-glow{
+    position:absolute; inset:-20%; z-index:-1;
+    background:radial-gradient(ellipse at center, rgba(94,203,232,0.22), transparent 65%);
+    filter:blur(20px); animation:loaderGlowPulse 2.4s ease-in-out infinite;
+  }
+  @keyframes loaderGlowPulse{ 0%,100%{ opacity:0.55; transform:scale(1); } 50%{ opacity:1; transform:scale(1.06); } }
 
-/* ══════════════════════════════════
-   SECTIONS
-══════════════════════════════════ */
-section{padding:120px 60px;position:relative;z-index:2}
-.si{max-width:1340px;margin:0 auto}
-.s-ey{display:inline-flex;align-items:center;gap:10px;margin-bottom:14px}
-.s-ln{width:22px;height:1px;background:var(--gold)}
-.s-lb{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold)}
-.s-tt{font-family:'Bebas Neue',sans-serif;font-size:clamp(50px,6vw,80px);letter-spacing:2px;line-height:.95;color:var(--white);margin-bottom:18px}
-.s-tt em{font-style:normal;color:transparent;-webkit-text-stroke:1.5px rgba(201,168,76,.45)}
-.s-dc{font-size:16px;color:var(--text2);font-weight:300;line-height:1.85;max-width:520px}
+  /* tarama çizgisi */
+  .loader-scanline{
+    position:absolute; left:0; right:0; height:2px; z-index:3;
+    background:linear-gradient(90deg, transparent, rgba(94,203,232,0.9), transparent);
+    box-shadow:0 0 14px 2px rgba(94,203,232,0.7);
+    animation:scanMove 2.6s ease-in-out infinite; animation-delay:1.4s;
+  }
+  @keyframes scanMove{
+    0%{ top:0%; opacity:0; }
+    8%{ opacity:1; }
+    92%{ opacity:1; }
+    100%{ top:100%; opacity:0; }
+  }
 
-/* ABOUT */
-#about{background:var(--bg2)}
-.about-g{display:grid;grid-template-columns:1fr 1fr;gap:100px;margin-top:72px;align-items:start}
-.a-q{font-size:clamp(16px,1.7vw,20px);font-weight:300;line-height:1.8;color:var(--text2);margin-bottom:40px;padding-left:22px;border-left:2px solid var(--gold)}
-.i-list{display:flex;flex-direction:column}
-.i-row{display:flex;align-items:baseline;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.05)}
-.i-key{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);width:96px;flex-shrink:0}
-.i-val{font-size:15px;color:var(--text);font-weight:400}
-.i-val a{color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(201,168,76,.22);padding-bottom:1px;transition:border-color .2s}
-.i-val a:hover{border-color:var(--gold)}
-.domain-g{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:30px}
-.domain-c{border:1px solid rgba(255,255,255,.06);padding:18px;border-radius:6px;transition:all .35s;background:rgba(255,255,255,.015);position:relative;overflow:hidden}
-.domain-c::before{content:'';position:absolute;top:0;left:0;width:2px;height:0;background:var(--gold);transition:height .35s}
-.domain-c:hover{border-color:rgba(201,168,76,.22);background:rgba(201,168,76,.04);transform:translateY(-2px)}.domain-c:hover::before{height:100%}
-.domain-t{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;margin-bottom:5px;color:var(--white)}
-.domain-s{font-size:11.5px;color:var(--text2);line-height:1.55}
-.sk-grps{display:flex;flex-direction:column;gap:38px}
-.sk-cat{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:10px}
-.sk-cat::after{content:'';flex:1;height:1px;background:rgba(201,168,76,.14)}
-.sk-row{margin-bottom:14px}
-.sk-meta{display:flex;justify-content:space-between;margin-bottom:7px}
-.sk-name{font-size:14px;color:var(--text);font-weight:400}
-.sk-pct{font-family:'DM Mono',monospace;font-size:12px;color:var(--gold);opacity:.8}
-.sk-bar{height:2px;background:rgba(255,255,255,.06);overflow:hidden;border-radius:2px}
-.sk-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));width:0;transition:width 1.5s cubic-bezier(.16,1,.3,1);border-radius:2px}
+  .loader-progress-wrap{
+    width:min(360px, 70vw); display:flex; flex-direction:column; align-items:center; gap:10px;
+    margin-top:18px; position:relative; z-index:1;
+  }
+  .loader-pct-bubble{
+    font-family:'JetBrains Mono', monospace; font-weight:700; font-size:13px; color:var(--ink);
+    background:rgba(18,21,26,0.85); border:1px solid rgba(94,203,232,0.4);
+    padding:4px 16px; border-radius:100px;
+    animation:bubblePulse 1.6s ease-in-out infinite;
+  }
+  @keyframes bubblePulse{ 0%,100%{ box-shadow:0 0 12px rgba(94,203,232,0.2); } 50%{ box-shadow:0 0 20px rgba(94,203,232,0.5); } }
+  .loader-progress{ width:100%; height:6px; border-radius:100px; background:rgba(255,255,255,0.08); overflow:hidden; border:1px solid rgba(94,203,232,0.2); }
+  .loader-progress-fill{
+    height:100%; width:0%; border-radius:100px;
+    background:linear-gradient(90deg, #2f8fd6, var(--cyan));
+    box-shadow:0 0 10px rgba(94,203,232,0.6);
+  }
+  .loader-mark{
+    margin-top:18px; font-family:'Cormorant Garamond', serif; font-weight:700;
+    letter-spacing:0.04em; color:var(--ink-dim); font-size:14px;
+  }
+  .loader-mark .dot{ color:var(--amber); }
 
-/* TILT CARD */
-.tilt-card{background:var(--card);border:1px solid var(--gborder);border-radius:12px;padding:34px;backdrop-filter:blur(8px);transform-style:preserve-3d;transition:box-shadow .4s,border-color .4s;position:relative;overflow:hidden;will-change:transform}
-.tilt-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),var(--gold2),transparent);opacity:0;transition:opacity .4s}
-.tilt-card:hover{border-color:rgba(201,168,76,.42);box-shadow:0 24px 60px rgba(0,0,0,.6),0 0 36px rgba(201,168,76,.08)}
-.tilt-card:hover::before{opacity:1}
-.card-inner{position:relative;z-index:2;transform:translateZ(14px)}
-.card-period{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
-.card-role{font-family:'DM Sans',sans-serif;font-size:19px;font-weight:700;color:var(--white);line-height:1.15;margin-bottom:5px}
-.card-company{font-size:14px;color:var(--text2);font-weight:500;margin-bottom:3px}
-.card-loc{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted)}
-.card-sep{height:1px;background:rgba(255,255,255,.07);margin:18px 0}
-.card-pts{list-style:none;display:flex;flex-direction:column;gap:10px}
-.card-pts li{font-size:13.5px;color:var(--text2);padding-left:16px;position:relative;line-height:1.7;font-weight:300}
-.card-pts li::before{content:'';position:absolute;left:0;top:10px;width:6px;height:1.5px;background:var(--gold);opacity:.6}
-.card-pts li strong{color:var(--white);font-weight:500}
-.card-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:18px}
-.ctag{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.5px;color:rgba(201,168,76,.8);background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.18);padding:4px 10px;border-radius:3px;transition:all .2s}
-.ctag:hover{color:var(--gold);border-color:rgba(201,168,76,.4)}
-.card-num{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,.4);margin-bottom:9px}
-.card-title{font-family:'DM Sans',sans-serif;font-size:17px;font-weight:700;color:var(--white);line-height:1.25;margin-bottom:9px}
-.card-desc{font-size:13.5px;color:var(--text2);line-height:1.75;margin-bottom:14px;font-weight:300}
-.proj-visual{height:170px;overflow:hidden;border-radius:7px;margin-bottom:18px}
-.proj-visual svg{width:100%;height:100%;display:block}
+  /* ---------- Hero karttan tıklayınca hedefe "çekilme" vurgusu ---------- */
+  .pulled-highlight{
+    animation:pullHighlight 1.6s ease-out;
+    border-radius:8px;
+  }
+  @keyframes pullHighlight{
+    0%{ box-shadow:0 0 0 0 rgba(232,162,92,0); background-color:rgba(232,162,92,0); }
+    15%{ box-shadow:0 0 0 6px rgba(232,162,92,0.35), 0 0 40px rgba(232,162,92,0.25); background-color:rgba(232,162,92,0.08); }
+    100%{ box-shadow:0 0 0 0 rgba(232,162,92,0); background-color:rgba(232,162,92,0); }
+  }
 
-/* EXP / PROJ */
-#experience{background:var(--bg)}
-.exp-g{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:72px}
-#projects{background:var(--bg2)}
-.proj-header{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:end;margin-bottom:60px}
-.proj-g{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-
-/* EDUCATION */
-#education{background:var(--bg)}
-.edu-g{display:grid;grid-template-columns:2fr 1fr;gap:28px;margin-top:72px}
-.edu-card{background:var(--card);border:1px solid var(--gborder);border-radius:12px;padding:44px;position:relative;overflow:hidden;backdrop-filter:blur(8px)}
-.edu-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1.5px;background:linear-gradient(90deg,var(--gold),var(--gold2),transparent)}
-.edu-deg{font-family:'Bebas Neue',sans-serif;font-size:clamp(28px,3vw,44px);letter-spacing:2px;color:var(--white);margin-bottom:6px}
-.edu-uni{font-size:15px;color:var(--gold);font-weight:500;margin-bottom:4px}
-.edu-meta{font-family:'DM Mono',monospace;font-size:11px;color:var(--text2);margin-bottom:24px}
-.gpa-lbl{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text2);margin-bottom:9px}
-.gpa-tr{height:2px;background:rgba(255,255,255,.06);overflow:hidden;border-radius:2px}
-.gpa-f{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));width:0;transition:width 1.5s cubic-bezier(.16,1,.3,1);border-radius:2px}
-.lang-col{display:flex;flex-direction:column;gap:11px}
-.lang-c{background:var(--card);border:1px solid var(--gborder);border-radius:10px;padding:24px 28px;backdrop-filter:blur(6px);transition:border-color .3s}
-.lang-c:hover{border-color:rgba(201,168,76,.35)}
-.lang-n{font-family:'Bebas Neue',sans-serif;font-size:34px;letter-spacing:2px;color:var(--white);margin-bottom:4px}
-.lang-l{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold)}
-
-/* CERTS */
-#certificates{background:var(--bg2)}
-.cert-g{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:72px}
-.cert-c{background:var(--card);border:1px solid rgba(201,168,76,.1);border-radius:10px;padding:28px;backdrop-filter:blur(6px);transition:all .35s;position:relative;overflow:hidden}
-.cert-c::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--gold2));transform:scaleX(0);transform-origin:left;transition:transform .4s cubic-bezier(.16,1,.3,1)}
-.cert-c:hover{border-color:rgba(201,168,76,.28);transform:translateY(-3px)}.cert-c:hover::after{transform:scaleX(1)}
-.cert-is{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
-.cert-nm{font-family:'DM Sans',sans-serif;font-size:16px;font-weight:700;color:var(--white);line-height:1.25;margin-bottom:10px}
-.cert-ds{font-size:13px;color:var(--text2);line-height:1.7;font-weight:300;margin-bottom:16px}
-.cert-ft{display:flex;justify-content:space-between;align-items:center;padding-top:13px;border-top:1px solid rgba(255,255,255,.06)}
-.cert-dt{font-family:'DM Mono',monospace;font-size:11px;color:var(--text2)}
-.cert-bd{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--gold)}
-
-/* CONTACT */
-#contact{background:var(--bg);overflow:hidden}
-.cont-g{display:grid;grid-template-columns:1fr 1fr;gap:100px;position:relative;z-index:2}
-.c-list{display:flex;flex-direction:column;gap:11px;margin-top:44px}
-.c-row{display:flex;align-items:center;gap:18px;padding:16px 20px;border:1px solid rgba(255,255,255,.06);border-radius:8px;text-decoration:none;color:var(--text);transition:all .35s;position:relative;overflow:hidden}
-.c-row::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--gold);transform:scaleY(0);transform-origin:bottom;transition:transform .35s cubic-bezier(.16,1,.3,1)}
-.c-row:hover{border-color:rgba(201,168,76,.2);transform:translateX(6px)}.c-row:hover::before{transform:scaleY(1)}
-.c-ico{width:38px;height:38px;border-radius:6px;background:rgba(201,168,76,.07);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.c-ico svg{width:16px;height:16px;stroke:rgba(201,168,76,.7);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
-.c-lbl{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
-.c-val{font-size:14px;color:var(--white);font-weight:400}
-.c-arr{margin-left:auto;color:var(--muted);font-size:14px;transition:all .3s}
-.c-row:hover .c-arr{color:var(--gold);transform:translateX(4px)}
-.av-block{padding-top:8px}
-.av-big{font-family:'Bebas Neue',sans-serif;font-size:clamp(44px,6vw,70px);letter-spacing:2px;color:var(--white);line-height:1.0;margin-bottom:18px}
-.av-big em{font-style:normal;color:transparent;-webkit-text-stroke:1.5px var(--gold)}
-.av-dc{font-size:16px;color:var(--text2);line-height:1.85;font-weight:300;margin-bottom:32px}
-.av-pill{display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(201,168,76,.2);padding:11px 22px;border-radius:2px;background:rgba(201,168,76,.04)}
-.av-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;animation:avp 2s infinite}
-@keyframes avp{0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,.5)}50%{box-shadow:0 0 0 6px rgba(74,222,128,0)}}
-.av-tx{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold)}
-
-/* FOOTER */
-footer{background:var(--bg2);border-top:1px solid rgba(201,168,76,.07);padding:34px 60px;position:relative;z-index:2}
-.ft{max-width:1340px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
-.f-logo{font-family:'DM Sans',sans-serif;font-size:15px;font-weight:800;letter-spacing:-1px;color:var(--white);text-decoration:none}
-.f-logo span{color:var(--gold)}
-.f-links{display:flex;gap:26px;list-style:none}
-.f-links a{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s}
-.f-links a:hover{color:var(--gold)}
-.f-copy{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted2)}
-
-/* REVEAL */
-.rv{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
-.rv.vs{opacity:1;transform:translateY(0)}
-.rvl{opacity:0;transform:translateX(-28px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
-.rvl.vs{opacity:1;transform:translateX(0)}
-.rvr{opacity:0;transform:translateX(28px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
-.rvr.vs{opacity:1;transform:translateX(0)}
-
-/* RESPONSIVE */
-@media(max-width:1100px){
-  .hero-in{grid-template-columns:1fr}.hero-right{display:none}
-  .about-g,.cont-g{grid-template-columns:1fr;gap:50px}
-  .exp-g{grid-template-columns:1fr}.proj-g{grid-template-columns:1fr 1fr}
-  .edu-g{grid-template-columns:1fr}.cert-g{grid-template-columns:1fr 1fr}
-  .proj-header{grid-template-columns:1fr}
-}
-@media(max-width:768px){
-  section{padding:72px 24px}
-  nav .nw{padding:0 24px}.n-links,.n-cta{display:none}.mob-hb{display:flex}
-  .hero-left{padding:100px 24px 50px}
-  .proj-g{grid-template-columns:1fr}.cert-g{grid-template-columns:1fr}
-  .domain-g{grid-template-columns:1fr 1fr}
-  footer{padding:26px 24px}.ft{flex-direction:column;gap:16px;text-align:center}
-  .f-links{flex-wrap:wrap;justify-content:center}
-}
+  @media (prefers-reduced-motion: reduce){ *{ animation:none !important; transition:none !important; } }
 </style>
 </head>
 <body>
-<canvas id="bgCanvas"></canvas>
-<div id="cur-dot"></div><div id="cur-ring"></div>
+  <div class="aurora"><span></span><span></span><span></span><span></span></div>
 
-<!-- ════ INTRO SCREEN ════ -->
-<div id="intro-screen">
-  <div class="ibg ibg1"></div><div class="ibg ibg2"></div>
-  <div class="intro-stars" id="introStars"></div>
-  <div class="intro-scene">
-    <div class="intro-monitor-wrap">
-      <div class="intro-monitor">
-        <div class="intro-mbar"><div class="id-r"></div><div class="id-y"></div><div class="id-g"></div><div class="imtitle">ALENA_KAPUSUZ.PY</div></div>
-        <div class="intro-code" id="introCode"></div>
-        <div class="intro-scan"></div><div class="intro-prog"></div>
+  <div id="loader">
+    <div class="loader-grid"></div>
+    <div class="loader-particles" id="loaderParticles"></div>
+    <div class="loader-content">
+
+      <div class="loader-status" id="loaderStatus">Sistemler başlatılıyor<span class="blink">_</span></div>
+
+      <div class="loader-shot-wrap">
+        <div class="loader-shot-glow"></div>
+        <img class="loader-shot" src="images/loader-shot.jpg" alt="Aleyna Kapusuz — Yapay Zekâ, XR, 3D Assets, Dijital Dönüşünler">
+        <div class="loader-scanline"></div>
       </div>
-      <div class="ibadge ib1"><span class="ibdot"></span>YOLO Active</div>
-      <div class="ibadge ib2">Edge AI · 93%</div>
-      <div class="ibadge ib3"><span class="ibdot" style="background:#f472b6"></span>RPi GPIO</div>
-      <div class="ibadge ib4">LangChain RAG</div>
-      <div class="istand"></div><div class="ibase"></div>
-    </div>
-    <div class="intro-info">
-      <div class="ieyebrow">AI &amp; Computer Vision Engineer</div>
-      <div class="iname">Aleyna <span>Kapusuz</span></div>
-      <div class="isub">Izmir, TR &nbsp;·&nbsp; Edge AI &nbsp;·&nbsp; LLM &nbsp;·&nbsp; Computer Vision</div>
-      <button class="iskip" id="introSkip">Enter Portfolio →</button>
+
+      <div class="loader-progress-wrap">
+        <span class="loader-pct-bubble" id="loaderPct">%0</span>
+        <div class="loader-progress"><div class="loader-progress-fill" id="loaderFill"></div></div>
+      </div>
+
+      <div class="loader-mark">AK<span class="dot">.</span></div>
+
     </div>
   </div>
-</div>
 
-<!-- NAV -->
-<nav id="nav">
-  <div class="nw">
-    <a href="#hero" class="n-logo">AK<span>.</span></a>
-    <ul class="n-links">
-      <li><a href="#about">About</a></li><li><a href="#experience">Experience</a></li>
-      <li><a href="#projects">Projects</a></li><li><a href="#education">Education</a></li>
-      <li><a href="#certificates">Certificates</a></li>
-    </ul>
-    <a href="#contact" class="n-cta">Contact</a>
-    <div class="mob-hb" id="mobHb"><span></span><span></span><span></span></div>
-  </div>
-</nav>
-<div class="mob-m" id="mobM">
-  <button class="mob-close" id="mobClose">&#x2715;</button>
-  <a href="#about">About</a><a href="#experience">Experience</a>
-  <a href="#projects">Projects</a><a href="#education">Education</a>
-  <a href="#certificates">Certificates</a><a href="#contact">Contact</a>
-</div>
-
-<!-- ════ HERO ════ -->
-<section id="hero">
-  <div class="hg hg1"></div><div class="hg hg2"></div>
-  <div class="hero-bg-overlay"></div>
-
-  <div class="hero-in">
-    <!-- LEFT -->
-    <div class="hero-left">
-      <div class="h-eyebrow"><div class="h-ey-line"></div><span class="h-ey-txt">Software Engineer &nbsp;·&nbsp; AI &amp; Computer Vision &nbsp;·&nbsp; Izmir, TR</span></div>
-      <div class="h-name-block">
-        <span class="h-firstname"><span class="inn">Aleyna</span></span>
-        <div style="position:relative;display:inline-block">
-          <span class="h-lastname"><span class="inn">Kapusuz</span></span>
-          <div class="h-lastname-underline"></div>
-        </div>
-      </div>
-      <p class="h-role">AI &nbsp;·&nbsp; Computer Vision &nbsp;·&nbsp; Edge AI &nbsp;·&nbsp; Generative AI &nbsp;·&nbsp; LLM</p>
-      <p class="h-tagline">Real-Time Vision Systems &nbsp;·&nbsp; Edge AI &nbsp;·&nbsp; YOLO</p>
-      <p class="h-desc">Innovative Software Engineer <strong>(GPA: 3.12/4.0)</strong> specializing in <strong>Real-Time Computer Vision and Edge AI.</strong> Extensive experience developing high-speed YOLO pipelines and deploying end-to-end vision solutions on IP Camera (RTSP) streams. Proven track record in industrial automation featuring Raspberry Pi hardware-signal integration and robust model performance under challenging field conditions.</p>
-      <div class="h-ctas">
-        <a href="#projects" class="btn-g"><span>View Projects →</span></a>
-        <a href="#contact" class="btn-o">Contact</a>
-      </div>
-      <div class="h-stats">
-        <div class="h-stat"><div class="h-stat-n" data-c="6" data-s="+">6+</div><div class="h-stat-l">Projects</div></div>
-        <div class="h-stat"><div class="h-stat-n" data-c="93" data-s="%">93%</div><div class="h-stat-l">Edge AI Accuracy</div></div>
-        <div class="h-stat"><div class="h-stat-n" data-c="3" data-s="">3</div><div class="h-stat-l">Companies</div></div>
-        <div class="h-stat"><div class="h-stat-n" data-c="3.12" data-s="" data-d="1">3.12</div><div class="h-stat-l">GPA / 4.0</div></div>
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-mark">AK<span class="dot">.</span></div>
+      <div class="nav-links">
+        <a href="#about">Hakkımda</a>
+        <a href="#tech">Teknolojiler</a>
+        <a href="#experience">Deneyim</a>
+        <a href="#projects">Projeler</a>
+        <a href="#education">Eğitim</a>
+        <a href="#certificates">Sertifikalar</a>
+        <a href="#contact">İletişim</a>
       </div>
     </div>
+  </nav>
 
-    <!-- RIGHT — animated scene -->
-    <div class="hero-right">
-      <div class="hero-scene">
-        <canvas id="heroCanvas"></canvas>
+  <div class="scene">
+    <img src="images/hero.jpg" alt="Aleyna Kapusuz — AI &amp; Görsel Zeka Mühendisi">
+    <div class="hero-particles">
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <div class="steam"><div class="wisp"></div><div class="wisp"></div><div class="wisp"></div></div>
+    <div class="cards-layer" id="cardGrid">
+      <div class="card" data-tilt data-rot="17" data-tz="3vw" data-ty="0.5vw" data-sc="1.04" data-target="#proj-02"><img src="images/slot1.jpg" alt="Yapay Zekâ Avatarı"><div class="card-glow"></div></div>
+      <div class="card" data-tilt data-rot="10" data-tz="-2vw" data-ty="-0.2vw" data-sc="1.01" data-target="#exp-aselsan"><img src="images/slot2.jpg" alt="XR Dünya Portalı"><div class="card-glow"></div></div>
+      <div class="card" data-tilt data-rot="4" data-tz="-6vw" data-ty="-0.6vw" data-sc="0.98" data-target="#proj-04"><img src="images/slot3.jpg" alt="Üretken 3D Assets"><div class="card-glow"></div></div>
+      <div class="card" data-tilt data-rot="-4" data-tz="-6vw" data-ty="-0.6vw" data-sc="0.98" data-target="#proj-07"><img src="images/slot4.jpg" alt="Akıllı Nesne Takip"><div class="card-glow"></div></div>
+      <div class="card" data-tilt data-rot="-10" data-tz="-2vw" data-ty="-0.2vw" data-sc="1.01" data-target="#exp-robolaunch"><img src="images/slot5.jpg" alt="Yaratıcı Robotik"><div class="card-glow"></div></div>
+      <div class="card" data-tilt data-rot="-17" data-tz="3vw" data-ty="0.5vw" data-sc="1.04" data-target="#proj-03"><img src="images/slot6.jpg" alt="Dashboard Entegreli Sistemler"><div class="card-glow"></div></div>
+    </div>
+    <div class="scroll-cue"><span>KAYDIR</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 9l6 6 6-6"/></svg></div>
+  </div>
 
-        <!-- Detection code panel -->
-        <div class="h-panel detect-panel">
-          <div class="dp-title">
-            <span>Live YOLO Detection Screen</span>
-            <span class="dp-live"><span class="dp-live-dot"></span>Live</span>
-          </div>
-          <div class="dp-code">
-            <div><span class="cm"># Real-time detection</span></div>
-            <div><span class="kw">from</span> ultralytics <span class="kw">import</span> <span class="fn">YOLO</span></div>
-            <div>model = <span class="fn">YOLO</span>(<span style="color:#a07830">"yolov8.pt"</span>)</div>
-            <div><span class="kw">for</span> result <span class="kw">in</span> model(frame, stream=<span class="kw">True</span>):</div>
-            <div>&nbsp;&nbsp;<span class="fn">process_and_visualize</span>()</div>
-          </div>
-          <div class="dp-boxes">
-            <div class="dp-box"><span class="dp-box-label">car 0.88</span><div class="dp-box-bar"><div class="dp-box-fill" style="width:88%"></div></div><span class="dp-box-conf">88%</span></div>
-            <div class="dp-box"><span class="dp-box-label">person 0.94</span><div class="dp-box-bar"><div class="dp-box-fill" style="width:94%"></div></div><span class="dp-box-conf">94%</span></div>
-            <div class="dp-box"><span class="dp-box-label">person 0.92</span><div class="dp-box-bar"><div class="dp-box-fill" style="width:92%"></div></div><span class="dp-box-conf">92%</span></div>
-          </div>
-        </div>
+  <!-- ================= HAKKIMDA ================= -->
+  <section id="about">
+    <div class="bg-particles"><span style="left:8%;top:20%;"></span><span style="left:82%;top:15%;"></span><span style="left:60%;top:70%;"></span><span style="left:25%;top:80%;"></span></div>
+    <div class="container">
+      <div class="section-eyebrow reveal">Hakkımda</div>
+      <h2 class="section-title reveal">Akıllı <em>sistemler</em> kuruyorum</h2>
 
-        <!-- Edge AI accuracy panel -->
-        <div class="h-panel edge-panel">
-          <div class="ep-title">EDGE AI</div>
-          <div class="ep-big">98%</div>
-          <div class="ep-sub">Accuracy Rate</div>
-        </div>
+      <div class="about-flex">
+        <p class="about-lead reveal">Yapay zeka, görsel bilgi işleme ve gerçek zamanlı akıllı sistemler üzerine uzmanlaşmış bir yazılım mühendisiyim (GNO: 3.12/4.0). Derin öğrenme, görüntü işleme ve üretken yapay zeka teknolojilerini kullanarak bilgisayarla görü hatları, AI destekli görsel uygulamalar ve etkileşimli çözümler geliştiriyorum. Görsel veri işlemeden model geliştirmeye, gerçek zamanlı uygulamalardan analitik platformlara kadar uçtan uca AI sistemleri kurma deneyimine sahibim.</p>
 
-        <!-- Object tracking panel -->
-        <div class="h-panel track-panel">
-          <div class="tp-title">Object Tracking Matrix</div>
-          <div class="tp-rows">
-            <div class="tp-row"><span class="tp-id">ID_01</span><div class="tp-bar"><div class="tp-fill" style="width:92%"></div></div><span class="tp-status">active</span></div>
-            <div class="tp-row"><span class="tp-id">ID_02</span><div class="tp-bar"><div class="tp-fill" style="width:78%"></div></div><span class="tp-status">active</span></div>
-            <div class="tp-row"><span class="tp-id">ID_03</span><div class="tp-bar"><div class="tp-fill" style="width:65%"></div></div><span class="tp-status">track</span></div>
-            <div class="tp-row"><span class="tp-id">ID_04</span><div class="tp-bar"><div class="tp-fill" style="width:84%"></div></div><span class="tp-status">active</span></div>
-          </div>
-        </div>
-
-        <!-- LangChain panel -->
-        <div class="h-panel lang-panel">
-          <div class="lp-icon">⬡ LangChain RAG</div>
-          <div class="lp-title">Edge Devices</div>
-          <div class="lp-sub">LangGraph · ChromaDB<br>Self-correction loop<br>Local SSMS env.</div>
-        </div>
-
-        <!-- Analytics mini -->
-        <div class="h-panel analytics-panel">
-          <div class="ap-title">Real-time Analytics</div>
-          <div class="ap-bars" id="apBars"></div>
-          <div style="display:flex;justify-content:space-between;margin-top:6px">
-            <span style="font-family:'DM Mono',monospace;font-size:7px;color:var(--muted)">CPU 20%</span>
-            <span style="font-family:'DM Mono',monospace;font-size:7px;color:var(--muted)">GPU 60%</span>
-          </div>
-        </div>
-
-        <!-- YOLO active badge -->
-        <div style="position:absolute;top:8%;right:5%;z-index:25;animation:panelIn .8s cubic-bezier(.16,1,.3,1) 2s both">
-          <div style="background:rgba(12,10,6,.9);border:1px solid rgba(201,168,76,.3);border-radius:6px;padding:10px 16px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase;display:flex;align-items:center;gap:8px;backdrop-filter:blur(12px)">
-            <span style="width:6px;height:6px;border-radius:50%;background:#4ade80;display:inline-block;animation:ibp 2s infinite"></span>
-            YOLO ACTIVE
-          </div>
-        </div>
-
-        <!-- Location bottom bar -->
-        <div class="hero-location">
-          <span class="hero-loc-txt">Izmir, TR</span>
-          <div class="hero-loc-sep"></div>
-          <span class="hero-enter">Enter Portfolio ↓</span>
+        <div class="stat-row reveal-stagger">
+          <div class="stat-card"><div class="stat-num" data-count="7" data-suffix="+">0</div><div class="stat-label">Proje</div></div>
+          <div class="stat-card"><div class="stat-num" data-count="92" data-suffix="%">0%</div><div class="stat-label">Doğruluk Oranı</div></div>
+          <div class="stat-card"><div class="stat-num" data-count="3">0</div><div class="stat-label">Şirket Deneyimi</div></div>
+          <div class="stat-card"><div class="stat-num" data-count="312" data-decimal="2">0</div><div class="stat-label">GNO / 4.0</div></div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="h-scroll"><div class="scroll-bar"></div><span class="scroll-lbl">Scroll</span></div>
-</section>
+  </section>
 
-<div class="gdiv"></div>
-
-<!-- ABOUT -->
-<section id="about">
-  <div class="si">
-    <div class="s-ey rv"><div class="s-ln"></div><span class="s-lb">About</span></div>
-    <h2 class="s-tt rv">Building intelligent<br><em>systems</em></h2>
-    <div class="about-g">
-      <div class="rvl">
-        <p class="a-q">Innovative Software Engineer specializing in Real-Time Computer Vision and Edge AI. Proficient in both Linux (Ubuntu) and Windows environments, with a strong focus on Multi-Object Tracking (SORT/DeepSORT), inference optimization, and cross-platform system development.</p>
-        <div class="i-list">
-          <div class="i-row"><span class="i-key">Location</span><span class="i-val">Izmir, Turkey</span></div>
-          <div class="i-row"><span class="i-key">University</span><span class="i-val">Burdur Mehmet Akif Ersoy University</span></div>
-          <div class="i-row"><span class="i-key">GPA</span><span class="i-val">3.12 / 4.0</span></div>
-          <div class="i-row"><span class="i-key">Email</span><span class="i-val"><a href="mailto:lnkapusuz@gmail.com"><span class="__cf_email__" data-cfemail="f79b999c96878284828db7909a969e9bd994989a">lnkapusuz@gmail.com</span></a></span></div>
-          <div class="i-row"><span class="i-key">LinkedIn</span><span class="i-val"><a href="https://linkedin.com/in/aleyna-kapusuz-6ba953226" target="_blank">aleyna-kapusuz</a></span></div>
-          <div class="i-row"><span class="i-key">GitHub</span><span class="i-val"><a href="https://github.com/AleynaKapusuz?tab=repositories" target="_blank">AleynaKapusuz</a></span></div>
-        </div>
-        <div class="domain-g">
-          <div class="domain-c"><div class="domain-t">Computer Vision &amp; AI</div><div class="domain-s">YOLO, OpenCV, Object Detection, Image Classification, Semantic Segmentation, Multi-Object Tracking (SORT/DeepSORT), NMS, Face Recognition (MTCNN, ResNet50), MediaPipe</div></div>
-          <div class="domain-c"><div class="domain-t">Deep Learning &amp; Training</div><div class="domain-s">GPU-Accelerated Training (CUDA), Inference Optimization, Robust Data Augmentation, Anomaly Detection, PyTorch, Scikit-learn, NumPy, Pandas, CVAT, Roboflow, Ollama</div></div>
-          <div class="domain-c"><div class="domain-t">Edge &amp; Deployment</div><div class="domain-s">RTSP / FFmpeg Stream Processing, IP Camera Integration, Raspberry Pi (Hardware-Signal Integration), Streamlit UI, SMTP Reporting</div></div>
-          <div class="domain-c"><div class="domain-t">Generative AI &amp; LLMs</div><div class="domain-s">LangChain, LangGraph (State Machines), RAG (Retrieval-Augmented Generation), Ollama, ChromaDB (Vector Memory)</div></div>
-          <div class="domain-c"><div class="domain-t">Robotics &amp; Systems</div><div class="domain-s">ROS 1/2, Edge AI Deployment, Docker (Basic), Git, Version Control</div></div>
-          <div class="domain-c"><div class="domain-t">Software &amp; Tools</div><div class="domain-s">Advanced Python, SQL (SSMS), Linux (Ubuntu), Windows</div></div>
-        </div>
-      </div>
-      <div class="rvr">
-        <div class="sk-grps">
-          <div>
-            <div class="sk-cat">Computer Vision &amp; AI</div>
-            <div class="sk-row"><div class="sk-meta"><span class="sk-name">YOLO / Object Detection / Segmentation</span><span class="sk-pct">95%</span></div><div class="sk-bar"><div class="sk-fill" data-w="95"></div></div></div>
-            <div class="sk-row"><div class="sk-meta"><span class="sk-name">OpenCV / Image Processing</span><span class="sk-pct">93%</span></div><div class="sk-bar"><div class="sk-fill" data-w="93"></div></div></div>
-            <div class="sk-row"><div class="sk-meta"><span class="sk-name">Multi-Object Tracking (SORT / DeepSORT)</span><span class="sk-pct">88%</span></div><div class="sk-bar"><div class="sk-fill" data-w="88"></div></div></div>
-            <div class="sk-row"><div class="sk-meta"><span class="sk-name">Face Recognition (MTCNN / ResNet50)</span><span class="sk-pct">85%</span></div><div class="sk-bar"><div class="sk-fill" data-w="85"></div></div></div>
-            <div class="sk-row"><div class="sk-meta"><span class="sk-name">MediaPipe / Anomaly Detection</span><span class="sk-pct">80%</span></div><div class="sk-bar"><div class="sk-fill" data-w="80"></div></div></div>
-          </div>
-          <div>
-            <div class="sk-cat">Deep Learning &amp; Generative AI</div>
-            <div class="sk-row"><div class="sk-meta"><span class="sk-name">Python (Advanced) / SQL (SSMS)</span><span class="sk-pct">96%</span></div><div class="sk-bar"><div class="sk-fill" data-w="96"></div></div></div>
-            <div class="sk-row"><div class="sk-meta"><span class="sk-name">PyTorch / CUDA / GPU Training</span><span class="sk-pct">80%</span></div><div class="sk-bar"><div class="sk-fill" data-w="80"></div></div></div>
-            <div class="sk-row"><div class="sk-meta"><span class="sk-name">LangChain / LangGraph / RAG</span><span class="sk-pct">78%</span></div><div class="sk-bar"><div class="sk-fill" data-w="78"></div></div></div>
-            <div class="sk-row"><div class="sk-meta"><span class="sk-name">ChromaDB / Ollama / Streamlit</span><span class="sk-pct">75%</span></div><div class="sk-bar"><div class="sk-fill" data-w="75"></div></div></div>
-            <div class="sk-row"><div class="sk-meta"><span class="sk-name">ROS 1/2 / Docker / Git / Linux</span><span class="sk-pct">68%</span></div><div class="sk-bar"><div class="sk-fill" data-w="68"></div></div></div>
-          </div>
-        </div>
+  <!-- ================= TEKNOLOJİLER ================= -->
+  <section id="tech">
+    <div class="tech-wide">
+      <div class="tech-shot-wrap reveal">
+        <img src="images/tech-stack.jpg" alt="Teknoloji Mimarisi — Aleyna Kapusuz">
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<div class="gdiv"></div>
+  <!-- ================= DENEYİM ================= -->
+  <section id="experience">
+    <div class="container">
+      <div class="section-eyebrow reveal">Deneyim</div>
+      <h2 class="section-title reveal">Kariyer <em>yolculuğum</em></h2>
 
-<!-- EXPERIENCE -->
-<section id="experience">
-  <div class="si">
-    <div class="s-ey rv"><div class="s-ln"></div><span class="s-lb">Experience</span></div>
-    <h2 class="s-tt rv">Career<br><em>journey</em></h2>
-    <div class="exp-g">
+      <div class="timeline">
 
-      <div class="tilt-card rv" data-tilt data-tilt-max="6" data-tilt-speed="600" data-tilt-glare="true" data-tilt-max-glare="0.1">
-        <div class="card-inner">
-          <div class="card-period">Feb 2025 — Present &nbsp;·&nbsp; Full-time</div>
-          <div class="card-role">Computer Vision &amp; AI Engineer</div>
-          <div class="card-company">Gedik Piliç A.Ş.</div>
-          <div class="card-loc">Usak, Turkey</div>
-          <div class="card-sep"></div>
-          <ul class="card-pts">
-            <li><strong>Edge AI &amp; IoT:</strong> Architected an end-to-end monitoring system using YOLO on Raspberry Pi/PLC, achieving 93%+ accuracy via Roboflow-optimized datasets.</li>
-            <li><strong>Automation &amp; Vision:</strong> Developed a "hands-free" pipeline with color-based analysis and real-time SMTP alerts. Optimized high-speed production line monitoring using OpenCV. Utilized FFmpeg for optimized RTSP stream decoding on GPU-enabled edge devices.</li>
-            <li><strong>Industrial Camera:</strong> Architected a high-speed QC pipeline utilizing SICK industrial cameras. Developed a Streamlit UI for real-time monitoring and visual inspection feedback.</li>
-            <li><strong>Anomaly Detection:</strong> Robust model performance under challenging field conditions — low light, motion blur, variable camera angles.</li>
+        <div class="tl-item reveal">
+          <div class="tl-period">Şubat 2025 — Halen · Tam zamanlı</div>
+          <h3 class="tl-role">Bilgisayarlı Görü &amp; AI Mühendisi</h3>
+          <div class="tl-org"><b>Gedik Piliç A.Ş.</b> · Uşak, Türkiye</div>
+          <ul class="tl-bullets">
+            <li><b>Görü &amp; Edge AI:</b> Üretim analitiği, kalite kontrol, personel takibi, hata tespiti ve OCR tabanlı sistemler için YOLO, OpenCV ve takip algoritmalarıyla uçtan uca AI görü çözümleri geliştirdim. RTSP/IP kameralar, SICK endüstriyel kameralar ve GPU hızlandırmalı çıkarım ile optimize hatlar kurdum.</li>
+            <li><b>AI Yazılımı &amp; Otomasyon:</b> Model çıktılarını gerçek zamanlı analitik platformlara, izleme sistemlerine ve otomatik raporlama akışlarına dönüştüren uygulamalar geliştirdim.</li>
           </ul>
-          <div class="card-tags"><span class="ctag">YOLO</span><span class="ctag">OpenCV</span><span class="ctag">DeepSORT</span><span class="ctag">Raspberry Pi</span><span class="ctag">FFmpeg/RTSP</span><span class="ctag">SICK Camera</span><span class="ctag">Streamlit</span><span class="ctag">Roboflow</span><span class="ctag">CUDA</span></div>
+          <div class="tag-row"><span>YOLO</span><span>OpenCV</span><span>DeepSORT</span><span>Raspberry Pi</span><span>RTSP/FFmpeg</span><span>SICK Kamera</span><span>Streamlit</span><span>Roboflow</span><span>CUDA</span></div>
         </div>
-      </div>
 
-      <div class="tilt-card rv" data-tilt data-tilt-max="6" data-tilt-speed="600" data-tilt-glare="true" data-tilt-max-glare="0.1" style="transition-delay:.1s">
-        <div class="card-inner">
-          <div class="card-period">Apr 2024 — Jun 2024 &nbsp;·&nbsp; Internship</div>
-          <div class="card-role">AI Intern</div>
-          <div class="card-company">Gedik Piliç A.Ş.</div>
-          <div class="card-loc">Usak, Turkey</div>
-          <div class="card-sep"></div>
-          <ul class="card-pts">
-            <li>Contributed to AI-based image processing workflows on the production line.</li>
-            <li>Assisted in YOLOv8 model training, data labeling, and model optimization processes.</li>
-            <li>Performed dataset preparation and augmentation using the Roboflow pipeline.</li>
+        <div class="tl-item reveal" id="exp-robolaunch">
+          <div class="tl-period">Şubat 2024 — Nisan 2024 · Staj</div>
+          <h3 class="tl-role">Yazılım Mühendisliği Stajyeri</h3>
+          <div class="tl-org"><b>Robolaunch Robotics</b> · Ankara, Türkiye</div>
+          <ul class="tl-bullets">
+            <li><b>Robotik &amp; ROS:</b> Linux (Ubuntu) ortamlarında ROS 1/2 node haberleşmesi kullanarak otonom sistemler için Python betikleri geliştirip test ettim.</li>
           </ul>
-          <div class="card-tags"><span class="ctag">YOLOv8</span><span class="ctag">Roboflow</span><span class="ctag">CVAT</span><span class="ctag">Data Labeling</span></div>
+          <div class="tag-row"><span>ROS 1/2</span><span>Python</span><span>Linux/Ubuntu</span><span>Catkin</span><span>Colcon</span></div>
         </div>
-      </div>
 
-      <div class="tilt-card rv" data-tilt data-tilt-max="6" data-tilt-speed="600" data-tilt-glare="true" data-tilt-max-glare="0.1" style="transition-delay:.2s">
-        <div class="card-inner">
-          <div class="card-period">Feb 2024 — Apr 2024 &nbsp;·&nbsp; Internship</div>
-          <div class="card-role">Software Engineering Intern</div>
-          <div class="card-company">Robolaunch Robotics</div>
-          <div class="card-loc">Ankara, Turkey</div>
-          <div class="card-sep"></div>
-          <ul class="card-pts">
-            <li><strong>Robotics &amp; ROS:</strong> Built and tested Python scripts for autonomous systems using ROS 1/2 node communication in Linux (Ubuntu) environments.</li>
-            <li>Developed and tested ROS packages using Catkin and Colcon build systems.</li>
-            <li>Supported Python-based debugging and robotic simulation processes.</li>
+        <div class="tl-item reveal" id="exp-aselsan">
+          <div class="tl-period">Temmuz 2023 — Ağustos 2023 · Staj</div>
+          <h3 class="tl-role">AI &amp; XR Stajyeri</h3>
+          <div class="tl-org"><b>ASELSAN / BİTES Savunma Teknolojileri</b> · Ankara, Türkiye</div>
+          <ul class="tl-bullets">
+            <li><b>AI &amp; Linux:</b> Linux tabanlı iş akışlarında büyük ölçekli veri etiketleme (CVAT) yönettim ve görüntü düzeltme için Perspektif Dönüşümü uyguladım.</li>
+            <li><b>Sensörler &amp; XR:</b> Genişletilmiş gerçeklik (XR) ortamlarında konumsal takip için IMU ve GPS entegrasyonu üzerine araştırma yaptım.</li>
           </ul>
-          <div class="card-tags"><span class="ctag">ROS 1/2</span><span class="ctag">Python</span><span class="ctag">Linux/Ubuntu</span><span class="ctag">Catkin</span><span class="ctag">Colcon</span></div>
+          <div class="tag-row"><span>CVAT</span><span>XR</span><span>IMU/GPS</span><span>Linux</span><span>Perspektif Dönüşümü</span></div>
         </div>
-      </div>
 
-      <div class="tilt-card rv" data-tilt data-tilt-max="6" data-tilt-speed="600" data-tilt-glare="true" data-tilt-max-glare="0.1" style="transition-delay:.2s">
-        <div class="card-inner">
-          <div class="card-period">Jul 2023 — Aug 2023 &nbsp;·&nbsp; Internship</div>
-          <div class="card-role">AI &amp; XR Intern</div>
-          <div class="card-company">ASELSAN / BİTES Defense Technologies</div>
-          <div class="card-loc">Ankara, Turkey</div>
-          <div class="card-sep"></div>
-          <ul class="card-pts">
-            <li><strong>AI &amp; Linux:</strong> Managed large-scale data annotation (CVAT) and implemented Perspective Transformation for image correction within Linux-based workflows.</li>
-            <li><strong>Sensors &amp; XR:</strong> Conducted research on IMU and GPS integration for spatial tracking in Extended Reality (XR) environments.</li>
-          </ul>
-          <div class="card-tags"><span class="ctag">CVAT</span><span class="ctag">XR</span><span class="ctag">IMU/GPS</span><span class="ctag">Linux</span><span class="ctag">Perspective Transform</span></div>
-        </div>
-      </div>
-
-
-
-    </div>
-  </div>
-</section>
-
-<div class="gdiv"></div>
-
-<!-- PROJECTS -->
-<section id="projects">
-  <div class="si">
-    <div class="proj-header">
-      <div>
-        <div class="s-ey rv"><div class="s-ln"></div><span class="s-lb">Projects</span></div>
-        <h2 class="s-tt rv">Selected<br><em>work</em></h2>
-      </div>
-      <p class="s-dc rv" style="align-self:end">From industrial Edge AI mitigating cross-contamination risks, to Agentic LLM systems enabling non-technical staff to query databases via natural language, to TÜBİTAK-backed face recognition research.</p>
-    </div>
-    <div class="proj-g">
-
-      <div class="tilt-card rv" data-tilt data-tilt-max="8" data-tilt-speed="600" data-tilt-glare="true" data-tilt-max-glare="0.12">
-        <div class="card-inner">
-          <div class="proj-visual"><svg viewBox="0 0 340 160" xmlns="http://www.w3.org/2000/svg" style="background:#060402"><defs><pattern id="gr" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse"><line x1="24" y1="0" x2="24" y2="24" stroke="#c9a84c" stroke-opacity=".04" stroke-width="1"/><line x1="0" y1="24" x2="24" y2="24" stroke="#c9a84c" stroke-opacity=".04" stroke-width="1"/></pattern></defs>
-          <rect width="340" height="160" fill="url(#gr)"/><rect x="0" y="0" width="340" height="16" fill="#030201"/>
-          <text x="8" y="11" fill="#c9a84c" font-size="7" font-family="monospace" fill-opacity=".7">RTSP · 30 FPS · DeepSORT · PACKAGING ZONE</text>
-          <circle cx="330" cy="8" r="3" fill="#4ade80" fill-opacity=".9"/>
-          <rect x="24" y="26" width="44" height="80" rx="2" fill="none" stroke="#c9a84c" stroke-width="1.2" stroke-opacity=".8"/>
-          <text x="28" y="36" fill="#c9a84c" font-size="6" font-family="monospace">ID 01</text>
-          <ellipse cx="46" cy="52" rx="7" ry="7" fill="#c9a84c" fill-opacity=".1"/>
-          <rect x="40" y="60" width="12" height="22" rx="2" fill="#c9a84c" fill-opacity=".07"/>
-          <rect x="128" y="38" width="44" height="80" rx="2" fill="none" stroke="#e8c97a" stroke-width="1.2" stroke-opacity=".65"/>
-          <text x="132" y="48" fill="#e8c97a" font-size="6" font-family="monospace">ID 02</text>
-          <ellipse cx="150" cy="64" rx="7" ry="7" fill="#c9a84c" fill-opacity=".09"/>
-          <rect x="234" y="22" width="44" height="80" rx="2" fill="none" stroke="#ef4444" stroke-width="1.5" stroke-opacity=".7"/>
-          <text x="238" y="32" fill="#ef4444" font-size="6" font-family="monospace">ALERT!</text>
-          <line x1="240" y1="90" x2="330" y2="105" stroke="#ef4444" stroke-width=".8" stroke-opacity=".4" stroke-dasharray="3,2"/>
-          <rect x="280" y="100" width="55" height="16" rx="2" fill="#0a0704" stroke="#ef4444" stroke-width=".7" stroke-opacity=".6"/>
-          <text x="284" y="111" fill="#ef4444" font-size="6.5" font-family="monospace">SMTP ALERT</text>
-          <rect x="0" y="144" width="340" height="16" fill="#030201"/>
-          <text x="8" y="155" fill="#c9a84c" font-size="7" font-family="monospace" fill-opacity=".45">93%+ accuracy · low light · motion blur · occlusion handling</text></svg></div>
-          <div class="card-num">01 / Industrial Computer Vision</div>
-          <div class="card-title">Personnel Monitoring &amp; Tracking</div>
-          <p class="card-desc">Engineered an end-to-end vision solution using YOLO and DeepSORT to mitigate cross-contamination risks in food production by tracking unauthorized transitions between packaging and processing zones. Despite challenging field conditions like low light and motion blur, the system achieves 93%+ accuracy, triggering real-time physical alerts via Raspberry Pi and automated SMTP reporting.</p>
-          <div class="card-tags"><span class="ctag">YOLO</span><span class="ctag">DeepSORT</span><span class="ctag">RTSP/FFmpeg</span><span class="ctag">Raspberry Pi</span><span class="ctag">GPIO</span><span class="ctag">SMTP</span></div>
-        </div>
-      </div>
-
-      <div class="tilt-card rv" data-tilt data-tilt-max="8" data-tilt-speed="600" data-tilt-glare="true" data-tilt-max-glare="0.12" style="transition-delay:.07s">
-        <div class="card-inner">
-          <div class="proj-visual"><svg viewBox="0 0 340 160" xmlns="http://www.w3.org/2000/svg" style="background:#060402">
-          <rect width="340" height="160" fill="url(#gr)"/><rect x="0" y="0" width="340" height="16" fill="#030201"/>
-          <text x="8" y="11" fill="#c9a84c" font-size="7" font-family="monospace" fill-opacity=".7">SICK CAM · HIGH-SPEED BELT · QC PIPELINE</text>
-          <circle cx="330" cy="8" r="3" fill="#4ade80" fill-opacity=".9"/>
-          <rect x="14" y="62" width="60" height="32" rx="3" fill="#0a0704" stroke="#c9a84c" stroke-width=".8" stroke-opacity=".35"/>
-          <text x="24" y="82" fill="#c9a84c" font-size="7" font-family="monospace" fill-opacity=".6">04.2026</text>
-          <rect x="120" y="62" width="60" height="32" rx="3" fill="#0a0704" stroke="#4ade80" stroke-width="1.2" stroke-opacity=".75"/>
-          <text x="130" y="82" fill="#4ade80" font-size="7" font-family="monospace" fill-opacity=".95">05.2026</text>
-          <text x="147" y="54" fill="#4ade80" font-size="12" fill-opacity=".9">✓</text>
-          <rect x="226" y="62" width="60" height="32" rx="3" fill="#0a0704" stroke="#ef4444" stroke-width="1.2" stroke-opacity=".7"/>
-          <text x="236" y="82" fill="#ef4444" font-size="7" font-family="monospace" fill-opacity=".9">??.????</text>
-          <text x="253" y="54" fill="#ef4444" font-size="12" fill-opacity=".9">✗</text>
-          <rect x="0" y="144" width="340" height="16" fill="#030201"/>
-          <text x="8" y="155" fill="#c9a84c" font-size="7" font-family="monospace" fill-opacity=".45">Custom pre-processing filters · near-zero error rate · Streamlit UI</text></svg></div>
-          <div class="card-num">02 / Industrial Computer Vision</div>
-          <div class="card-title">Print Inspection — SICK Industrial Camera</div>
-          <p class="card-desc">Designed a high-speed quality control architecture utilizing SICK industrial cameras to prevent shipment of misprinted expiration dates and minimize financial loss. By implementing custom pre-processing filters to eliminate environmental noise and a Streamlit UI for real-time monitoring, established a high-precision inspection mechanism capable of maintaining near-zero error rates on high-speed production belts.</p>
-          <div class="card-tags"><span class="ctag">SICK Camera</span><span class="ctag">YOLOv8</span><span class="ctag">OpenCV</span><span class="ctag">Streamlit</span><span class="ctag">FFmpeg</span></div>
-        </div>
-      </div>
-
-      <div class="tilt-card rv" data-tilt data-tilt-max="8" data-tilt-speed="600" data-tilt-glare="true" data-tilt-max-glare="0.12" style="transition-delay:.14s">
-        <div class="card-inner">
-          <div class="proj-visual"><svg viewBox="0 0 340 160" xmlns="http://www.w3.org/2000/svg" style="background:#060402">
-          <rect width="340" height="160" fill="url(#gr)"/><rect x="0" y="0" width="340" height="16" fill="#030201"/>
-          <text x="8" y="11" fill="#c9a84c" font-size="7" font-family="monospace" fill-opacity=".7">LangGraph · LangChain · RAG · Ollama · SSMS</text>
-          <circle cx="330" cy="8" r="3" fill="#4ade80" fill-opacity=".9"/>
-          <rect x="8" y="58" width="68" height="34" rx="4" fill="#0a0704" stroke="#c9a84c" stroke-width=".8" stroke-opacity=".35"/>
-          <text x="42" y="74" fill="#c9a84c" font-size="7" font-family="monospace" text-anchor="middle" fill-opacity=".7">Natural Lang.</text>
-          <text x="42" y="84" fill="#c9a84c" font-size="6" font-family="monospace" text-anchor="middle" fill-opacity=".4">"list users"</text>
-          <line x1="76" y1="75" x2="100" y2="75" stroke="#c9a84c" stroke-opacity=".3" stroke-width="1"/>
-          <rect x="100" y="44" width="80" height="62" rx="5" fill="#0a0704" stroke="#c9a84c" stroke-width="1" stroke-opacity=".55"/>
-          <text x="140" y="66" fill="#c9a84c" font-size="8" font-family="monospace" text-anchor="middle" fill-opacity=".9">LangGraph</text>
-          <text x="140" y="78" fill="#a07830" font-size="6" font-family="monospace" text-anchor="middle">State Machine</text>
-          <text x="140" y="96" fill="#4ade80" font-size="6" font-family="monospace" text-anchor="middle">Self-Correction</text>
-          <line x1="180" y1="75" x2="204" y2="75" stroke="#c9a84c" stroke-opacity=".3" stroke-width="1"/>
-          <rect x="204" y="54" width="126" height="42" rx="4" fill="#0a0704" stroke="#c9a84c" stroke-width=".8" stroke-opacity=".35"/>
-          <text x="212" y="72" fill="#4ade80" font-size="6.5" font-family="monospace">SELECT * FROM users</text>
-          <text x="212" y="84" fill="#4ade80" font-size="6.5" font-family="monospace">WHERE active = 1;</text>
-          <rect x="0" y="144" width="340" height="16" fill="#030201"/>
-          <text x="8" y="155" fill="#c9a84c" font-size="7" font-family="monospace" fill-opacity=".45">ChromaDB vector memory · local SSMS · non-technical staff access</text></svg></div>
-          <div class="card-num">03 / Generative AI &amp; LLM</div>
-          <div class="card-title">Agentic SQL Assistant &amp; Database Agent</div>
-          <p class="card-desc">Developed a localized AI assistant using LangChain and LangGraph to resolve operational bottlenecks by enabling non-technical staff to query complex databases via natural language. Featuring a self-correction loop for autonomous schema validation and ChromaDB vector memory, the system significantly accelerates data accessibility within a secure, local SSMS environment.</p>
-          <div class="card-tags"><span class="ctag">LangChain</span><span class="ctag">LangGraph</span><span class="ctag">RAG</span><span class="ctag">ChromaDB</span><span class="ctag">Ollama</span><span class="ctag">SSMS</span></div>
-        </div>
-      </div>
-
-      <div class="tilt-card rv" data-tilt data-tilt-max="8" data-tilt-speed="600" data-tilt-glare="true" data-tilt-max-glare="0.12" style="transition-delay:.05s">
-        <div class="card-inner">
-          <div class="proj-visual"><svg viewBox="0 0 340 160" xmlns="http://www.w3.org/2000/svg" style="background:#060402">
-          <rect width="340" height="160" fill="url(#gr)"/><rect x="0" y="0" width="340" height="16" fill="#030201"/>
-          <text x="8" y="11" fill="#c9a84c" font-size="7" font-family="monospace" fill-opacity=".7">MTCNN + ResNet50 · TÜBİTAK · Biometric</text>
-          <rect x="114" y="22" width="112" height="128" rx="3" fill="none" stroke="#c9a84c" stroke-width="1.2" stroke-opacity=".6"/>
-          <circle cx="154" cy="70" r="2.5" fill="#c9a84c" fill-opacity=".75"/><circle cx="186" cy="70" r="2.5" fill="#c9a84c" fill-opacity=".75"/>
-          <circle cx="170" cy="88" r="2" fill="#c9a84c" fill-opacity=".6"/>
-          <path d="M158,104 Q170,112 182,104" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-opacity=".6"/>
-          <rect x="10" y="18" width="90" height="18" rx="3" fill="#0a0704" stroke="#4ade80" stroke-width=".8" stroke-opacity=".75"/>
-          <text x="18" y="31" fill="#4ade80" font-size="7.5" font-family="monospace">MTCNN ✓ OK</text>
-          <rect x="236" y="130" width="90" height="18" rx="3" fill="#0a0704" stroke="#c9a84c" stroke-width=".6" stroke-opacity=".4"/>
-          <text x="244" y="143" fill="#c9a84c" font-size="7" font-family="monospace">99% · ResNet50</text>
-          <rect x="0" y="144" width="340" height="16" fill="#030201"/>
-          <text x="8" y="155" fill="#c9a84c" font-size="7" font-family="monospace" fill-opacity=".45">TÜBİTAK project · attendance automation · educational env.</text></svg></div>
-          <div class="card-num">04 / Deep Learning — TÜBİTAK</div>
-          <div class="card-title">Face Recognition System</div>
-          <p class="card-desc">Developed a high-performance biometric solution using MTCNN and ResNet50 for robust face recognition as part of a TÜBİTAK project. Additionally, implemented Bi-LSTM models for historical sales trend forecasting and a Named Entity Recognition (NER) module for automated information extraction, enhancing data-driven strategic decision-making processes.</p>
-          <div class="card-tags"><span class="ctag">MTCNN</span><span class="ctag">ResNet50</span><span class="ctag">PyTorch</span><span class="ctag">TÜBİTAK</span></div>
-        </div>
-      </div>
-
-      <div class="tilt-card rv" data-tilt data-tilt-max="8" data-tilt-speed="600" data-tilt-glare="true" data-tilt-max-glare="0.12" style="transition-delay:.12s">
-        <div class="card-inner">
-          <div class="proj-visual"><svg viewBox="0 0 340 160" xmlns="http://www.w3.org/2000/svg" style="background:#060402">
-          <rect width="340" height="160" fill="url(#gr)"/><rect x="0" y="0" width="340" height="16" fill="#030201"/>
-          <text x="8" y="11" fill="#c9a84c" font-size="7" font-family="monospace" fill-opacity=".7">Bi-LSTM · NER · Sales Trend Forecasting</text>
-          <line x1="30" y1="22" x2="30" y2="134" stroke="#c9a84c" stroke-opacity=".12" stroke-width="1"/>
-          <line x1="30" y1="134" x2="330" y2="134" stroke="#c9a84c" stroke-opacity=".12" stroke-width="1"/>
-          <polygon points="30,134 60,120 96,106 132,93 168,80 204,68 240,60 276,54 312,48 312,134" fill="#c9a84c" fill-opacity=".04"/>
-          <polyline points="30,134 60,120 96,106 132,93 168,80 204,68 240,60 276,54 312,48" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-opacity=".8"/>
-          <circle cx="312" cy="48" r="3" fill="#e8c97a" fill-opacity=".8"/>
-          <rect x="276" y="32" width="50" height="14" rx="2" fill="#0a0704" stroke="#c9a84c" stroke-width=".6" stroke-opacity=".4"/>
-          <text x="284" y="42" fill="#c9a84c" font-size="6.5" font-family="monospace">GTA VI ↑</text>
-          <rect x="0" y="144" width="340" height="16" fill="#030201"/>
-          <text x="8" y="155" fill="#c9a84c" font-size="7" font-family="monospace" fill-opacity=".45">Bidirectional LSTM · NER module · PyTorch · Pandas</text></svg></div>
-          <div class="card-num">05 / Deep Learning — NLP</div>
-          <div class="card-title">Game Sales Prediction &amp; NER</div>
-          <p class="card-desc">Developed a Bidirectional LSTM (Bi-LSTM) model to analyze and predict game sales trends based on historical data. Additionally implemented a Named Entity Recognition (NER) module to extract specific product information from text-based datasets.</p>
-          <div class="card-tags"><span class="ctag">Bi-LSTM</span><span class="ctag">NLP</span><span class="ctag">NER</span><span class="ctag">PyTorch</span><span class="ctag">Pandas</span></div>
-        </div>
-      </div>
-
-      <div class="tilt-card rv" data-tilt data-tilt-max="8" data-tilt-speed="600" data-tilt-glare="true" data-tilt-max-glare="0.12" style="transition-delay:.19s">
-        <div class="card-inner">
-          <div class="proj-visual"><svg viewBox="0 0 340 160" xmlns="http://www.w3.org/2000/svg" style="background:#060402">
-          <rect width="340" height="160" fill="url(#gr)"/><rect x="0" y="0" width="340" height="16" fill="#030201"/>
-          <text x="8" y="11" fill="#c9a84c" font-size="7" font-family="monospace" fill-opacity=".7">ASELSAN / BİTES · XR · IMU/GPS Spatial Tracking</text>
-          <rect x="90" y="44" width="160" height="80" rx="14" fill="none" stroke="#c9a84c" stroke-width="1.2" stroke-opacity=".5"/>
-          <circle cx="136" cy="84" r="28" fill="#0a0704" stroke="#c9a84c" stroke-width="1" stroke-opacity=".4"/>
-          <circle cx="136" cy="84" r="18" fill="#0c0b05" stroke="#c9a84c" stroke-width=".7" stroke-opacity=".25"/>
-          <line x1="119" y1="78" x2="153" y2="78" stroke="#c9a84c" stroke-opacity=".15" stroke-width=".8"/>
-          <line x1="119" y1="84" x2="153" y2="84" stroke="#c9a84c" stroke-opacity=".15" stroke-width=".8"/>
-          <line x1="119" y1="90" x2="153" y2="90" stroke="#c9a84c" stroke-opacity=".15" stroke-width=".8"/>
-          <line x1="129" y1="67" x2="129" y2="101" stroke="#c9a84c" stroke-opacity=".15" stroke-width=".8"/>
-          <line x1="136" y1="67" x2="136" y2="101" stroke="#c9a84c" stroke-opacity=".15" stroke-width=".8"/>
-          <line x1="143" y1="67" x2="143" y2="101" stroke="#c9a84c" stroke-opacity=".15" stroke-width=".8"/>
-          <circle cx="204" cy="84" r="28" fill="#0a0704" stroke="#c9a84c" stroke-width="1" stroke-opacity=".4"/>
-          <circle cx="204" cy="84" r="18" fill="#0c0b05" stroke="#c9a84c" stroke-width=".7" stroke-opacity=".25"/>
-          <rect x="8" y="34" width="64" height="16" rx="3" fill="#0a0704" stroke="#c9a84c" stroke-width=".6" stroke-opacity=".35"/>
-          <text x="40" y="45" fill="#c9a84c" font-size="7" font-family="monospace" text-anchor="middle" fill-opacity=".75">IMU Sensor</text>
-          <rect x="268" y="34" width="64" height="16" rx="3" fill="#0a0704" stroke="#c9a84c" stroke-width=".6" stroke-opacity=".3"/>
-          <text x="300" y="45" fill="#c9a84c" font-size="7" font-family="monospace" text-anchor="middle" fill-opacity=".65">GPS Track</text>
-          <rect x="0" y="144" width="340" height="16" fill="#030201"/>
-          <text x="8" y="155" fill="#c9a84c" font-size="7" font-family="monospace" fill-opacity=".45">CVAT annotation · Perspective Transform · Linux workflows</text></svg></div>
-          <div class="card-num">06 / XR &amp; Robotics — ASELSAN</div>
-          <div class="card-title">XR Spatial Tracking &amp; IMU/GPS Integration</div>
-          <p class="card-desc">Conducted research on IMU and GPS integration for spatial tracking in Extended Reality (XR) environments at ASELSAN/BİTES. Managed large-scale data annotation (CVAT) and implemented Perspective Transformation for image correction within Linux-based workflows.</p>
-          <div class="card-tags"><span class="ctag">XR</span><span class="ctag">IMU/GPS</span><span class="ctag">CVAT</span><span class="ctag">Linux</span><span class="ctag">ASELSAN</span></div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<div class="gdiv"></div>
-
-<!-- EDUCATION -->
-<section id="education">
-  <div class="si">
-    <div class="s-ey rv"><div class="s-ln"></div><span class="s-lb">Education &amp; Languages</span></div>
-    <h2 class="s-tt rv">Academic<br><em>background</em></h2>
-    <div class="edu-g">
-      <div class="edu-card rvl">
-        <div class="edu-deg">Software Engineering</div>
-        <div class="edu-uni">Burdur Mehmet Akif Ersoy University</div>
-        <div class="edu-meta">Aug. 2020 — July 2024 &nbsp;·&nbsp; Burdur, Turkey</div>
-        <div class="gpa-lbl">Graduation GPA — 3.12 / 4.0</div>
-        <div class="gpa-tr"><div class="gpa-f" data-w="78"></div></div>
-      </div>
-      <div class="lang-col rvr">
-        <div class="lang-c"><div class="lang-n">Turkish</div><div class="lang-l">Native</div></div>
-        <div class="lang-c"><div class="lang-n">English</div><div class="lang-l">Intermediate — B1</div></div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<div class="gdiv"></div>
+  <!-- ================= PROJELER ================= -->
+  <section id="projects">
+    <div class="container">
+      <div class="section-eyebrow reveal">Çalışmalarım</div>
+      <h2 class="section-title reveal" style="font-size:clamp(38px,6vw,58px);">Projeler</h2>
 
-<!-- CERTIFICATES -->
-<section id="certificates">
-  <div class="si">
-    <div class="s-ey rv"><div class="s-ln"></div><span class="s-lb">Certificates</span></div>
-    <h2 class="s-tt rv">Training &amp;<br><em>achievements</em></h2>
-    <div class="cert-g">
-      <div class="cert-c rv"><div class="cert-is">Turkcell Geleceği Yazanlar</div><div class="cert-nm">Deep Learning CNN</div><div class="cert-ds">Advanced training on convolutional neural networks, CNN architectures, transfer learning, and model optimization techniques.</div><div class="cert-ft"><span class="cert-dt">Feb 25, 2025</span><span class="cert-bd">&#10003; Completed</span></div></div>
-      <div class="cert-c rv" style="transition-delay:.06s"><div class="cert-is">BTK Akademi</div><div class="cert-nm">Introduction to Data Science</div><div class="cert-ds">Data analytics, statistical modeling, data preprocessing, and foundational data science principles.</div><div class="cert-ft"><span class="cert-dt">Nov 22, 2024</span><span class="cert-bd">&#10003; Verified</span></div></div>
-      <div class="cert-c rv" style="transition-delay:.12s"><div class="cert-is">Turkcell Geleceği Yazanlar</div><div class="cert-nm">Data Visualization</div><div class="cert-ds">Visualization techniques and tools for effectively communicating data analysis results.</div><div class="cert-ft"><span class="cert-dt">Nov 22, 2024</span><span class="cert-bd">&#10003; Completed</span></div></div>
-      <div class="cert-c rv" style="transition-delay:.04s"><div class="cert-is">BTK Akademi</div><div class="cert-nm">Data Modeling</div><div class="cert-ds">Database design, relational modeling, and comprehensive data modeling principles and methodologies.</div><div class="cert-ft"><span class="cert-dt">Nov 9, 2024</span><span class="cert-bd">&#10003; Verified</span></div></div>
-      <div class="cert-c rv" style="transition-delay:.10s"><div class="cert-is">Cisco Networking Academy</div><div class="cert-nm">Introduction to Cybersecurity</div><div class="cert-ds">Network security, cyber threats, attack vectors, and fundamental protection methods and best practices.</div><div class="cert-ft"><span class="cert-dt">Dec 5, 2023</span><span class="cert-bd">&#10003; Certified</span></div></div>
-      <div class="cert-c rv" style="transition-delay:.16s"><div class="cert-is">Turkcell Geleceği Yazanlar</div><div class="cert-nm">Linux Fundamentals 401</div><div class="cert-ds">Linux command line, file system management, shell scripting, and system administration basics.</div><div class="cert-ft"><span class="cert-dt">Dec 9, 2021</span><span class="cert-bd">&#10003; Completed</span></div></div>
+      <div class="proj-rows">
+
+        <div class="proj-row reveal" data-tilt id="proj-01">
+          <div class="proj-media"><img src="images/proj-tubitak.jpg" alt="Yüz Tanıma Sistemi — TÜBİTAK"></div>
+          <div class="proj-body">
+            <div class="proj-index">01</div>
+            <h3 class="proj-title">Yüz Tanıma Sistemi — TÜBİTAK</h3>
+            <p class="proj-desc">TÜBİTAK projesi kapsamında MTCNN ve ResNet50 kullanılarak yüksek performanslı bir biyometrik yüz tanıma çözümü geliştirildi. Ayrıca satış trendi tahmini için Bi-LSTM modelleri oluşturuldu.</p>
+            <div class="proj-tags"><span>MTCNN</span><span>ResNet50</span><span>PyTorch</span><span>TÜBİTAK</span></div>
+          </div>
+        </div>
+
+        <div class="proj-row reveal" data-tilt id="proj-02">
+          <div class="proj-media"><img src="images/proj-ai-asistan.jpg" alt="Makine Bilgi ve Arıza Destek Asistanı"></div>
+          <div class="proj-body">
+            <div class="proj-index">02</div>
+            <h3 class="proj-title">Makine Bilgi &amp; Arıza Destek Asistanı</h3>
+            <p class="proj-desc">Makine kılavuzları ve teknik dokümanlar etkileşimli bir bilgi sistemine dönüştürüldü. RAG tabanlı erişim ve yerel LLM entegrasyonuyla sohbet üzerinden anlık arıza ve bakım desteği sağlandı.</p>
+            <div class="proj-tags"><span>LangChain</span><span>LangGraph</span><span>RAG</span><span>ChromaDB</span></div>
+          </div>
+        </div>
+
+        <div class="proj-row reveal" data-tilt id="proj-03">
+          <div class="proj-media"><img src="images/proj-uruntanima.jpg" alt="Üretim Analitiği Platformu"></div>
+          <div class="proj-body">
+            <div class="proj-index">03</div>
+            <h3 class="proj-title">Gerçek Zamanlı Üretim Analitiği</h3>
+            <p class="proj-desc">RTSP kamera akışlarından 13 ürün kategorisi algılanıp takip edildi; çevrim süresi ve verimlilik metrikleri analiz edildi. Gerçek üretim koşullarında yaklaşık %88 doğruluk oranına ulaşıldı.</p>
+            <div class="proj-tags"><span>OpenCV</span><span>Norfair</span><span>RTSP</span></div>
+          </div>
+        </div>
+
+        <div class="proj-row reveal proj-pop" data-tilt id="proj-04">
+          <div class="proj-media"><img src="images/proj-3d.jpg" alt="AI Destekli 3D Varlık Üretimi — Wireframe'den Gerçekçi Render'a"></div>
+          <div class="proj-body">
+            <div class="proj-index">04</div>
+            <h3 class="proj-title">AI Destekli 3D Varlık Üretimi</h3>
+            <p class="proj-desc">Üretken AI araçlarıyla dijital varlıklar üretildi ve Blender tabanlı mesh işlemeyle optimize edildi. AI destekli süreçler dijital içerik üretim hattına entegre edildi.</p>
+            <div class="proj-tags"><span>Generative AI</span><span>Meshy.ai</span><span>Blender</span></div>
+          </div>
+        </div>
+
+        <div class="proj-row reveal" data-tilt id="proj-05">
+          <div class="proj-media"><img src="images/proj-lojistik.jpg" alt="Lojistik Alanlarında Süreç Takip Sistemi"></div>
+          <div class="proj-body">
+            <div class="proj-index">05</div>
+            <h3 class="proj-title">Lojistik Alanlarında Süreç Takip Sistemi</h3>
+            <p class="proj-desc">Görüntü tabanlı bir sistemle araçların giriş, bekleme, yükleme ve çıkış süreçleri gerçek zamanlı izlendi. Plaka tanıma ile araç kaydı otomatikleştirildi ve bekleme süreleri anlık olarak raporlandı.</p>
+            <div class="proj-tags"><span>EasyOCR</span><span>OpenCV</span></div>
+          </div>
+        </div>
+
+        <div class="proj-row reveal" data-tilt id="proj-06">
+          <div class="proj-media"><img src="images/proj-inkjet.jpg" alt="İnkjet Baskı Kalite Kontrol"></div>
+          <div class="proj-body">
+            <div class="proj-index">06</div>
+            <h3 class="proj-title">Derin Öğrenme Tabanlı Görsel Denetim</h3>
+            <p class="proj-desc">SICK endüstriyel kameralarla eksik veya hatalı inkjet baskıları tespit edildi. Beckhoff PLC ile entegre bir red mekanizması kuruldu ve yaklaşık %92 doğruluk oranına ulaşıldı.</p>
+            <div class="proj-tags"><span>SICK Kamera</span><span>Beckhoff PLC</span></div>
+          </div>
+        </div>
+
+        <div class="proj-row reveal" data-tilt id="proj-07">
+          <div class="proj-media"><img src="images/proj-kritikalan.jpg" alt="Kritik Alan Geçiş Kontrolü"></div>
+          <div class="proj-body">
+            <div class="proj-index">07</div>
+            <h3 class="proj-title">Çoklu Nesne Takibi &amp; Kenar Güvenlik İzleme</h3>
+            <p class="proj-desc">Kontrollü bölgeler arasındaki hareketler gerçek zamanlı izlendi. Raspberry Pi tabanlı donanım entegrasyonuyla anlık sesli ve görsel uyarılar tetiklendi.</p>
+            <div class="proj-tags"><span>DeepSORT</span><span>Raspberry Pi</span></div>
+          </div>
+        </div>
+
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<div class="gdiv"></div>
+  <!-- ================= EĞİTİM ================= -->
+  <section id="education">
+    <div class="container">
+      <div class="section-eyebrow reveal">Eğitim &amp; Diller</div>
+      <h2 class="section-title reveal">Akademik <em>geçmişim</em></h2>
 
-<!-- CONTACT -->
-<section id="contact">
-  <div class="si">
-    <div class="cont-g">
-      <div>
-        <div class="s-ey rv"><div class="s-ln"></div><span class="s-lb">Contact</span></div>
-        <h2 class="s-tt rv">Let's work<br><em>together</em></h2>
-        <div class="c-list">
-          <a href="mailto:lnkapusuz@gmail.com" class="c-row rv"><div class="c-ico"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg></div><div><div class="c-lbl">Email</div><div class="c-val"><span class="__cf_email__" data-cfemail="204c4e4b41505553555a60474d41494c0e434f4d">lnkapusuz@gmail.com</span></div></div><span class="c-arr">&rarr;</span></a>
-          <a href="https://linkedin.com/in/aleyna-kapusuz-6ba953226" target="_blank" class="c-row rv" style="transition-delay:.12s"><div class="c-ico"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></div><div><div class="c-lbl">LinkedIn</div><div class="c-val">aleyna-kapusuz</div></div><span class="c-arr">&rarr;</span></a>
-          <a href="https://github.com/AleynaKapusuz?tab=repositories" target="_blank" class="c-row rv" style="transition-delay:.18s"><div class="c-ico"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></div><div><div class="c-lbl">GitHub</div><div class="c-val">AleynaKapusuz</div></div><span class="c-arr">&rarr;</span></a>
-          <div class="c-row rv" style="transition-delay:.26s;cursor:default"><div class="c-ico"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div><div class="c-lbl">Location</div><div class="c-val">Izmir, Turkey</div></div></div>
+      <div class="edu-grid">
+        <div class="edu-card reveal">
+          <h3>Yazılım Mühendisliği</h3>
+          <div class="edu-school">Burdur Mehmet Akif Ersoy Üniversitesi</div>
+          <div class="edu-period">Ağustos 2020 — Temmuz 2024 · Burdur, Türkiye</div>
+          <span class="edu-gpa">Mezuniyet GNO — 3.12 / 4.0</span>
+        </div>
+        <div class="reveal">
+          <div class="lang-row"><span class="lang-name">Türkçe</span><span class="lang-level">Ana dil</span></div>
+          <div class="lang-row"><span class="lang-name">İngilizce</span><span class="lang-level">Teknik yeterlilik &amp; profesyonel araştırma — Orta (B1)</span></div>
         </div>
       </div>
-      <div class="av-block rvr">
-        <div class="av-big">Open to new<br><em>opportunities</em></div>
-        <p class="av-dc">Available for full-time, part-time, or project-based collaborations in Computer Vision, Edge AI, Generative AI, and software engineering. Experienced in industrial automation and LLM-based applications.</p>
-        <div class="av-pill"><div class="av-dot"></div><span class="av-tx">Currently available</span></div>
+    </div>
+  </section>
+
+  <!-- ================= SERTİFİKALAR ================= -->
+  <section id="certificates">
+    <div class="container">
+      <div class="section-eyebrow reveal">Sertifikalar</div>
+      <h2 class="section-title reveal">Eğitimler &amp; <em>başarılar</em></h2>
+
+      <div class="cert-grid reveal-stagger">
+
+        <div class="cert-card">
+          <div class="cert-issuer">Turkcell Geleceği Yazanlar</div>
+          <h3 class="cert-title">Derin Öğrenme CNN</h3>
+          <p class="cert-desc">Evrişimli sinir ağları, CNN mimarileri, transfer öğrenme ve model optimizasyonu.</p>
+          <div class="cert-meta"><span class="cert-date">25 Şub 2025</span><span class="cert-status">✓ Tamamlandı</span></div>
+        </div>
+
+        <div class="cert-card">
+          <div class="cert-issuer">BTK Akademi</div>
+          <h3 class="cert-title">Veri Bilimine Giriş</h3>
+          <p class="cert-desc">Veri analitiği, istatistiksel modelleme, veri ön işleme ve temel veri bilimi ilkeleri.</p>
+          <div class="cert-meta"><span class="cert-date">22 Kas 2024</span><span class="cert-status">✓ Doğrulandı</span></div>
+        </div>
+
+        <div class="cert-card">
+          <div class="cert-issuer">Turkcell Geleceği Yazanlar</div>
+          <h3 class="cert-title">Veri Görselleştirme</h3>
+          <p class="cert-desc">Veri analizi sonuçlarını etkili şekilde iletmek için görselleştirme teknikleri ve araçları.</p>
+          <div class="cert-meta"><span class="cert-date">22 Kas 2024</span><span class="cert-status">✓ Tamamlandı</span></div>
+        </div>
+
+        <div class="cert-card">
+          <div class="cert-issuer">BTK Akademi</div>
+          <h3 class="cert-title">Veri Modelleme</h3>
+          <p class="cert-desc">Veritabanı tasarımı, ilişkisel modelleme ve kapsamlı veri modelleme prensipleri.</p>
+          <div class="cert-meta"><span class="cert-date">9 Kas 2024</span><span class="cert-status">✓ Doğrulandı</span></div>
+        </div>
+
+        <div class="cert-card">
+          <div class="cert-issuer">Cisco Networking Academy</div>
+          <h3 class="cert-title">Siber Güvenliğe Giriş</h3>
+          <p class="cert-desc">Ağ güvenliği, siber tehditler, saldırı vektörleri ve temel koruma yöntemleri.</p>
+          <div class="cert-meta"><span class="cert-date">5 Ara 2023</span><span class="cert-status">✓ Sertifikalı</span></div>
+        </div>
+
+        <div class="cert-card">
+          <div class="cert-issuer">Turkcell Geleceği Yazanlar</div>
+          <h3 class="cert-title">Linux Fundamentals 401</h3>
+          <p class="cert-desc">Linux komut satırı, dosya sistemi yönetimi, shell scripting ve sistem yönetimi temelleri.</p>
+          <div class="cert-meta"><span class="cert-date">9 Ara 2021</span><span class="cert-status">✓ Tamamlandı</span></div>
+        </div>
+
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<footer>
-  <div class="ft">
-    <a href="#hero" class="f-logo">AK<span>.</span></a>
-    <ul class="f-links"><li><a href="#about">About</a></li><li><a href="#experience">Experience</a></li><li><a href="#projects">Projects</a></li><li><a href="#certificates">Certificates</a></li></ul>
-    <span class="f-copy">&copy; 2025 Aleyna Kapusuz</span>
-  </div>
-</footer>
+  <!-- ================= İLETİŞİM ================= -->
+  <section id="contact">
+    <div class="bg-particles"><span style="left:15%;top:30%;"></span><span style="left:75%;top:25%;"></span><span style="left:50%;top:75%;"></span></div>
+    <div class="container">
+      <h2 class="contact-title reveal">Birlikte <em>çalışalım</em></h2>
+      <div class="avail reveal"><span class="dot"></span> Şu anda müsait</div>
+      <p class="contact-blurb reveal">Bilgisayarlı görü, edge AI, üretken yapay zeka ve yazılım mühendisliği alanlarında tam zamanlı, yarı zamanlı veya proje bazlı iş birliklerine açığım. Endüstriyel otomasyon ve LLM tabanlı uygulamalarda deneyimliyim.</p>
+      <div class="contact-rows reveal-stagger">
+        <a class="contact-row" href="mailto:lnkapusuz@gmail.com">
+          <span class="cr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span>
+          <span class="cr-text"><span class="cr-label">E-posta</span><span class="cr-value">lnkapusuz@gmail.com</span></span>
+          <span class="cr-arrow">→</span>
+        </a>
+        <a class="contact-row" href="tel:+905015170223">
+          <span class="cr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
+          <span class="cr-text"><span class="cr-label">Telefon</span><span class="cr-value">+90 501 517 02 23</span></span>
+          <span class="cr-arrow">→</span>
+        </a>
+        <a class="contact-row" href="https://linkedin.com/in/aleyna-kapusuz-6ba953226" target="_blank" rel="noopener">
+          <span class="cr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></span>
+          <span class="cr-text"><span class="cr-label">LinkedIn</span><span class="cr-value">aleyna-kapusuz</span></span>
+          <span class="cr-arrow">→</span>
+        </a>
+        <a class="contact-row" href="https://github.com/AleynaKapusuz?tab=repositories" target="_blank" rel="noopener">
+          <span class="cr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></span>
+          <span class="cr-text"><span class="cr-label">GitHub</span><span class="cr-value">AleynaKapusuz</span></span>
+          <span class="cr-arrow">→</span>
+        </a>
+        <div class="contact-row no-link">
+          <span class="cr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+          <span class="cr-text"><span class="cr-label">Konum</span><span class="cr-value">İzmir, Türkiye</span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 Aleyna Kapusuz</span>
+    <span>AI &amp; Görsel Zeka Mühendisi</span>
+  </footer>
 
 <script>
-(function(){
-  var s=document.createElement('script');
-  s.src='https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js';
-  s.onerror=function(){window.VanillaTilt={init:function(){}};};
-  document.head.appendChild(s);
-})();
-</script>
-<script>
-// ════════════════════════════════════
-// CODE LINES shared
-// ════════════════════════════════════
-const CL=[
-  {t:'from ultralytics import YOLO',c:'#c9a84c',o:.9},
-  {t:'model = YOLO("yolov8.pt")',c:'#e8c97a',o:.85},
-  {t:'model.to("cuda")',c:'#a07830',o:.7},
-  {t:'',c:'',o:0},
-  {t:'# Real-time detection',c:'#5a5040',o:.65},
-  {t:'for result in model(frame,stream=True):',c:'#f0ece0',o:.8},
-  {t:'  process_and_visualize()',c:'#cfc8b4',o:.7},
-  {t:'',c:'',o:0},
-  {t:'tracker = DeepSORT()',c:'#c9a84c',o:.85},
-  {t:'stream = RTSPCapture()',c:'#e8c97a',o:.75},
-  {t:'',c:'',o:0},
-  {t:'while stream.running:',c:'#f0ece0',o:.85},
-  {t:'  frame = stream.read()',c:'#cfc8b4',o:.7},
-  {t:'  dets = detect(frame)',c:'#c9a84c',o:.8},
-  {t:'  tracked = tracker.update(dets)',c:'#a07830',o:.7},
-  {t:'  gpio.alert(tracked)',c:'#e8c97a',o:.75},
-  {t:'',c:'',o:0},
-  {t:'# LangGraph Agent',c:'#5a5040',o:.65},
-  {t:'rag = RAG(chromadb)',c:'#c9a84c',o:.8},
-  {t:'agent.run(sql_task)',c:'#e8c97a',o:.85},
-  {t:'',c:'',o:0},
-  {t:'# TÜBİTAK Face Recog.',c:'#5a5040',o:.65},
-  {t:'mtcnn = MTCNN()',c:'#c9a84c',o:.8},
-  {t:'acc = 0.93  # 93%',c:'#4ade80',o:.9},
-];
+  // ---- Nav linkleri: garanti aynı-sayfa kaydırma ----
+  document.querySelectorAll('.nav-links a[href^="#"]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      const target = document.querySelector(link.getAttribute('href'));
+      if (!target) return;
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
 
-// ════════════════════════════════════
-// INTRO SCREEN
-// ════════════════════════════════════
-(function(){
-  // stars
-  const sc=document.getElementById('introStars');
-  for(let i=0;i<30;i++){
-    const s=document.createElement('div');
-    const sz=Math.random()*1.6+.4,d=Math.random()*3,dr=2+Math.random()*3;
-    s.style.cssText=`position:absolute;width:${sz}px;height:${sz}px;border-radius:50%;background:#c9a84c;left:${Math.random()*100}%;top:${Math.random()*100}%;opacity:.12;animation:itw ${dr}s ${d}s infinite`;
-    sc.appendChild(s);
-  }
-  const st=document.createElement('style');
-  st.textContent='@keyframes itw{0%,100%{opacity:.08;transform:scale(1)}50%{opacity:.6;transform:scale(1.5)}}';
-  document.head.appendChild(st);
-
-  // code display
-  const area=document.getElementById('introCode');
-  const V=10;let els=[],ci=0;
-  function build(){area.innerHTML='';els=[];
-    for(let i=0;i<V;i++){const idx=(ci+i)%CL.length,l=CL[idx];
-      const e=document.createElement('div');
-      e.style.cssText=`font-size:9px;letter-spacing:.4px;line-height:1.7;color:${l.c||'#c9a84c'};opacity:${l.o||0};white-space:nowrap;font-family:'DM Mono','Courier New',monospace;transition:opacity .25s`;
-      e.textContent=l.t||'\u00a0';area.appendChild(e);els.push(e);}}
-  build();
-  const iv=setInterval(()=>{ci=(ci+1)%CL.length;els.forEach((e,i)=>{const idx=(ci+i)%CL.length,l=CL[idx];e.style.opacity='0';setTimeout(()=>{e.textContent=l.t||'\u00a0';e.style.color=l.c||'#c9a84c';e.style.opacity=l.o||0;},140);});},420);
-
-  function dismiss(){
-    var el=document.getElementById('intro-screen');
-    if(!el||el._dismissed)return;
-    el._dismissed=true;
-    el.style.pointerEvents='none';
-    el.classList.add('out');
-    clearInterval(iv);
-    setTimeout(function(){if(el&&el.parentNode)el.parentNode.removeChild(el);},1500);
-  }
-  setTimeout(dismiss,4500);
-  var skipBtn=document.getElementById('introSkip');
-  if(skipBtn){skipBtn.addEventListener('click',dismiss);skipBtn.addEventListener('touchend',function(e){e.preventDefault();dismiss();});}
-  document.getElementById('intro-screen').addEventListener('click',function(e){if(e.target===this||e.target.classList.contains('ibg')||e.target.id==='introStars')dismiss();});
-})();
-
-// ════════════════════════════════════
-// HERO RIGHT CANVAS — person silhouettes + detection boxes
-// ════════════════════════════════════
-(function(){
-  const canvas=document.getElementById('heroCanvas');
-  const ctx=canvas.getContext('2d');
-  let W,H;
-
-  function resize(){
-    const p=canvas.parentElement;
-    W=canvas.width=p.offsetWidth;
-    H=canvas.height=p.offsetHeight;
-  }
-  resize();window.addEventListener('resize',resize);
-
-  // Gold color helpers
-  const gold='rgba(201,168,76,';
-  const gold2='rgba(232,201,122,';
-
-  // Persons — animated silhouettes with tracking boxes
-  class Person{
-    constructor(x,y,h,id,speed,phase){
-      this.bx=x;this.y=y;this.h=h;this.id=id;
-      this.speed=speed;this.phase=phase;
-      this.x=x;this.conf=.88+Math.random()*.1;
-      this.color=id===1?gold:id===2?gold2:'rgba(160,120,48,';
-      this.bob=Math.random()*Math.PI*2;
-    }
-    update(t){
-      this.x=this.bx+Math.sin(t*this.speed+this.phase)*18;
-      this.bobY=Math.sin(t*1.4+this.bob)*4;
-    }
-    draw(t){
-      const x=this.x,y=this.y+this.bobY,h=this.h,w=h*0.42;
-      const op=.85;
-      // body silhouette
-      ctx.save();
-      ctx.globalAlpha=op;
-      // head
-      ctx.beginPath();
-      ctx.arc(x,y-h*.38,h*.1,0,Math.PI*2);
-      ctx.fillStyle=this.color+'0.12)';ctx.fill();
-      ctx.strokeStyle=this.color+'0.7)';ctx.lineWidth=1.2;ctx.stroke();
-      // torso
-      ctx.beginPath();
-      ctx.moveTo(x-w*.3,y-h*.26);ctx.lineTo(x+w*.3,y-h*.26);
-      ctx.lineTo(x+w*.22,y+h*.02);ctx.lineTo(x-w*.22,y+h*.02);
-      ctx.closePath();
-      ctx.fillStyle=this.color+'0.08)';ctx.fill();
-      ctx.strokeStyle=this.color+'0.6)';ctx.lineWidth=1;ctx.stroke();
-      // legs
-      ctx.beginPath();
-      const legSwing=Math.sin(t*2.2+this.phase)*0.08;
-      ctx.moveTo(x,y+h*.02);
-      ctx.lineTo(x-w*.15+legSwing*h,y+h*.28);
-      ctx.moveTo(x,y+h*.02);
-      ctx.lineTo(x+w*.15-legSwing*h,y+h*.28);
-      ctx.strokeStyle=this.color+'0.55)';ctx.lineWidth=1.5;ctx.stroke();
-      ctx.restore();
-
-      // detection bounding box
-      const bx=x-w*.55,by=y-h*.5,bw=w*1.1,bh=h*.85;
-      ctx.save();
-      ctx.globalAlpha=.75;
-      // box corners
-      const cl=12;
-      ctx.strokeStyle=this.color+'0.9)';ctx.lineWidth=1.5;
-      // top-left
-      ctx.beginPath();ctx.moveTo(bx,by+cl);ctx.lineTo(bx,by);ctx.lineTo(bx+cl,by);ctx.stroke();
-      // top-right
-      ctx.beginPath();ctx.moveTo(bx+bw-cl,by);ctx.lineTo(bx+bw,by);ctx.lineTo(bx+bw,by+cl);ctx.stroke();
-      // bottom-left
-      ctx.beginPath();ctx.moveTo(bx,by+bh-cl);ctx.lineTo(bx,by+bh);ctx.lineTo(bx+cl,by+bh);ctx.stroke();
-      // bottom-right
-      ctx.beginPath();ctx.moveTo(bx+bw-cl,by+bh);ctx.lineTo(bx+bw,by+bh);ctx.lineTo(bx+bw,by+bh-cl);ctx.stroke();
-
-      // ID label
-      ctx.fillStyle=this.color+'0.85)';
-      ctx.font='bold 9px "DM Mono","Courier New",monospace';
-      ctx.fillText(`ID ${String(this.id).padStart(2,'0')} · ${Math.round(this.conf*100)}%`,bx,by-5);
-
-      // scanning line animation
-      const scanY=by+(((t*60)%bh+bh)%bh);
-      const scanGrad=ctx.createLinearGradient(bx,scanY,bx+bw,scanY);
-      scanGrad.addColorStop(0,'rgba(201,168,76,0)');
-      scanGrad.addColorStop(0.5,this.color+'0.25)');
-      scanGrad.addColorStop(1,'rgba(201,168,76,0)');
-      ctx.fillStyle=scanGrad;
-      ctx.fillRect(bx,scanY-1,bw,3);
-      ctx.restore();
-    }
+  // ---- Yardımcı: fare durgun kalsa bile animasyonu otomatik devam ettir ----
+  function idleResume(el, delay = 350){
+    clearTimeout(el._idleTimer);
+    el._idleTimer = setTimeout(() => {
+      el.style.animationPlayState = 'running';
+    }, delay);
   }
 
-  // Grid / HUD background lines
-  function drawGrid(t){
-    ctx.save();
-    ctx.globalAlpha=.04;
-    ctx.strokeStyle='rgba(201,168,76,1)';ctx.lineWidth=.5;
-    const gs=40;
-    for(let x=0;x<W;x+=gs){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
-    for(let y=0;y<H;y+=gs){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
-    ctx.restore();
-  }
-
-  // Horizontal scan line sweeping
-  function drawScanLine(t){
-    const y=((t*0.12)%1)*H;
-    const g=ctx.createLinearGradient(0,y-30,0,y+30);
-    g.addColorStop(0,'rgba(201,168,76,0)');
-    g.addColorStop(.5,'rgba(201,168,76,0.04)');
-    g.addColorStop(1,'rgba(201,168,76,0)');
-    ctx.fillStyle=g;ctx.fillRect(0,y-30,W,60);
-  }
-
-  // Data flow lines between elements
-  function drawDataLines(t,persons){
-    persons.forEach((p,i)=>{
-      if(i===0) return;
-      const prev=persons[i-1];
-      const op=.15+Math.sin(t*1.5+i)*0.05;
-      ctx.save();ctx.globalAlpha=op;
-      ctx.strokeStyle='rgba(201,168,76,1)';ctx.lineWidth=.5;
-      ctx.setLineDash([4,8]);ctx.lineDashOffset=-t*20;
-      ctx.beginPath();ctx.moveTo(prev.x,prev.y);ctx.lineTo(p.x,p.y);ctx.stroke();
-      ctx.restore();
+  // ---- Hero sahnesi: fareyle hafif paralaks ----
+  const sceneEl = document.querySelector('.scene');
+  const sceneImg = document.querySelector('.scene > img');
+  if (sceneEl && sceneImg){
+    sceneEl.addEventListener('pointermove', (e) => {
+      sceneImg.style.animationPlayState = 'paused';
+      idleResume(sceneImg);
+      const rect = sceneEl.getBoundingClientRect();
+      const px = (e.clientX - rect.left) / rect.width - 0.5;
+      const py = (e.clientY - rect.top) / rect.height - 0.5;
+      sceneImg.style.transform = `scale(1.06) translate(${px * -1.6}%, ${py * -1.2}%)`;
+    });
+    sceneEl.addEventListener('pointerleave', () => {
+      clearTimeout(sceneImg._idleTimer);
+      sceneImg.style.transform = '';
+      sceneImg.style.animationPlayState = 'running';
     });
   }
 
-  // Trajectory trails
-  const trails={};
-  function drawTrails(persons,t){
-    persons.forEach(p=>{
-      if(!trails[p.id])trails[p.id]=[];
-      const tr=trails[p.id];
-      tr.push({x:p.x,y:p.y+p.bobY,t:t});
-      while(tr.length>30)tr.shift();
-      if(tr.length<2) return;
-      ctx.save();
-      for(let i=1;i<tr.length;i++){
-        const op=(i/tr.length)*0.25;
-        ctx.globalAlpha=op;
-        ctx.strokeStyle=p.color+'1)';ctx.lineWidth=1;
-        ctx.beginPath();ctx.moveTo(tr[i-1].x,tr[i-1].y);ctx.lineTo(tr[i].x,tr[i].y);ctx.stroke();
+  // ---- Hero kartları: fare tilt ----
+  const cards = document.querySelectorAll('.cards-layer [data-tilt]');
+  const EXTRA_TILT = 6;
+  cards.forEach(card => {
+    const baseRot = parseFloat(card.dataset.rot) || 0;
+    const tz = card.dataset.tz || '0';
+    const ty = card.dataset.ty || '0';
+    const sc = parseFloat(card.dataset.sc) || 1;
+    card.addEventListener('pointermove', (e) => {
+      card.style.animationPlayState = 'paused';
+      idleResume(card);
+      const rect = card.getBoundingClientRect();
+      const px = (e.clientX - rect.left) / rect.width;
+      const py = (e.clientY - rect.top) / rect.height;
+      const rotateY = baseRot + (px - 0.5) * EXTRA_TILT * 2;
+      const rotateX = (0.5 - py) * EXTRA_TILT;
+      card.style.transform = `translateY(${ty}) translateZ(${tz}) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(${sc * 1.03})`;
+      card.style.setProperty('--mx', `${px * 100}%`);
+      card.style.setProperty('--my', `${py * 100}%`);
+    });
+    card.addEventListener('pointerleave', () => {
+      clearTimeout(card._idleTimer);
+      card.style.transform = '';
+      card.style.animationPlayState = 'running';
+    });
+  });
+
+  // ---- Hero kartları: tıklayınca ilgili bölüme kaydır + vurgula ----
+  cards.forEach(card => {
+    card.addEventListener('click', () => {
+      const targetSel = card.dataset.target;
+      if (!targetSel) return;
+      const target = document.querySelector(targetSel);
+      if (!target) return;
+      target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      target.classList.add('pulled-highlight');
+      setTimeout(() => target.classList.remove('pulled-highlight'), 1600);
+    });
+  });
+
+  // ---- Proje görselleri: hafif, şık tilt (3D kartı daha güçlü "taşma" hissi verir) ----
+  document.querySelectorAll('.proj-row .proj-media').forEach(media => {
+    const isPop = media.closest('.proj-pop') !== null;
+    const maxTilt = isPop ? 16 : 8;
+    const depth = isPop ? 36 : 0;
+    media.addEventListener('pointermove', (e) => {
+      const rect = media.getBoundingClientRect();
+      const px = (e.clientX - rect.left) / rect.width;
+      const py = (e.clientY - rect.top) / rect.height;
+      const rotateY = (px - 0.5) * maxTilt;
+      const rotateX = (0.5 - py) * maxTilt;
+      media.style.transform = `perspective(700px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(${depth}px) scale(${isPop ? 1.03 : 1})`;
+    });
+    media.addEventListener('pointerleave', () => { media.style.transform = ''; });
+  });
+
+  // ---- Genel "pop" tilt: istatistik / teknoloji / sertifika kartları ----
+  document.querySelectorAll('.stat-card, .cert-card, .tech-panel-card').forEach(card => {
+    card.addEventListener('pointermove', (e) => {
+      card.style.animationPlayState = 'paused';
+      idleResume(card);
+      const rect = card.getBoundingClientRect();
+      const px = (e.clientX - rect.left) / rect.width;
+      const py = (e.clientY - rect.top) / rect.height;
+      const rotateY = (px - 0.5) * 14;
+      const rotateX = (0.5 - py) * 14;
+      card.style.transform = `perspective(700px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(14px)`;
+    });
+    card.addEventListener('pointerleave', () => {
+      clearTimeout(card._idleTimer);
+      card.style.transform = '';
+      card.style.animationPlayState = 'running';
+    });
+  });
+
+  // ---- Aurora paralaks: fare hareketine göre yumuşak kayma ----
+  const aurora = document.querySelector('.aurora');
+  if (aurora){
+    document.addEventListener('pointermove', (e) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 30;
+      const y = (e.clientY / window.innerHeight - 0.5) * 30;
+      aurora.style.transform = `translate(${x}px, ${y}px)`;
+    });
+  }
+
+  // ---- scroll'da beliren öğeler ----
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting){
+        entry.target.classList.add('in-view');
+        io.unobserve(entry.target);
       }
-      ctx.restore();
     });
-  }
+  }, { threshold: 0.2 });
+  document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => io.observe(el));
 
-  let persons=[];
-  function initPersons(){
-    persons=[];
-    if(W<400) return;
-    const baseY=H*0.52;const baseH=H*0.32;
-    persons.push(new Person(W*0.25,baseY,baseH,1,.4,0));
-    persons.push(new Person(W*0.52,baseY-H*0.04,baseH*0.9,2,.3,2.1));
-    persons.push(new Person(W*0.76,baseY+H*0.02,baseH*1.1,3,.5,4.3));
-  }
-  initPersons();
-  window.addEventListener('resize',initPersons);
-
-  // Corner HUD markers
-  function drawCornerHUD(){
-    const size=18,pad=12;
-    const corners=[[pad,pad],[W-pad,pad],[pad,H-pad],[W-pad,H-pad]];
-    ctx.save();ctx.strokeStyle='rgba(201,168,76,0.3)';ctx.lineWidth=1.2;
-    corners.forEach(([cx,cy],i)=>{
-      const sx=i%2===0?1:-1,sy=i<2?1:-1;
-      ctx.beginPath();ctx.moveTo(cx,cy+sy*size);ctx.lineTo(cx,cy);ctx.lineTo(cx+sx*size,cy);ctx.stroke();
+  // ---- sayaç animasyonu ----
+  const counters = document.querySelectorAll('.stat-num');
+  const cio = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      const target = parseFloat(el.dataset.count);
+      const suffix = el.dataset.suffix || '';
+      const decimal = parseInt(el.dataset.decimal || '0', 10);
+      const divisor = decimal ? Math.pow(10, decimal) : 1;
+      const duration = 1400;
+      const start = performance.now();
+      function tick(now){
+        const p = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - p, 3);
+        const val = (target * eased) / divisor;
+        const decPlaces = decimal || 1;
+        el.textContent = (divisor > 1 ? val.toFixed(decPlaces) : Math.round(val)) + suffix;
+        if (p < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+      cio.unobserve(el);
     });
-    ctx.restore();
-  }
+  }, { threshold: 0.5 });
+  counters.forEach(el => cio.observe(el));
 
-  // FPS / status overlay
-  function drawStatus(t){
-    ctx.save();ctx.globalAlpha=.5;
-    ctx.fillStyle='rgba(201,168,76,1)';
-    ctx.font='8px "DM Mono","Courier New",monospace';
-    ctx.fillText(`FPS: 30  ·  STREAM: RTSP://192.168.1.100  ·  T:${(t%100).toFixed(1)}s`,14,H-8);
-    ctx.restore();
-  }
+  // ---- Açılış ekranı (loader): ilerleme çubuğu + durum yazısı + parçacıklar ----
+  (function(){
+    const loader = document.getElementById('loader');
+    const pctLabel = document.getElementById('loaderPct');
+    const fill = document.getElementById('loaderFill');
+    const statusLabel = document.getElementById('loaderStatus');
+    const particleWrap = document.getElementById('loaderParticles');
+    if (!loader || !pctLabel || !fill) return;
 
-  let t=0;
-  function animate(){
-    t+=0.016;
-    ctx.clearRect(0,0,W,H);
-    drawGrid(t);
-    drawScanLine(t);
-    persons.forEach(p=>p.update(t));
-    drawTrails(persons,t);
-    drawDataLines(t,persons);
-    persons.forEach(p=>p.draw(t));
-    drawCornerHUD();
-    drawStatus(t);
-    requestAnimationFrame(animate);
-  }
-  animate();
+    if (particleWrap){
+      const COUNT = 26;
+      for (let i = 0; i < COUNT; i++){
+        const p = document.createElement('span');
+        const left = Math.random() * 100;
+        const duration = 4 + Math.random() * 5;
+        const delay = Math.random() * 6;
+        const drift = (Math.random() * 60 - 30) + 'px';
+        p.style.left = left + '%';
+        p.style.animationDuration = duration + 's';
+        p.style.animationDelay = delay + 's';
+        p.style.setProperty('--drift', drift);
+        particleWrap.appendChild(p);
+      }
+    }
 
-  // Analytics bars animation
-  const bars=document.getElementById('apBars');
-  if(bars){
-    const vals=[40,65,30,80,55,70,45,60,75,50];
-    vals.forEach((v,i)=>{
-      const b=document.createElement('div');
-      b.className='ap-bar'+(i===3||i===7?' hi':'');
-      b.style.cssText=`height:${v}%;border-radius:1px;flex:1`;
-      bars.appendChild(b);
-    });
-    setInterval(()=>{
-      const bs=bars.querySelectorAll('.ap-bar');
-      bs.forEach(b=>{
-        const h=30+Math.random()*65;
-        b.style.height=h+'%';
-      });
-    },1200);
-  }
-})();
+    const STATUSES = [
+      'Sistemler başlatılıyor',
+      'Veriler senkronize ediliyor',
+      'Portfolyo modülleri yükleniyor',
+      'Arayüz optimize ediliyor',
+      'Son kontroller yapılıyor'
+    ];
+    let statusIndex = 0;
+    if (statusLabel){
+      setInterval(() => {
+        statusIndex = (statusIndex + 1) % STATUSES.length;
+        statusLabel.innerHTML = STATUSES[statusIndex] + '<span class="blink">_</span>';
+      }, 560);
+    }
 
-// ════════════════════════════════════
-// BG PARTICLES
-// ════════════════════════════════════
-const bgC=document.getElementById('bgCanvas'),bgCtx=bgC.getContext('2d');
-let bW,bH,bPs=[];
-const bRs=()=>{bW=bgC.width=innerWidth;bH=bgC.height=innerHeight};
-bRs();window.addEventListener('resize',bRs);
-class BP{constructor(){this.r()}r(){this.x=Math.random()*bW;this.y=Math.random()*bH;this.s=Math.random()*.8+.2;this.vx=(Math.random()-.5)*.12;this.vy=(Math.random()-.5)*.12;this.o=Math.random()*.12+.02;this.g=Math.random()>.6}u(){this.x+=this.vx;this.y+=this.vy;if(this.x<0||this.x>bW||this.y<0||this.y>bH)this.r()}d(){bgCtx.beginPath();bgCtx.arc(this.x,this.y,this.s,0,Math.PI*2);bgCtx.fillStyle=this.g?`rgba(201,168,76,${this.o})`:`rgba(220,210,180,${this.o*.3})`;bgCtx.fill()}}
-for(let i=0;i<65;i++)bPs.push(new BP());
-(function bl(){bgCtx.clearRect(0,0,bW,bH);bPs.forEach(p=>{p.u();p.d()});for(let i=0;i<bPs.length;i++)for(let j=i+1;j<bPs.length;j++){const d=Math.hypot(bPs[i].x-bPs[j].x,bPs[i].y-bPs[j].y);if(d<90){bgCtx.beginPath();bgCtx.moveTo(bPs[i].x,bPs[i].y);bgCtx.lineTo(bPs[j].x,bPs[j].y);bgCtx.strokeStyle=`rgba(201,168,76,${.025*(1-d/90)})`;bgCtx.lineWidth=.4;bgCtx.stroke()}}requestAnimationFrame(bl)})();
+    const DURATION = 2800;
+    const start = performance.now();
 
-// ════════════════════════════════════
-// CURSOR
-// ════════════════════════════════════
-const dot=document.getElementById('cur-dot'),ring=document.getElementById('cur-ring');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px'});
-(function cl(){rx+=(mx-rx)*.22;ry+=(my-ry)*.22;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(cl)})();
-document.querySelectorAll('.tilt-card,.domain-c,.lang-c,.cert-c,.c-row,.edu-card').forEach(el=>{el.addEventListener('mouseenter',()=>document.body.classList.add('ch'));el.addEventListener('mouseleave',()=>document.body.classList.remove('ch'))});
-document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>{document.body.classList.remove('ch');document.body.classList.add('cl')});el.addEventListener('mouseleave',()=>document.body.classList.remove('cl'))});
+    function tick(now){
+      const p = Math.min((now - start) / DURATION, 1);
+      const eased = p < 0.8 ? p * 1.15 : 0.92 + (p - 0.8) * 0.4; // sona doğru hafif yavaşlar
+      const pct = Math.min(Math.round(eased * 100), 100);
 
-// ════════════════════════════════════
-// NAV
-// ════════════════════════════════════
-window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('sc',scrollY>50));
-document.getElementById('mobHb').addEventListener('click',()=>document.getElementById('mobM').classList.add('op'));
-document.getElementById('mobClose').addEventListener('click',()=>document.getElementById('mobM').classList.remove('op'));
-document.querySelectorAll('.mob-m a').forEach(a=>a.addEventListener('click',()=>document.getElementById('mobM').classList.remove('op')));
-document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'})}}));
+      pctLabel.textContent = '%' + pct;
+      fill.style.width = pct + '%';
 
-// ════════════════════════════════════
-// REVEAL
-// ════════════════════════════════════
-const ro=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vs')}),{threshold:.07,rootMargin:'0px 0px -40px 0px'});
-document.querySelectorAll('.rv,.rvl,.rvr').forEach(el=>ro.observe(el));
-
-// ════════════════════════════════════
-// SKILL BARS + GPA
-// ════════════════════════════════════
-const so=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.querySelectorAll('.sk-fill').forEach((b,i)=>setTimeout(()=>b.style.width=b.dataset.w+'%',i*80));e.target.querySelectorAll('.gpa-f').forEach(b=>setTimeout(()=>b.style.width=b.dataset.w+'%',100));so.unobserve(e.target)}})},{threshold:.15});
-document.querySelectorAll('#about,#education').forEach(s=>so.observe(s));
-
-// ════════════════════════════════════
-// COUNT UP
-// ════════════════════════════════════
-let counted=false;
-const co=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting&&!counted){counted=true;document.querySelectorAll('.h-stat-n[data-c]').forEach(el=>{const t=parseFloat(el.dataset.c),s=el.dataset.s||'',d=el.dataset.d==='1';let v=0;const step=t/65,tm=setInterval(()=>{v+=step;if(v>=t){v=t;clearInterval(tm)}el.textContent=(d?v.toFixed(2):Math.floor(v))+s},18)});co.unobserve(e.target)}})},{threshold:.5});
-const hs=document.querySelector('.h-stats');if(hs)co.observe(hs);
-
-// ════════════════════════════════════
-// MAGNETIC BUTTONS
-// ════════════════════════════════════
-document.querySelectorAll('.btn-g,.btn-o,.n-cta').forEach(btn=>{btn.addEventListener('mousemove',e=>{const r=btn.getBoundingClientRect();btn.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.1}px,${(e.clientY-r.top-r.height/2)*.1}px)`});btn.addEventListener('mouseleave',()=>btn.style.transform='')});
-
-// ════════════════════════════════════
-// TILT CARDS
-// ════════════════════════════════════
-const tiltObs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const cards=e.target.querySelectorAll('[data-tilt]');if(window.VanillaTilt&&cards.length){VanillaTilt.init(cards,{max:6,speed:600,glare:true,'max-glare':0.1});}tiltObs.unobserve(e.target)}})},{threshold:.05,rootMargin:'0px 0px 100px 0px'});
-document.querySelectorAll('section').forEach(s=>tiltObs.observe(s));
+      if (p < 1){
+        requestAnimationFrame(tick);
+      } else {
+        if (statusLabel) statusLabel.innerHTML = 'Hazır<span class="blink">_</span>';
+        setTimeout(() => { loader.classList.add('done'); }, 400);
+      }
+    }
+    requestAnimationFrame(tick);
+  })();
 </script>
+
 </body>
 </html>
